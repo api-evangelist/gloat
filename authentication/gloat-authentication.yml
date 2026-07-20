@@ -1,0 +1,43 @@
+generated: '2026-07-19'
+method: searched
+source: https://developer.gloat.com/docs/authentication
+docs:
+- https://developer.gloat.com/docs/authentication
+- https://developer.gloat.com/docs/talent-marketplace-authentication
+summary:
+  types: [oauth2, apiKey, http]
+  api_key_in: [header]
+  oauth2_flows: [clientCredentials]
+  notes: >-
+    Gloat has two distinct auth schemes. The Customer APIs (Skills Foundation,
+    Company, Authorization, Candidacy) use client-credentials: base64(CLIENT_ID:CLIENT_SECRET)
+    is POSTed as HTTP Basic to a per-tenant token endpoint, returning a 24h JWT used
+    as a Bearer token. The Talent Marketplace APIs use a static API key sent in the
+    X-Gloat-API-Key header (plus X-Tenant-ID), supporting optional expiry and CIDR
+    restrictions. All hosts are per-tenant: https://{company_slug}.gloat.com/api.
+schemes:
+- name: clientCredentialsJWT
+  type: oauth2
+  flow: clientCredentials
+  token_url: https://{company_slug}.gloat.com/api/auth/token
+  token_request: HTTP Basic header = base64("CLIENT_ID:CLIENT_SECRET")
+  token_type: Bearer
+  access_token_ttl_seconds: 86400
+  applies_to: [Skills Foundation, Company API, Authorization API, Candidacy API]
+  credential_provisioning: >-
+    Client ID + Client Secret generated in the Gloat Admin Console under
+    Integration > API access (requires IT Admin role). Secret shown once; rotate on
+    suspected compromise.
+  source: https://developer.gloat.com/docs/authentication
+- name: gloatApiKey
+  type: apiKey
+  in: header
+  parameter_name: X-Gloat-API-Key
+  companion_header: X-Tenant-ID
+  applies_to: [Talent Marketplace API]
+  features:
+  - optional expiration dates
+  - CIDR / IP allowlist restrictions
+  - HTTPS enforced only
+  credential_provisioning: Contact your Gloat representative to obtain an API key.
+  source: https://developer.gloat.com/docs/talent-marketplace-authentication
