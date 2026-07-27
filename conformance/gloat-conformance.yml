@@ -1,0 +1,35 @@
+generated: '2026-07-19'
+method: searched
+source: https://developer.gloat.com/docs/authentication
+docs:
+- https://developer.gloat.com/docs/authentication
+- https://gloat.com/security-and-compliance/
+standards:
+- id: oauth2-client-credentials
+  conforms: true
+  evidence: Customer APIs issue JWTs via a client-credentials token endpoint (Basic auth exchange).
+- id: jwt-bearer
+  conforms: true
+  evidence: access_token is a JWT sent as Authorization Bearer; token_type always "Bearer".
+- id: apikey-header
+  conforms: true
+  evidence: Talent Marketplace APIs authenticate via X-Gloat-API-Key header.
+- id: xapi
+  conforms: true
+  evidence: Candidacy Learning Action endpoint accepts statements per the xAPI (Experience API) spec.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: No application/problem+json error envelope documented; bulk endpoints use HTTP 207 Multi-Status.
+- id: rbac
+  conforms: true
+  evidence: Authorization API models roles, groups, permissions, and access rules (RBAC).
+compliance:
+  programs:
+  - SOC 2 Type II
+  - ISO/IEC 27001
+  - ISO/IEC 27017
+  - ISO/IEC 27018
+  - GDPR
+  - Cloud Security Alliance (CSA / CCM)
+  center: https://compliance.gloat.com/
+  page: https://gloat.com/security-and-compliance/

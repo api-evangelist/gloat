@@ -1,0 +1,55 @@
+generated: '2026-07-19'
+method: searched
+source: https://developer.gloat.com/docs/using-gloat-apis
+docs:
+- https://developer.gloat.com/docs/using-gloat-apis
+- https://developer.gloat.com/docs/authentication
+conventions:
+  base_url:
+    pattern: https://{company_slug}.gloat.com/api/{service}/{endpoint}
+    per_tenant: true
+    staging: https://{company_slug}.gloat-staging.gloat.com/
+    note: Every request is scoped to a company slug (tenant) in the hostname.
+  authentication:
+    customer_apis: Bearer JWT (24h) obtained via client-credentials token endpoint
+    talent_marketplace: X-Gloat-API-Key header + X-Tenant-ID header
+    ref: authentication/gloat-authentication.yml
+  versioning:
+    style: uri-path
+    versions: [v1, v2]
+    example_paths:
+    - /api/v2/{company}/...
+    - /api/company/v1/...
+    - /api/authorization/v1/...
+    - /api/candidacy/v1/...
+    ref: lifecycle/gloat-lifecycle.yml
+  write_semantics:
+    upsert_by_natural_key: true
+    note: >-
+      Many write operations are explicit upserts keyed by the caller-supplied external
+      id (user-upsert, job-upsert, candidacy-upsert, project bulk create-or-update,
+      learning-items upsert). Re-sending the same external id updates rather than
+      duplicates, giving idempotent-by-key sync behavior. Gloat does not document a
+      dedicated Idempotency-Key request header.
+  bulk_and_multistatus:
+    supported: true
+    note: >-
+      Bulk mutation endpoints (bulk skill-proficiency patch, task-automation-status
+      patch) return HTTP 207 Multi-Status with per-item results and per-item status
+      codes (200 success, 206 partial, 404 not_found).
+  async_jobs:
+    pattern: trigger-then-poll
+    note: >-
+      Resource-intensive file generation/download is asynchronous: a trigger endpoint
+      returns a task id, then the download URL is polled by task id (Trigger File
+      Download -> Get File Download Url). Data-direct exports return short-lived
+      pre-signed S3 URLs.
+  quotas_and_credits:
+    supported: true
+    note: >-
+      Certain intelligence endpoints are metered in credits (e.g. Search-by-keyword
+      and Personalized opportunity recommendations cost 5 credits per call).
+  standards:
+    xapi: Learning Action endpoint accepts xAPI-spec statements (batch up to 100).
+  transport:
+    https_only: true

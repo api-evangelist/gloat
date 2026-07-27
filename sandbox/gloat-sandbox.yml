@@ -1,0 +1,27 @@
+generated: '2026-07-19'
+method: searched
+source: https://developer.gloat.com/docs/using-gloat-apis
+docs:
+- https://developer.gloat.com/docs/using-gloat-apis
+- https://developer.gloat.com/docs/talent-marketplace-authentication
+environments:
+  production: https://{company_slug}.gloat.com/
+  staging: https://{company_slug}.gloat-staging.gloat.com/
+  note: >-
+    Development is expected to take place against a per-tenant staging environment.
+    Both environments use the same auth schemes; credentials/API keys are provisioned
+    per environment through the Gloat Admin Console or a Gloat representative.
+health_checks:
+- name: Ping (Customer API)
+  path: /api/v2/ping
+  auth: X-Gloat-API-Key + X-Tenant-ID
+  purpose: Verify service availability and that authorization succeeds.
+- name: Ping (Talent Marketplace)
+  operation: get_ping-1
+  purpose: Returns a successful response if authorization succeeded.
+test_values:
+  published: false
+  note: >-
+    Gloat does not publish magic/synthetic test identifiers or fixtures. Test data
+    is the customer's own staging tenant data; user onboarding can be simulated via
+    the Activate-user endpoint (user-activate-1).

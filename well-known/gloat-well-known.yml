@@ -1,0 +1,17 @@
+generated: '2026-07-19'
+method: searched
+source: live probes of gloat.com / www.gloat.com / developer.gloat.com
+note: >-
+  No /.well-known discovery documents were served. The marketing host (www.gloat.com)
+  returns 403 to automated clients (bot protection) rather than 404, so absence there
+  is inconclusive; the developer host returns a genuine 404. No positive well-known
+  document was captured, so no WellKnown/SecurityTxt pointer is wired.
+host: https://developer.gloat.com
+documents:
+- {path: /.well-known/security.txt, host: developer.gloat.com, status: 404}
+- {path: /.well-known/openid-configuration, host: developer.gloat.com, status: 404}
+- {path: /.well-known/security.txt, host: www.gloat.com, status: 403}
+- {path: /.well-known/openid-configuration, host: www.gloat.com, status: 403}
+- {path: /.well-known/oauth-authorization-server, host: www.gloat.com, status: 403}
+- {path: /.well-known/api-catalog, host: www.gloat.com, status: 403}
+- {path: /.well-known/ai-plugin.json, host: www.gloat.com, status: 403}

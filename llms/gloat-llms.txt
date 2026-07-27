@@ -1,0 +1,142 @@
+# Gloat Developer Documentation Documentation
+
+> Put your people and your organization, in motion. Use our APIs to connect your data such as HR and learning information to Gloat.
+
+## Guides
+- [Authenticating to the Gloat APIs](https://developer.gloat.com/docs/authentication.md)
+- [Guide: Candidacy API](https://developer.gloat.com/docs/candidacy-api-guide.md)
+- [Authenticating to the Talent Marketplace APIs](https://developer.gloat.com/docs/talent-marketplace-authentication.md)
+- [Using Gloat's APIs](https://developer.gloat.com/docs/using-gloat-apis.md)
+
+## API Reference
+- [Skills Foundation](https://developer.gloat.com/reference/skills-foundation.md)
+- [Trigger File Download](https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md): As file generation is a resource-intensive task, it must be initiated asynchronously. This endpoint triggers a new file download task and returns a task ID. The file type should be specified in the request body to indicate the type of file to be downloaded.
+- [List Downloadable Files](https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md): Retrieve a list of all available downloadable files for a specified file type.
+- [Get Last File Download Url](https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md): Retrieve the download URL for the most recently uploaded file of a specified file type.
+- [Get File Download Url](https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md): Retrieve the download URL for a specific file download task. A file download task should first be initiated at `/api/skills-foundation
+- [Suggest Job Codes From Description](https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md): Suggest job codes based on a description.
+- [Get Job Code](https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md): Retrieve a single job code by its ID. ### Note: The job's description is not included and must be retrieved separately at: `/api/skills-foundation/job-architecture/job-codes/{job_code_id}/description`
+- [Update Job Code](https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md): Update an existing job code. If only the description needs updating, use `/api/skills-foundation/job-architecture/job-codes/{job_code_id}/description` instead.
+- [List Job Codes](https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md): Retrieve a list of job codes.  ### Filters: - **genaiImpact**: Filter by GenAI impact level. Accepts a list. Valid values: 'low', 'moderate', 'high', 'full'
+- [Create Job Code](https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md): Create a new job code.
+- [Get Job Code Description](https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md): Retrieve the description of a job code.
+- [Update Job Code Description](https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md): Update the description of a job code.
+- [Get Similar Job Codes](https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md): Retrieves job codes within the same job family as the provided job code.
+- [Bulk patch skill proficiency levels](https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md): Update skill proficiency levels for multiple job codes in a single request.  ## Request - List of job codes with skills to update - Each skill requires a name and new proficiency level - Levels must be valid for the company configuration  ## Response (207 Multi-Status) Returns detailed results per job code with: - Success counts (updated, skipped) - Errors (not_found skills, detail message) - Status codes (200=success, 206=partial, 404=not found)  ## Example ```json {   "updates": [     {       "code": "JC001",       "skills": [{"name": "Python", "level": 3}, {"name": "SQL", "level": 2}]     }   ] } ```
+- [Delete Job Code](https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md): Delete a job code by its ID.
+- [Bulk update task automation status](https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md): Update automation status for multiple tasks across multiple job codes.  This endpoint allows bulk updates of task automation levels, affecting Net AI Impact calculations. The score is calculated at query time based on the status using the AUTOMATION_STATUS_SCORES mapping.
+- [Get Job Family](https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md): Retrieve a single job family by its ID.
+- [Update Job Family](https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md): Update an existing job family. If only the description needs updating, use `/api/skills-foundation/job-architecture/job-families/{job_family_id}/description` instead.
+- [List Job Families](https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md): Retrieve a list of job families.
+- [Create Job Family](https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md): Create a new job family.
+- [Get Job Family Description](https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md): Retrieve the description of a job family.
+- [Update Job Family Description](https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md): Update the description of a job family.
+- [Delete Job Family](https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md): Delete a job family by its ID. This will cascade delete all related job codes and job titles.
+- [Get Job Title](https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md): Retrieve a single position title by its ID.
+- [Update Job Title](https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md): Update an existing position title. If only the description needs updating, use `/api/skills-foundation/job-architecture/job-titles/{job_title_id}/description` instead.
+- [Get Job Titles](https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md): Retrieve a list of position titles. ### Note: The returned description should not be used and must be retrieved separately at: `/api/skills-foundation/job-architecture/job-titles/{job_title_id}/description`
+- [Create Job Title](https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md): Create a new position title.
+- [Get Job Title Description](https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md): Retrieve a position title's description.
+- [Update Job Title Description](https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md): Update a position title's description.
+- [Get Similar Job Codes](https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md): Retrieves position titles within the same job family as the provided job title.
+- [Delete Job Title](https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md): Delete a position title by its ID.
+- [Update Preferred Ontologies](https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md): Update preferred ontologies: ### All ontologies retrieved from `/api/skills-foundation/management-console/ontologies/list` should be sent in the desired order. The preferred order will follow the sequence provided in the list. ### (i.e., the first ontology in the list will be treated as the highest preference)  If any ontologies are omitted, they will be placed at the bottom of the list in a random order.
+- [Get Ontologies List](https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md): List ontologies in the preferred order, with the first ontology representing the highest preference.
+- [Create Ontology](https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md): Create a new ontology, which will, by default, be placed at the end of the preference list.
+- [Get Users List](https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md)
+- [Get Job Functions Autocomplete](https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md): Autocomplete endpoint for job functions. Returns sorted distinct function values from active job codes.
+- [Get Tag Usage](https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md): Get usage counts for skills across job architecture entities.  This endpoint is used by the Ontology Service to count how many times skills are used in job families, job codes, and job titles.  Returns separate counts for each entity type that uses the skill. Only returns counts > 0 (omits skills with no usage).
+- [Get Entity Schema](https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md)
+- [Get Unique Values](https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md)
+- [Simple Retrieval](https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md)
+- [Test service availability and authorization](https://developer.gloat.com/reference/get_ping-1.md): Returns a successful response, if authorization succeeded
+- [Fetch user IDs, optionally filtered by some attributes](https://developer.gloat.com/reference/listusers-1.md): Retrieve list of user ID's according to filters
+- [Upsert users](https://developer.gloat.com/reference/user-upsert-1.md): Update or insert users to Gloat - single or bulk
+- [Update existing users](https://developer.gloat.com/reference/patchusers-1.md): Update user's status or custom fields
+- [Activate one user](https://developer.gloat.com/reference/user-activate-1.md): Simulates user onboarding; typically should not be required in real-world scenario as users do it themselves
+- [CV by user](https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md): get gloat CV by user and job
+- [Get users and their desired roles](https://developer.gloat.com/reference/get_jobs-desired-1.md): users and desired roles
+- [Upsert job](https://developer.gloat.com/reference/job-upsert-1.md): Update or insert jobs in Gloat
+- [Set jobs status by id](https://developer.gloat.com/reference/job-patch-1.md): Update jobs status by ids
+- [Job IDs by status](https://developer.gloat.com/reference/get-job-by-status-1.md): Retrieve list of Job ID's by list of statuses
+- [Upsert candidacy](https://developer.gloat.com/reference/candidacy-upsert-1.md): Update or insert a candidacy in Gloat
+- [Update candidacy data](https://developer.gloat.com/reference/candidacy-patch-1.md): Update candidacy data by ids
+- [Get candidacy data](https://developer.gloat.com/reference/candidacy-get-1.md): get candidacy data by id
+- [Candidacy IDs by status](https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md): Retrieve list of candidacies by given status
+- [Opportunity recommendations for an end-user](https://developer.gloat.com/reference/opportunities-personalized-1.md): __In planning__ quota: Costs 5 credits.
+- [Search for various entities](https://developer.gloat.com/reference/search-by-keyword-1.md): Return short descriptions of entities (jobs, roles, people) according to a free textual query Quota: Costs 5 credits.
+- [Candidacy insert or update](https://developer.gloat.com/reference/post_outbound-post-candidate-1.md): Called when a new candidacy is created, or when its status is updated
+- [Skills by user ID](https://developer.gloat.com/reference/getuserskillsoutbound-1.md): __In planning__ Used by Gloat to synchronize the list of top skills or desired skills entered by the user on another platform.
+- [Change the list of top skills or desired skills for user (following a change made in Gloat)](https://developer.gloat.com/reference/postuserskillsoutbound-1.md): __In planning__
+- [Skills by users IDs](https://developer.gloat.com/reference/postskills-1.md): Post skills to gloat
+- [Insert locations (bulk)](https://developer.gloat.com/reference/location-bulk-insert-1.md): Create locations (a.k.a. sites)
+- [Insert functions (bulk)](https://developer.gloat.com/reference/function-bulk-insert-1.md): Create functions and sub-functions
+- [Delete Departments](https://developer.gloat.com/reference/department-bulk-delete-1.md): Delete departments - by ID, by name, or all
+- [Paginated users groups](https://developer.gloat.com/reference/listusersgroups-1.md): Fetch RBAC groups per user ID, optionally filtered by user_ids/group_types/group_ids, paginated
+- [Paginated RBAC roles](https://developer.gloat.com/reference/listcompanyroles-1.md): Fetch paginated RBAC roles of the company
+- [All RBAC roles](https://developer.gloat.com/reference/listallcompanyroles-1.md): Fetch all RBAC roles of the company
+- [Paginated RBAC roles assignments](https://developer.gloat.com/reference/listrolesassignments-1.md): Fetch paginated RBAC roles assignments of the company
+- [RBAC groups](https://developer.gloat.com/reference/listallcompanygroups-1.md): Fetch all RBAC groups of the company
+- [Grant roles](https://developer.gloat.com/reference/grantrolestousers-1.md): Grant RBAC roles to users
+- [Revoke roles](https://developer.gloat.com/reference/revokerolesfromusers-1.md): Revoke RBAC roles from users
+- [Get skills of users by providing user id's](https://developer.gloat.com/reference/getuserskills-1.md)
+- [Change the list of top skills or desired skills for user](https://developer.gloat.com/reference/postuserskills-1.md): Change the list of top skills or desired skills for users. Optionally includes skill evaluations (self and/or manager ratings).  When skills include `rating` field, evaluations are processed: - Skills with only `rating` are treated as self-evaluations - Skills with both `rating` and `manager_id` are treated as manager evaluations  Manager evaluations require the manager to be the user's direct manager.
+- [Upsert learning items (courses, curriculums etc) for consumption by users](https://developer.gloat.com/reference/opportunities-post-1.md): Insert or update learning opportunities in Gloat
+- [Returns all learning item external ids with the provided statuses](https://developer.gloat.com/reference/learning-get-1.md): Get all learning items with matching external ids
+- [Update learning items status](https://developer.gloat.com/reference/learning-patch-1.md): Provide a list of identifying objects and the status to change them to
+- [List projects api](https://developer.gloat.com/reference/get_projects-1.md): list projects
+- [Bulk project api](https://developer.gloat.com/reference/project-update-or-create-1.md): Bulk create or update projects
+- [Bulk project patch api](https://developer.gloat.com/reference/project-update-status-1.md): Bulk projects patching, for updating status
+- [List projects roles api](https://developer.gloat.com/reference/get_projects-roles-1.md): list projects roles
+- [Bulk project role api](https://developer.gloat.com/reference/project-role-update-or-create-1.md): Bulk create or update project roles
+- [Bulk project role patch api](https://developer.gloat.com/reference/project-role-update-status-1.md): Bulk project roles patching, for updating status
+- [Insert user training records](https://developer.gloat.com/reference/post_user-profile-training-1.md): Upload training records for user profile
+- [Candidacy API](https://developer.gloat.com/reference/candidacy-api.md)
+- [Learning Action](https://developer.gloat.com/reference/learning_action_api_candidacy_v1_xapi_action_post.md): Create a new action (that presumably happened on another system), according to the xAPI spec. Update the status of the candidacy accordingly. This endpoint supports up to 100 requests in a single batch. If you need to process more, call it multiple times. The items in the list will be processed sequentially.
+- [Get File Types](https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md): Retrieve a list of all available file types. Some file types are split into dimension and fact tables.
+- [Get All File Names Presigned Urls](https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md): Generate pre-signed URLs for downloading all files within a date range.
+- [Get File Name Presigned Urls](https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md): Generate a pre-signed URL for downloading a specific file within a date range.
+- [List Keys](https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md)
+- [Create Key](https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md)
+- [Get Key](https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md)
+- [Update Key](https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md)
+- [Delete Key](https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md)
+- [Rotate Key](https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md)
+- [Get Certification By Ids](https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md)
+- [Upsert](https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md)
+- [Certifications Autocomplete](https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md)
+- [Delete Certification](https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md)
+- [List Company Applications](https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md)
+- [Process Application File](https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md)
+- [Get Application Details](https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md)
+- [Download All Applications](https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md): Download all applications for the company with their user assignments in upload format
+- [Get Users With Application](https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md)
+- [Get Processing Status By Id](https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md)
+- [Get Applications For Users](https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md): Get applications assigned to a list of users with pagination support
+- [Get user by ID](https://developer.gloat.com/reference/get_user_api_authorization_v1_users__user_id__get.md): Return the permissions, role ids, and group ids for a user.
+- [Get all roles](https://developer.gloat.com/reference/get_all_roles_api_authorization_v1_roles_get.md): Retrieve a list of all existing roles.
+- [Create role](https://developer.gloat.com/reference/create_role_api_authorization_v1_roles_post.md): Create a new role.
+- [Get role by ID](https://developer.gloat.com/reference/get_role_api_authorization_v1_roles__role_id__get.md): Retrieve details of a specific role.
+- [Update role](https://developer.gloat.com/reference/update_role_api_authorization_v1_roles__role_id__patch.md): Update an existing role (name, description, or permissions).
+- [Delete role](https://developer.gloat.com/reference/delete_role_api_authorization_v1_roles__role_id__delete.md): Delete a role.
+- [Get users by role](https://developer.gloat.com/reference/get_role_users_api_authorization_v1_roles__role_id__users_get.md): Return all users who have this role (direct or dynamic).
+- [Assign role to multiple users](https://developer.gloat.com/reference/assign_role_to_multiple_users_api_authorization_v1_roles__role_id__users_post.md): Assign a role to multiple users.
+- [Assign role to user](https://developer.gloat.com/reference/assign_role_to_user_api_authorization_v1_roles__role_id__users__user_id__post.md): Assign a role to a single user.
+- [Revoke role](https://developer.gloat.com/reference/revoke_user_from_role_api_authorization_v1_roles__role_id__users__user_id__delete.md): Remove one user from a role.
+- [Get all groups](https://developer.gloat.com/reference/get_all_groups_api_authorization_v1_groups_get.md): Retrieve all groups.
+- [Get group by ID](https://developer.gloat.com/reference/get_group_api_authorization_v1_groups__group_id__get.md): Get data about a specific group.
+- [Get Group users](https://developer.gloat.com/reference/get_group_users_api_authorization_v1_groups__group_id__users_get.md): Return all users who belong to this group (direct or dynamic).
+- [Get all available permissions for a company](https://developer.gloat.com/reference/get_all_available_permissions_api_authorization_v1_permissions_get.md): Retrieve a list of available permissions for a company, filtered by company configuration.
+- [Get users by permission](https://developer.gloat.com/reference/get_permission_users_api_authorization_v1_permissions__permission__users_get.md): Return all users who have this permission (direct or dynamic).
+- [Get all access rules](https://developer.gloat.com/reference/get_access_rules_api_authorization_v1_access_rules_get.md): Return a list of Access Rules.
+- [Get access rule by ID](https://developer.gloat.com/reference/get_access_rule_api_authorization_v1_access_rules__access_rule_id__get.md): Retrieve data for a single Access Rule.
+- [Get admin console access (config + permission) for current user](https://developer.gloat.com/reference/get_admin_console_access_api_authorization_v1_admin_console_access_get.md): Returns the subset of adminConsoleAccess that is gated by company config and RBAC (e.g. externalAPITokenManagement, s3AccessKeyManagement). Frontend can merge this with tookyo's full adminConsoleAccess.
+- [Create Presigned Integration Upload Url](https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md): Mint a short-lived presigned **HTTPS PUT** URL for uploading one object to the integration bucket under `{company_slug}/...`. The client must PUT the file body to the returned URL.
+- [Get Analytics Config](https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md)
+- [Get Embed Url](https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md)
+- [Get Company General Auth Settings](https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md)
+- [Update Company General Auth Settings](https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md)
+- [Get Company Idps](https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md)
+- [Create Company Idp](https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md)
+- [Update Company Idp](https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md)
+- [Delete Company Idp](https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md)

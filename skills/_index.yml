@@ -1,0 +1,16 @@
+generated: '2026-07-19'
+method: generated
+source: https://developer.gloat.com/reference/
+skills:
+- file: gloat-sync-workforce-data.md
+  name: Sync workforce data into Gloat
+  api: https://developer.gloat.com/reference/
+  operations: [user-upsert-1, patchusers-1, job-upsert-1, candidacy-upsert-1, get-candidacy-ids-by-status-1, listusers-1]
+- file: gloat-manage-job-architecture.md
+  name: Manage the Skills Foundation job architecture
+  api: https://developer.gloat.com/reference/skills-foundation
+  operations: [create_job_family_api_v2__company__job_architecture_job_families_post, create_job_code_api_v2__company__job_architecture_job_codes_post, create_job_title_api_v2__company__job_architecture_job_titles_post, bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch]
+- file: gloat-discover-opportunities.md
+  name: Discover opportunities and recommendations
+  api: https://developer.gloat.com/reference/
+  operations: [search-by-keyword-1, opportunities-personalized-1, getuserskills-1]

@@ -1,7 +1,15 @@
 aid: gloat
 name: Gloat
-description: 'Gloat is a company surfaced as a portfolio company of accel and added to the API Evangelist
-  network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment pipeline.'
+description: >-
+  Gloat is an AI-native workforce orchestration and talent-marketplace platform.
+  Its developer APIs let enterprises connect HR, learning, and skills data to Gloat:
+  syncing users, jobs, projects, candidacies, and learning items, and maintaining a
+  skills-and-job-architecture ontology (the Skills Foundation) of job families, job
+  codes, and position titles. The platform also exposes RBAC authorization (roles,
+  groups, permissions, access rules), certifications, applications, analytics embeds,
+  and outbound sync webhooks. Customer APIs authenticate with a client-credentials
+  JWT; Talent Marketplace APIs use an X-Gloat-API-Key header. All hosts are
+  per-tenant at https://{company_slug}.gloat.com/api.
 url: https://raw.githubusercontent.com/api-evangelist/gloat/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -9,13 +17,50 @@ x-backed-by:
 - accel
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://www.gloat.com/favicon.ico
 tags:
 - Company
 - Ai
-apis: []
+- Human Resources
+- Talent Marketplace
+- Skills
+- Workforce
+- Internal Mobility
+- HR Tech
+apis:
+- name: Gloat Customer API
+  description: >-
+    Tenant-scoped REST API to sync users, jobs, candidacies, projects, learning items,
+    and the Skills Foundation job architecture into Gloat, plus RBAC authorization and
+    company settings.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Talent
+  - Skills
+  - Human Resources
+  properties:
+  - type: Documentation
+    url: https://developer.gloat.com/docs
+  - type: APIReference
+    url: https://developer.gloat.com/reference
+  - type: Authentication
+    url: authentication/gloat-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -24,3 +69,52 @@ maintainers:
 common:
 - type: Website
   url: https://www.gloat.com/
+- type: DeveloperPortal
+  url: https://developer.gloat.com/
+- type: Documentation
+  url: https://developer.gloat.com/docs
+- type: APIReference
+  url: https://developer.gloat.com/reference
+- type: GettingStarted
+  url: https://developer.gloat.com/docs/using-gloat-apis
+- type: Authentication
+  url: authentication/gloat-authentication.yml
+- type: LLMsTxt
+  url: llms/gloat-llms.txt
+- type: Blog
+  url: https://gloat.com/blog/
+- type: TermsOfService
+  url: https://gloat.com/terms-of-service/
+- type: PrivacyPolicy
+  url: https://gloat.com/privacy-policy/
+- type: StatusPage
+  url: https://status.gloat.com/
+- type: TrustCenter
+  url: https://compliance.gloat.com/
+- type: Compliance
+  url: https://gloat.com/security-and-compliance/
+- type: Conformance
+  url: conformance/gloat-conformance.yml
+- type: Lifecycle
+  url: lifecycle/gloat-lifecycle.yml
+- type: Conventions
+  url: conventions/gloat-conventions.yml
+- type: DataModel
+  url: data-model/gloat-data-model.yml
+- type: Sandbox
+  url: sandbox/gloat-sandbox.yml
+- type: MCPServer
+  url: mcp/gloat-mcp.yml
+- type: Webhooks
+  url: asyncapi/gloat-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: TrustCenter
+  url: security/gloat-trust-center.yml
+- type: DomainSecurity
+  url: security/gloat-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

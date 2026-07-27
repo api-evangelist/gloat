@@ -1,0 +1,80 @@
+generated: '2026-07-19'
+method: derived
+source: llms/gloat-llms.txt
+docs: https://developer.gloat.com/reference/
+note: >-
+  Entity graph derived from the documented Gloat API reference (Skills Foundation,
+  Company, Candidacy, and Authorization services). No machine-readable OpenAPI was
+  available locally, so relationships are derived from documented endpoint paths and
+  descriptions rather than $ref links.
+entities:
+- name: JobFamily
+  service: skills-foundation
+  relationships:
+  - {type: has_many, target: JobCode, via: job_family_id, note: deleting a family cascade-deletes its job codes and titles}
+- name: JobCode
+  service: skills-foundation
+  relationships:
+  - {type: belongs_to, target: JobFamily, via: job_family_id}
+  - {type: has_many, target: Skill, via: skills, note: skills carry proficiency levels}
+  - {type: has_many, target: Task, via: tasks, note: tasks carry automation status feeding Net AI Impact}
+- name: JobTitle
+  service: skills-foundation
+  relationships:
+  - {type: belongs_to, target: JobFamily, via: job_family_id}
+  - {type: belongs_to, target: JobCode, via: job_code_id}
+- name: Ontology
+  service: skills-foundation
+  relationships:
+  - {type: has_many, target: Skill, via: ontology}
+- name: User
+  service: company
+  relationships:
+  - {type: has_many, target: Skill, via: skills}
+  - {type: has_many, target: Application, via: applications}
+  - {type: has_many, target: Certification, via: certifications}
+  - {type: has_many, target: Candidacy, via: user_id}
+  - {type: has_many, target: Role, via: rbac, note: via Authorization service roles/groups}
+- name: Job
+  service: company
+  relationships:
+  - {type: has_many, target: Candidacy, via: job_id}
+- name: Candidacy
+  service: candidacy
+  relationships:
+  - {type: belongs_to, target: User, via: user_id}
+  - {type: belongs_to, target: Job, via: job_id}
+- name: Project
+  service: company
+  relationships:
+  - {type: has_many, target: ProjectRole, via: project_id}
+- name: ProjectRole
+  service: company
+  relationships:
+  - {type: belongs_to, target: Project, via: project_id}
+- name: LearningItem
+  service: company
+  relationships:
+  - {type: has_many, target: User, via: assignments, note: courses/curriculums consumed by users}
+- name: Application
+  service: company
+  relationships:
+  - {type: has_many, target: User, via: user assignments}
+- name: Certification
+  service: company
+- name: Role
+  service: authorization
+  relationships:
+  - {type: has_many, target: Permission, via: permissions}
+  - {type: has_many, target: User, via: assignments}
+- name: Group
+  service: authorization
+  relationships:
+  - {type: has_many, target: User, via: membership}
+- name: Permission
+  service: authorization
+- name: AccessRule
+  service: authorization
+- name: ApiKey
+  service: company
+  note: managed via /api/company/v1/settings/api-keys (list/create/get/update/delete/rotate)

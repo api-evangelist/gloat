@@ -1,0 +1,25 @@
+generated: '2026-07-19'
+method: searched
+source: https://developer.gloat.com/reference/
+type: Webhooks
+note: >-
+  Gloat exposes an outbound integration surface: endpoints Gloat calls on the
+  customer's side (or that synchronize state to external systems) to keep talent data
+  in sync. These are documented in the API reference as "outbound" operations. No
+  AsyncAPI document is published; this is a webhook/outbound-callback catalog.
+webhooks:
+- name: Candidacy created or updated
+  operation: post_outbound-post-candidate-1
+  trigger: Fired when a new candidacy is created, or when an existing candidacy's status changes.
+  direction: outbound
+- name: Get user skills (outbound sync)
+  operation: getuserskillsoutbound-1
+  trigger: Used by Gloat to synchronize a user's top/desired skills to another platform.
+  direction: outbound
+  status: in-planning
+- name: Set user skills (outbound sync)
+  operation: postuserskillsoutbound-1
+  trigger: Push a change to a user's top/desired skills following a change made in Gloat.
+  direction: outbound
+  status: in-planning
+docs: https://developer.gloat.com/reference/

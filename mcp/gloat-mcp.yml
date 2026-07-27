@@ -1,0 +1,38 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: llms/gloat-llms.txt
+note: >-
+  No official hosted/remote Gloat MCP server was found. This is a CANDIDATE tool list
+  derived from documented Gloat API operations, as a starting point for an MCP server.
+  Tool names map to real documented operations in the developer reference.
+server:
+  name: gloat
+  transport: http
+  url: null
+auth:
+  customer_apis: client-credentials JWT (Bearer)
+  talent_marketplace: X-Gloat-API-Key
+tools:
+- {name: list_users, description: Fetch user IDs, optionally filtered by attributes, source_operation: listusers-1}
+- {name: upsert_users, description: Update or insert users (single or bulk), source_operation: user-upsert-1}
+- {name: patch_users, description: Update user status or custom fields, source_operation: patchusers-1}
+- {name: get_user_skills, description: Get skills of users by user IDs, source_operation: getuserskills-1}
+- {name: set_user_skills, description: Change top/desired skills for users, source_operation: postuserskills-1}
+- {name: upsert_job, description: Update or insert jobs, source_operation: job-upsert-1}
+- {name: list_jobs_by_status, description: Retrieve job IDs by status, source_operation: get-job-by-status-1}
+- {name: upsert_candidacy, description: Update or insert a candidacy, source_operation: candidacy-upsert-1}
+- {name: get_candidacy, description: Get candidacy data by id, source_operation: candidacy-get-1}
+- {name: list_candidacies_by_status, description: Retrieve candidacies by status, source_operation: get-candidacy-ids-by-status-1}
+- {name: search_by_keyword, description: Search jobs/roles/people by free text (5 credits), source_operation: search-by-keyword-1}
+- {name: personalized_opportunities, description: Opportunity recommendations for an end-user (5 credits), source_operation: opportunities-personalized-1}
+- {name: upsert_learning_items, description: Insert or update learning opportunities, source_operation: opportunities-post-1}
+- {name: list_job_codes, description: Retrieve a list of job codes, source_operation: list_job_codes_api_v2__company__job_architecture_job_codes_get}
+- {name: create_job_code, description: Create a new job code, source_operation: create_job_code_api_v2__company__job_architecture_job_codes_post}
+- {name: create_job_family, description: Create a new job family, source_operation: create_job_family_api_v2__company__job_architecture_job_families_post}
+- {name: create_job_title, description: Create a new position title, source_operation: create_job_title_api_v2__company__job_architecture_job_titles_post}
+- {name: bulk_patch_job_skills, description: Update skill proficiency levels for multiple job codes, source_operation: bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch}
+- {name: list_roles, description: List all authorization roles, source_operation: get_all_roles_api_authorization_v1_roles_get}
+- {name: assign_role_to_user, description: Assign a role to a user, source_operation: assign_role_to_user_api_authorization_v1_roles__role_id__users__user_id__post}
+- {name: trigger_file_download, description: Start an async file download task, source_operation: trigger_file_download_api_v2__company__file_download_trigger_post}
+- {name: manage_api_keys, description: List/create/rotate company API keys, source_operation: list_keys_api_company_v1_settings_api_keys_get}
