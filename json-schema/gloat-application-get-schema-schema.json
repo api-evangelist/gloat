@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-application-get-schema-schema.json",
+  "title": "ApplicationGetSchema",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationGetSchema",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "Id"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "category": {
+      "$ref": "#/$defs/ApplicationCategory"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "application_source": {
+      "$ref": "#/$defs/ApplicationSource"
+    },
+    "external_id": {
+      "type": "string",
+      "title": "External Id"
+    },
+    "description_generated": {
+      "type": "boolean",
+      "title": "Description Generated"
+    },
+    "date_created": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Date Created"
+    },
+    "date_updated": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Date Updated"
+    },
+    "updated_by": {
+      "type": "string",
+      "title": "Updated By"
+    },
+    "all_users": {
+      "type": "boolean",
+      "title": "All Users"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "category",
+    "description",
+    "application_source",
+    "external_id",
+    "description_generated",
+    "date_created",
+    "date_updated",
+    "updated_by",
+    "all_users"
+  ],
+  "$defs": {
+    "ApplicationCategory": {
+      "type": "string",
+      "enum": [
+        "Technologies",
+        "AI Agents",
+        "AI Assistance"
+      ],
+      "title": "ApplicationCategory"
+    },
+    "ApplicationSource": {
+      "type": "string",
+      "enum": [
+        "azure_ad",
+        "jumpcloud",
+        "custom"
+      ],
+      "title": "ApplicationSource"
+    }
+  }
+}

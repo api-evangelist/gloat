@@ -1,0 +1,72 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/gloat-authorization-openapi.yml
+- openapi/gloat-candidacy-openapi.yml
+- openapi/gloat-company-service-openapi.yml
+- openapi/gloat-customer-api-openapi.yml
+- openapi/gloat-skills-foundation-api-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+coverage:
+  operations: 130
+  statuses_declared: 8
+problems:
+- status: 400
+  title: Bad Request
+  description: integration failed
+  operations: 27
+  media_types:
+  - application/json
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: Unauthenticated
+  operations: 2
+  media_types: []
+  schema: null
+- status: 403
+  title: Forbidden
+  description: No WRITE permission
+  operations: 3
+  media_types:
+  - application/json
+  schema: null
+- status: 404
+  title: Not Found
+  description: Resource not found
+  operations: 24
+  media_types:
+  - application/json
+  schema: ErrorResponse
+- status: 405
+  title: Method Not Allowed
+  description: Invalid request method
+  operations: 6
+  media_types:
+  - application/json
+  schema: null
+- status: 422
+  title: Unprocessable Content
+  description: Validation Error
+  operations: 86
+  media_types:
+  - application/json
+  schema: HTTPValidationError
+- status: 500
+  title: Internal Server Error
+  description: Internal server error
+  operations: 27
+  media_types:
+  - application/json
+  schema: ErrorResponse
+- status: default
+  title: null
+  description: unexpected error
+  operations: 1
+  media_types:
+  - application/json
+  schema: null

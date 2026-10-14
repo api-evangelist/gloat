@@ -1,0 +1,1044 @@
+{
+  "@context": {
+    "@vocab": "https://gloat.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "gloat": "https://gloat.com/schema#",
+    "ErrorResponse": "gloat:ErrorResponse",
+    "status": {
+      "@id": "gloat:status",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "gloat:message",
+      "@type": "xsd:string"
+    },
+    "code": {
+      "@id": "gloat:code",
+      "@type": "xsd:string"
+    },
+    "HTTPValidationError": "gloat:HTTPValidationError",
+    "detail": {
+      "@id": "gloat:detail",
+      "@container": "@list"
+    },
+    "UserPermissionsResponse": "gloat:UserPermissionsResponse",
+    "name": {
+      "@id": "gloat:name",
+      "@type": "xsd:string"
+    },
+    "target_groups": {
+      "@id": "gloat:target_groups"
+    },
+    "access": {
+      "@id": "gloat:access",
+      "@type": "xsd:string"
+    },
+    "UserResponse": "gloat:UserResponse",
+    "id": {
+      "@id": "gloat:id",
+      "@type": "xsd:string"
+    },
+    "roles": {
+      "@id": "gloat:roles",
+      "@container": "@list"
+    },
+    "groups": {
+      "@id": "gloat:groups",
+      "@container": "@list"
+    },
+    "permissions": {
+      "@id": "gloat:permissions",
+      "@container": "@list"
+    },
+    "ValidationError": "gloat:ValidationError",
+    "loc": {
+      "@id": "gloat:loc",
+      "@container": "@list"
+    },
+    "msg": {
+      "@id": "gloat:msg",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "gloat:type",
+      "@type": "xsd:string"
+    },
+    "PaginatedAPIResponse_RoleGetResponse_": "gloat:PaginatedAPIResponse_RoleGetResponse_",
+    "items": {
+      "@id": "gloat:items"
+    },
+    "page": {
+      "@id": "gloat:page",
+      "@type": "xsd:integer"
+    },
+    "has_next": {
+      "@id": "gloat:has_next",
+      "@type": "xsd:boolean"
+    },
+    "total_count": {
+      "@id": "gloat:total_count"
+    },
+    "PermissionResponse": "gloat:PermissionResponse",
+    "RoleGetResponse": "gloat:RoleGetResponse",
+    "description": {
+      "@id": "gloat:description"
+    },
+    "is_ootb_role": {
+      "@id": "gloat:is_ootb_role",
+      "@type": "xsd:boolean"
+    },
+    "num_members": {
+      "@id": "gloat:num_members",
+      "@type": "xsd:integer"
+    },
+    "role_metadata": {
+      "@id": "gloat:role_metadata"
+    },
+    "date_created": {
+      "@id": "gloat:date_created",
+      "@type": "xsd:string"
+    },
+    "RoleMetadataUserFacingEntry": "gloat:RoleMetadataUserFacingEntry",
+    "key": {
+      "@id": "gloat:key",
+      "@type": "xsd:string"
+    },
+    "value": {
+      "@id": "gloat:value"
+    },
+    "PermissionRequestBody": "gloat:PermissionRequestBody",
+    "RoleRequestBody": "gloat:RoleRequestBody",
+    "RoleResponse": "gloat:RoleResponse",
+    "PaginatedAPIResponse_dict_": "gloat:PaginatedAPIResponse_dict_",
+    "RoleAssignmentType": "gloat:RoleAssignmentType",
+    "RoleMultipleUsersAssignmentRequest": "gloat:RoleMultipleUsersAssignmentRequest",
+    "user_ids": {
+      "@id": "gloat:user_ids",
+      "@container": "@list"
+    },
+    "RoleMultipleUsersAssignmentResponse": "gloat:RoleMultipleUsersAssignmentResponse",
+    "RoleUserAssignmentResponse": "gloat:RoleUserAssignmentResponse",
+    "role_id": {
+      "@id": "gloat:role_id",
+      "@type": "xsd:string"
+    },
+    "user_id": {
+      "@id": "gloat:user_id",
+      "@type": "xsd:string"
+    },
+    "GroupResponse": "gloat:GroupResponse",
+    "rules": {
+      "@id": "gloat:rules",
+      "@type": "@id"
+    },
+    "company_slug": {
+      "@id": "gloat:company_slug",
+      "@type": "xsd:string"
+    },
+    "GroupRules": "gloat:GroupRules",
+    "predicate": {
+      "@id": "gloat:predicate",
+      "@type": "xsd:string"
+    },
+    "children": {
+      "@id": "gloat:children",
+      "@container": "@list"
+    },
+    "PaginatedAPIResponse_GroupResponse_": "gloat:PaginatedAPIResponse_GroupResponse_",
+    "RuleChild": "gloat:RuleChild",
+    "operator": {
+      "@id": "gloat:operator"
+    },
+    "attrValue": {
+      "@id": "gloat:attrValue"
+    },
+    "attrType": {
+      "@id": "gloat:attrType",
+      "@type": "xsd:string"
+    },
+    "attrName": {
+      "@id": "gloat:attrName"
+    },
+    "numMembers": {
+      "@id": "gloat:numMembers"
+    },
+    "params": {
+      "@id": "gloat:params"
+    },
+    "GROUP": {
+      "@id": "gloat:GROUP"
+    },
+    "RuleItem": "gloat:RuleItem",
+    "PermissionModel": "gloat:PermissionModel",
+    "types": {
+      "@id": "gloat:types",
+      "@container": "@list"
+    },
+    "AccessRuleResponse": "gloat:AccessRuleResponse",
+    "granted_group_id": {
+      "@id": "gloat:granted_group_id"
+    },
+    "target_group_id": {
+      "@id": "gloat:target_group_id"
+    },
+    "PaginatedAPIResponse_AccessRuleResponse_": "gloat:PaginatedAPIResponse_AccessRuleResponse_",
+    "XApiActionResult": "gloat:XApiActionResult",
+    "total_requested": {
+      "@id": "gloat:total_requested",
+      "@type": "xsd:integer"
+    },
+    "succeeded_count": {
+      "@id": "gloat:succeeded_count",
+      "@type": "xsd:integer"
+    },
+    "failed_count": {
+      "@id": "gloat:failed_count",
+      "@type": "xsd:integer"
+    },
+    "succeeded_ids": {
+      "@id": "gloat:succeeded_ids",
+      "@container": "@list"
+    },
+    "failed_ids": {
+      "@id": "gloat:failed_ids"
+    },
+    "XApiActorObject": "gloat:XApiActorObject",
+    "mbox": {
+      "@id": "gloat:mbox",
+      "@type": "xsd:string"
+    },
+    "openid": {
+      "@id": "gloat:openid",
+      "@type": "xsd:string"
+    },
+    "account": {
+      "@id": "gloat:account"
+    },
+    "objectType": {
+      "@id": "gloat:objectType",
+      "@type": "xsd:string"
+    },
+    "user_identifier": {
+      "@id": "gloat:user_identifier",
+      "@type": "xsd:string"
+    },
+    "XApiObject": "gloat:XApiObject",
+    "definition": {
+      "@id": "gloat:definition"
+    },
+    "XApiResultMessage": "gloat:XApiResultMessage",
+    "XApiStatement": "gloat:XApiStatement",
+    "timestamp": {
+      "@id": "gloat:timestamp",
+      "@type": "xsd:string"
+    },
+    "actor": {
+      "@id": "gloat:actor",
+      "@type": "@id"
+    },
+    "verb": {
+      "@id": "gloat:verb",
+      "@type": "@id"
+    },
+    "object": {
+      "@id": "gloat:object",
+      "@type": "@id"
+    },
+    "XApiVerbObject": "gloat:XApiVerbObject",
+    "display": {
+      "@id": "gloat:display"
+    },
+    "PresignedUrlEntryModel": "gloat:PresignedUrlEntryModel",
+    "file_name": {
+      "@id": "gloat:file_name",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "gloat:url",
+      "@type": "xsd:string"
+    },
+    "PresignedUrlsAllResponseModel": "gloat:PresignedUrlsAllResponseModel",
+    "catalog": {
+      "@id": "gloat:catalog",
+      "@type": "@id"
+    },
+    "dim": {
+      "@id": "gloat:dim",
+      "@type": "@id"
+    },
+    "fact": {
+      "@id": "gloat:fact",
+      "@type": "@id"
+    },
+    "PresignedUrlsResponseModel": "gloat:PresignedUrlsResponseModel",
+    "ApiKeyPermission": "gloat:ApiKeyPermission",
+    "ApiKeyRead": "gloat:ApiKeyRead",
+    "secretName": {
+      "@id": "gloat:secretName",
+      "@type": "xsd:string"
+    },
+    "createdAt": {
+      "@id": "gloat:createdAt",
+      "@type": "xsd:string"
+    },
+    "createdBy": {
+      "@id": "gloat:createdBy",
+      "@type": "xsd:string"
+    },
+    "expiresAt": {
+      "@id": "gloat:expiresAt",
+      "@type": "xsd:string"
+    },
+    "companySlug": {
+      "@id": "gloat:companySlug",
+      "@type": "xsd:string"
+    },
+    "clientId": {
+      "@id": "gloat:clientId",
+      "@type": "xsd:string"
+    },
+    "ApiKeyCreateOrUpdate": "gloat:ApiKeyCreateOrUpdate",
+    "ApiKeyPostResponse": "gloat:ApiKeyPostResponse",
+    "clientSecret": {
+      "@id": "gloat:clientSecret",
+      "@type": "xsd:string"
+    },
+    "ApiKeyGetResponse": "gloat:ApiKeyGetResponse",
+    "ApiKeyRotate": "gloat:ApiKeyRotate",
+    "CertificationDetails": "gloat:CertificationDetails",
+    "requirements": {
+      "@id": "gloat:requirements"
+    },
+    "provider": {
+      "@id": "gloat:provider"
+    },
+    "validityPeriod": {
+      "@id": "gloat:validityPeriod"
+    },
+    "renewalRequirements": {
+      "@id": "gloat:renewalRequirements"
+    },
+    "CertificationGetData": "gloat:CertificationGetData",
+    "issuer": {
+      "@id": "gloat:issuer"
+    },
+    "locationIssued": {
+      "@id": "gloat:locationIssued"
+    },
+    "level": {
+      "@id": "gloat:level"
+    },
+    "satisfiedBy": {
+      "@id": "gloat:satisfiedBy"
+    },
+    "details": {
+      "@id": "gloat:details"
+    },
+    "CertificationRequestBody": "gloat:CertificationRequestBody",
+    "certificationIds": {
+      "@id": "gloat:certificationIds",
+      "@container": "@list"
+    },
+    "CertificationBulkUpsertBody": "gloat:CertificationBulkUpsertBody",
+    "certifications": {
+      "@id": "gloat:certifications",
+      "@container": "@list"
+    },
+    "CertificationType": "gloat:CertificationType",
+    "CertificationUpsertBody": "gloat:CertificationUpsertBody",
+    "certificationId": {
+      "@id": "gloat:certificationId",
+      "@type": "xsd:string"
+    },
+    "CertificationAutocompleteData": "gloat:CertificationAutocompleteData",
+    "ApplicationCategory": "gloat:ApplicationCategory",
+    "ApplicationListSchema": "gloat:ApplicationListSchema",
+    "limit": {
+      "@id": "gloat:limit",
+      "@type": "xsd:integer"
+    },
+    "page_count": {
+      "@id": "gloat:page_count",
+      "@type": "xsd:integer"
+    },
+    "ApplicationPartialData": "gloat:ApplicationPartialData",
+    "category": {
+      "@id": "gloat:category",
+      "@type": "@id"
+    },
+    "ApplicationFileProcessingResponse": "gloat:ApplicationFileProcessingResponse",
+    "asset_id": {
+      "@id": "gloat:asset_id"
+    },
+    "processing_id": {
+      "@id": "gloat:processing_id",
+      "@type": "xsd:string"
+    },
+    "ApplicationFileRequestBody": "gloat:ApplicationFileRequestBody",
+    "data": {
+      "@id": "gloat:data"
+    },
+    "processing_mode": {
+      "@id": "gloat:processing_mode",
+      "@type": "@id"
+    },
+    "ProcessingMode": "gloat:ProcessingMode",
+    "ProcessingStatus": "gloat:ProcessingStatus",
+    "ApplicationGetSchema": "gloat:ApplicationGetSchema",
+    "application_source": {
+      "@id": "gloat:application_source",
+      "@type": "@id"
+    },
+    "external_id": {
+      "@id": "gloat:external_id",
+      "@type": "xsd:string"
+    },
+    "description_generated": {
+      "@id": "gloat:description_generated",
+      "@type": "xsd:boolean"
+    },
+    "date_updated": {
+      "@id": "gloat:date_updated",
+      "@type": "xsd:dateTime"
+    },
+    "updated_by": {
+      "@id": "gloat:updated_by",
+      "@type": "xsd:string"
+    },
+    "all_users": {
+      "@id": "gloat:all_users",
+      "@type": "xsd:boolean"
+    },
+    "ApplicationSource": "gloat:ApplicationSource",
+    "ApplicationFileData": "gloat:ApplicationFileData",
+    "applications": {
+      "@id": "gloat:applications",
+      "@container": "@list"
+    },
+    "ApplicationFileDownloadResponse": "gloat:ApplicationFileDownloadResponse",
+    "ApplicationFileEntry": "gloat:ApplicationFileEntry",
+    "user_assignments": {
+      "@id": "gloat:user_assignments",
+      "@container": "@list"
+    },
+    "ApplicationUsersListSchema": "gloat:ApplicationUsersListSchema",
+    "ApplicationFileStatusResponse": "gloat:ApplicationFileStatusResponse",
+    "filename": {
+      "@id": "gloat:filename"
+    },
+    "application_count": {
+      "@id": "gloat:application_count"
+    },
+    "applications_created": {
+      "@id": "gloat:applications_created"
+    },
+    "applications_updated": {
+      "@id": "gloat:applications_updated"
+    },
+    "errors": {
+      "@id": "gloat:errors"
+    },
+    "warnings": {
+      "@id": "gloat:warnings"
+    },
+    "error_message": {
+      "@id": "gloat:error_message"
+    },
+    "started_at": {
+      "@id": "gloat:started_at"
+    },
+    "completed_at": {
+      "@id": "gloat:completed_at"
+    },
+    "UserApplicationsData": "gloat:UserApplicationsData",
+    "UserApplicationsListSchema": "gloat:UserApplicationsListSchema",
+    "UsersApplicationsRequestBody": "gloat:UsersApplicationsRequestBody",
+    "DagTriggerResponseModel": "gloat:DagTriggerResponseModel",
+    "flow": {
+      "@id": "gloat:flow",
+      "@type": "@id"
+    },
+    "runs": {
+      "@id": "gloat:runs",
+      "@container": "@list"
+    },
+    "DagTriggerResultModel": "gloat:DagTriggerResultModel",
+    "dag_id": {
+      "@id": "gloat:dag_id",
+      "@type": "xsd:string"
+    },
+    "run_id": {
+      "@id": "gloat:run_id",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "gloat:state",
+      "@type": "xsd:string"
+    },
+    "newly_triggered": {
+      "@id": "gloat:newly_triggered",
+      "@type": "xsd:boolean"
+    },
+    "DataDirectFlow": "gloat:DataDirectFlow",
+    "PresignedIntegrationUploadRequest": "gloat:PresignedIntegrationUploadRequest",
+    "relative_key": {
+      "@id": "gloat:relative_key",
+      "@type": "xsd:string"
+    },
+    "PresignedIntegrationUploadResponse": "gloat:PresignedIntegrationUploadResponse",
+    "http_method": {
+      "@id": "gloat:http_method",
+      "@type": "xsd:string"
+    },
+    "bucket": {
+      "@id": "gloat:bucket",
+      "@type": "xsd:string"
+    },
+    "expires_in_seconds": {
+      "@id": "gloat:expires_in_seconds",
+      "@type": "xsd:integer"
+    },
+    "max_upload_bytes": {
+      "@id": "gloat:max_upload_bytes",
+      "@type": "xsd:integer"
+    },
+    "AnalyticsConfig": "gloat:AnalyticsConfig",
+    "sections": {
+      "@id": "gloat:sections",
+      "@container": "@list"
+    },
+    "Item": "gloat:Item",
+    "label": {
+      "@id": "gloat:label",
+      "@type": "xsd:string"
+    },
+    "enabled_based_on_config_path": {
+      "@id": "gloat:enabled_based_on_config_path"
+    },
+    "enabled_based_on_split_feature_flag": {
+      "@id": "gloat:enabled_based_on_split_feature_flag"
+    },
+    "Section": "gloat:Section",
+    "section_name": {
+      "@id": "gloat:section_name",
+      "@type": "xsd:string"
+    },
+    "permission": {
+      "@id": "gloat:permission",
+      "@type": "xsd:string"
+    },
+    "SectionType": "gloat:SectionType",
+    "AnalyticsEmbedUrl": "gloat:AnalyticsEmbedUrl",
+    "embed_url": {
+      "@id": "gloat:embed_url",
+      "@type": "xsd:string"
+    },
+    "parameters": {
+      "@id": "gloat:parameters",
+      "@container": "@list"
+    },
+    "AuthorizationServer": "gloat:AuthorizationServer",
+    "audienceUri": {
+      "@id": "gloat:audienceUri",
+      "@type": "xsd:string"
+    },
+    "assertionUrl": {
+      "@id": "gloat:assertionUrl",
+      "@type": "xsd:string"
+    },
+    "Cookie": "gloat:Cookie",
+    "timeout": {
+      "@id": "gloat:timeout",
+      "@type": "xsd:integer"
+    },
+    "timeoutType": {
+      "@id": "gloat:timeoutType",
+      "@type": "@id"
+    },
+    "isLogoutOnBrowserClose": {
+      "@id": "gloat:isLogoutOnBrowserClose",
+      "@type": "xsd:boolean"
+    },
+    "GeneralAuthSettingsGetData": "gloat:GeneralAuthSettingsGetData",
+    "cookie": {
+      "@id": "gloat:cookie",
+      "@type": "@id"
+    },
+    "inactivity": {
+      "@id": "gloat:inactivity",
+      "@type": "@id"
+    },
+    "logoutUrl": {
+      "@id": "gloat:logoutUrl",
+      "@type": "xsd:string"
+    },
+    "isCognitoUsernamePasswordEnabled": {
+      "@id": "gloat:isCognitoUsernamePasswordEnabled",
+      "@type": "xsd:boolean"
+    },
+    "authorizationServer": {
+      "@id": "gloat:authorizationServer",
+      "@type": "@id"
+    },
+    "Inactivity": "gloat:Inactivity",
+    "isOn": {
+      "@id": "gloat:isOn",
+      "@type": "xsd:boolean"
+    },
+    "TimeoutType": "gloat:TimeoutType",
+    "GeneralAuthSettingsUpdateData": "gloat:GeneralAuthSettingsUpdateData",
+    "IdentityProviderData": "gloat:IdentityProviderData",
+    "nameIdOverride": {
+      "@id": "gloat:nameIdOverride"
+    },
+    "defaultRelayState": {
+      "@id": "gloat:defaultRelayState",
+      "@type": "xsd:string"
+    },
+    "metadataUrl": {
+      "@id": "gloat:metadataUrl"
+    },
+    "metadataFile": {
+      "@id": "gloat:metadataFile"
+    },
+    "isIdpInitiated": {
+      "@id": "gloat:isIdpInitiated",
+      "@type": "xsd:boolean"
+    },
+    "IdentityProviderCreateData": "gloat:IdentityProviderCreateData",
+    "IdentityProviderUpdateData": "gloat:IdentityProviderUpdateData",
+    "user_status_response": "gloat:user_status_response",
+    "count": {
+      "@id": "gloat:count",
+      "@type": "xsd:decimal"
+    },
+    "hasMore": {
+      "@id": "gloat:hasMore",
+      "@type": "xsd:boolean"
+    },
+    "users": {
+      "@id": "gloat:users",
+      "@container": "@list"
+    },
+    "user_object": "gloat:user_object",
+    "email": {
+      "@id": "gloat:email",
+      "@type": "xsd:string"
+    },
+    "grade_level": {
+      "@id": "gloat:grade_level",
+      "@type": "xsd:string"
+    },
+    "first_name": {
+      "@id": "gloat:first_name",
+      "@type": "xsd:string"
+    },
+    "last_name": {
+      "@id": "gloat:last_name",
+      "@type": "xsd:string"
+    },
+    "site": {
+      "@id": "gloat:site",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "gloat:city",
+      "@type": "xsd:string"
+    },
+    "country_code": {
+      "@id": "gloat:country_code",
+      "@type": "xsd:string"
+    },
+    "cluster": {
+      "@id": "gloat:cluster",
+      "@type": "xsd:string"
+    },
+    "department": {
+      "@id": "gloat:department",
+      "@container": "@list"
+    },
+    "department_id": {
+      "@id": "gloat:department_id",
+      "@type": "xsd:string"
+    },
+    "function": {
+      "@id": "gloat:function",
+      "@type": "xsd:string"
+    },
+    "sub_function": {
+      "@id": "gloat:sub_function",
+      "@type": "xsd:string"
+    },
+    "in_role_since": {
+      "@id": "gloat:in_role_since",
+      "@type": "xsd:date"
+    },
+    "reporting_data": {
+      "@id": "gloat:reporting_data"
+    },
+    "business_unit": {
+      "@id": "gloat:business_unit",
+      "@type": "xsd:string"
+    },
+    "job_code": {
+      "@id": "gloat:job_code",
+      "@type": "xsd:string"
+    },
+    "job_family": {
+      "@id": "gloat:job_family",
+      "@type": "xsd:string"
+    },
+    "hrbp_id": {
+      "@id": "gloat:hrbp_id",
+      "@type": "xsd:string"
+    },
+    "hrbp_email": {
+      "@id": "gloat:hrbp_email",
+      "@type": "xsd:string"
+    },
+    "direct_manager_id": {
+      "@id": "gloat:direct_manager_id",
+      "@type": "xsd:string"
+    },
+    "direct_manager_email": {
+      "@id": "gloat:direct_manager_email",
+      "@type": "xsd:string"
+    },
+    "additional_managers": {
+      "@id": "gloat:additional_managers"
+    },
+    "title": {
+      "@id": "gloat:title",
+      "@type": "xsd:string"
+    },
+    "extra_data": {
+      "@id": "gloat:extra_data"
+    },
+    "custom_fields": {
+      "@id": "gloat:custom_fields"
+    },
+    "can_access_hire": {
+      "@id": "gloat:can_access_hire",
+      "@type": "xsd:boolean"
+    },
+    "can_be_mentor": {
+      "@id": "gloat:can_be_mentor",
+      "@type": "xsd:boolean"
+    },
+    "user_status": "gloat:user_status",
+    "user_response": "gloat:user_response",
+    "success": {
+      "@id": "gloat:success",
+      "@type": "xsd:boolean"
+    },
+    "user_patch_object": "gloat:user_patch_object",
+    "language_dict": "gloat:language_dict",
+    "description_html": {
+      "@id": "gloat:description_html",
+      "@type": "xsd:string"
+    },
+    "job_object": "gloat:job_object",
+    "job_id": {
+      "@id": "gloat:job_id",
+      "@type": "xsd:string"
+    },
+    "departments": {
+      "@id": "gloat:departments",
+      "@container": "@list"
+    },
+    "experiences": {
+      "@id": "gloat:experiences",
+      "@container": "@list"
+    },
+    "languages": {
+      "@id": "gloat:languages",
+      "@type": "@id"
+    },
+    "location_type": {
+      "@id": "gloat:location_type",
+      "@type": "@id"
+    },
+    "locations": {
+      "@id": "gloat:locations",
+      "@type": "@id"
+    },
+    "persons": {
+      "@id": "gloat:persons",
+      "@type": "@id"
+    },
+    "sites": {
+      "@id": "gloat:sites",
+      "@container": "@list"
+    },
+    "certification_requirements": {
+      "@id": "gloat:certification_requirements",
+      "@type": "@id"
+    },
+    "translations": {
+      "@id": "gloat:translations",
+      "@type": "@id"
+    },
+    "unposting_date": {
+      "@id": "gloat:unposting_date",
+      "@type": "xsd:string"
+    },
+    "ats_links": {
+      "@id": "gloat:ats_links"
+    },
+    "required_skills": {
+      "@id": "gloat:required_skills",
+      "@container": "@list"
+    },
+    "job_status": "gloat:job_status",
+    "job_location_type": "gloat:job_location_type",
+    "job_person_relations": "gloat:job_person_relations",
+    "translation_dict": "gloat:translation_dict",
+    "en": {
+      "@id": "gloat:en",
+      "@type": "@id"
+    },
+    "fr": {
+      "@id": "gloat:fr",
+      "@type": "@id"
+    },
+    "etc...": {
+      "@id": "gloat:etc...",
+      "@type": "@id"
+    },
+    "job_patch_object": "gloat:job_patch_object",
+    "job_detail_object": "gloat:job_detail_object",
+    "jobs": {
+      "@id": "gloat:jobs",
+      "@container": "@list"
+    },
+    "candidacy_action": "gloat:candidacy_action",
+    "action": {
+      "@id": "gloat:action",
+      "@type": "xsd:string"
+    },
+    "candidacy_response": "gloat:candidacy_response",
+    "candidacy_status_object": "gloat:candidacy_status_object",
+    "changed_by": {
+      "@id": "gloat:changed_by",
+      "@type": "xsd:string"
+    },
+    "changed_by_user_data": {
+      "@id": "gloat:changed_by_user_data",
+      "@type": "@id"
+    },
+    "free_text": {
+      "@id": "gloat:free_text",
+      "@type": "xsd:string"
+    },
+    "candidacy_status": "gloat:candidacy_status",
+    "basic_user_object": "gloat:basic_user_object",
+    "candidacy_outbound_object_get": "gloat:candidacy_outbound_object_get",
+    "candidacy_id": {
+      "@id": "gloat:candidacy_id",
+      "@type": "xsd:string"
+    },
+    "user_data": {
+      "@id": "gloat:user_data",
+      "@type": "@id"
+    },
+    "candidacy_status_object_get": "gloat:candidacy_status_object_get",
+    "candidacy_status_response": "gloat:candidacy_status_response",
+    "candidacies": {
+      "@id": "gloat:candidacies",
+      "@container": "@list"
+    },
+    "role_simple": "gloat:role_simple",
+    "link": {
+      "@id": "gloat:link",
+      "@type": "xsd:string"
+    },
+    "project": {
+      "@id": "gloat:project",
+      "@type": "@id"
+    },
+    "job_simple": "gloat:job_simple",
+    "user_simple": "gloat:user_simple",
+    "search_response": "gloat:search_response",
+    "results": {
+      "@id": "gloat:results"
+    },
+    "candidacy_outbound_object_post": "gloat:candidacy_outbound_object_post",
+    "actions": {
+      "@id": "gloat:actions",
+      "@container": "@list"
+    },
+    "skill": "gloat:skill",
+    "language": {
+      "@id": "gloat:language",
+      "@type": "xsd:string"
+    },
+    "rating": {
+      "@id": "gloat:rating",
+      "@type": "xsd:decimal"
+    },
+    "manager_id": {
+      "@id": "gloat:manager_id",
+      "@type": "xsd:string"
+    },
+    "post_skill": "gloat:post_skill",
+    "names": {
+      "@id": "gloat:names"
+    },
+    "location_object": "gloat:location_object",
+    "source": {
+      "@id": "gloat:source",
+      "@type": "xsd:string"
+    },
+    "is_active": {
+      "@id": "gloat:is_active",
+      "@type": "xsd:boolean"
+    },
+    "is_remote": {
+      "@id": "gloat:is_remote",
+      "@type": "xsd:boolean"
+    },
+    "display_name": {
+      "@id": "gloat:display_name",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "gloat:country",
+      "@type": "xsd:string"
+    },
+    "region": {
+      "@id": "gloat:region",
+      "@type": "xsd:string"
+    },
+    "googlable_name": {
+      "@id": "gloat:googlable_name",
+      "@type": "xsd:string"
+    },
+    "function_object": "gloat:function_object",
+    "parent_id": {
+      "@id": "gloat:parent_id",
+      "@type": "xsd:string"
+    },
+    "rbac_role": "gloat:rbac_role",
+    "categories": {
+      "@id": "gloat:categories",
+      "@container": "@list"
+    },
+    "user_role_assignment": "gloat:user_role_assignment",
+    "lastLogin": {
+      "@id": "gloat:lastLogin",
+      "@type": "xsd:decimal"
+    },
+    "user_roles_and_groups": "gloat:user_roles_and_groups",
+    "user_skills": "gloat:user_skills",
+    "user_id_or_email": {
+      "@id": "gloat:user_id_or_email",
+      "@container": "@list"
+    },
+    "learning_item": "gloat:learning_item",
+    "vendor": {
+      "@id": "gloat:vendor",
+      "@type": "xsd:string"
+    },
+    "iri": {
+      "@id": "gloat:iri",
+      "@type": "xsd:string"
+    },
+    "item_id": {
+      "@id": "gloat:item_id",
+      "@type": "xsd:string"
+    },
+    "item_source": {
+      "@id": "gloat:item_source",
+      "@type": "xsd:string"
+    },
+    "item_image": {
+      "@id": "gloat:item_image",
+      "@type": "xsd:string"
+    },
+    "item_video": {
+      "@id": "gloat:item_video",
+      "@type": "xsd:string"
+    },
+    "duration": {
+      "@id": "gloat:duration",
+      "@type": "xsd:integer"
+    },
+    "item_rating": {
+      "@id": "gloat:item_rating",
+      "@type": "xsd:integer"
+    },
+    "prerequisites": {
+      "@id": "gloat:prerequisites",
+      "@type": "xsd:string"
+    },
+    "created_at": {
+      "@id": "gloat:created_at",
+      "@type": "xsd:string"
+    },
+    "compatibility": {
+      "@id": "gloat:compatibility",
+      "@container": "@list"
+    },
+    "related_labels_and_tags": {
+      "@id": "gloat:related_labels_and_tags",
+      "@container": "@list"
+    },
+    "related_skills": {
+      "@id": "gloat:related_skills",
+      "@container": "@list"
+    },
+    "related_items_id": {
+      "@id": "gloat:related_items_id",
+      "@container": "@list"
+    },
+    "extra_info": {
+      "@id": "gloat:extra_info"
+    },
+    "related_learning": "gloat:related_learning",
+    "project_object": "gloat:project_object",
+    "project_id": {
+      "@id": "gloat:project_id",
+      "@type": "xsd:string"
+    },
+    "coverImage": {
+      "@id": "gloat:coverImage",
+      "@type": "xsd:string"
+    },
+    "locationLimitation": {
+      "@id": "gloat:locationLimitation",
+      "@type": "xsd:string"
+    },
+    "startDate": {
+      "@id": "gloat:startDate",
+      "@type": "xsd:string"
+    },
+    "endDate": {
+      "@id": "gloat:endDate",
+      "@type": "xsd:string"
+    },
+    "impact": {
+      "@id": "gloat:impact",
+      "@type": "xsd:string"
+    },
+    "owners": {
+      "@id": "gloat:owners",
+      "@type": "@id"
+    },
+    "businessImpact": {
+      "@id": "gloat:businessImpact"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Gloat API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Gloat's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-14) from openapi/gloat-authorization-openapi.yml, openapi/gloat-candidacy-openapi.yml, openapi/gloat-company-service-openapi.yml.",
+  "dcterms:created": "2026-10-14",
+  "dcterms:source": [
+    "openapi/gloat-authorization-openapi.yml",
+    "openapi/gloat-candidacy-openapi.yml",
+    "openapi/gloat-company-service-openapi.yml",
+    "openapi/gloat-customer-api-openapi.yml",
+    "openapi/gloat-skills-foundation-api-openapi.yml"
+  ]
+}

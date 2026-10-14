@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-job-object-schema.json",
+  "title": "job_object",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-customer-api-openapi.yml#/components/schemas/job_object",
+  "type": "object",
+  "required": [
+    "grade_level",
+    "job_id",
+    "status",
+    "title"
+  ],
+  "properties": {
+    "grade_level": {
+      "type": "string"
+    },
+    "job_id": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/job_status"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "description_html": {
+      "type": "string"
+    },
+    "department_id": {
+      "type": "string"
+    },
+    "departments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "experiences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "function": {
+      "type": "string"
+    },
+    "sub_function": {
+      "type": "string"
+    },
+    "business_unit": {
+      "type": "string"
+    },
+    "job_code": {
+      "type": "string"
+    },
+    "job_family": {
+      "type": "string"
+    },
+    "languages": {
+      "$ref": "#/$defs/language_array"
+    },
+    "location_type": {
+      "$ref": "#/$defs/job_location_type"
+    },
+    "locations": {
+      "$ref": "#/$defs/location_array"
+    },
+    "persons": {
+      "$ref": "#/$defs/person_array"
+    },
+    "requirements": {
+      "type": "string"
+    },
+    "sites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "certification_requirements": {
+      "$ref": "#/$defs/certification_requirements"
+    },
+    "translations": {
+      "$ref": "#/$defs/translation_dict"
+    },
+    "unposting_date": {
+      "type": "string"
+    },
+    "extra_data": {
+      "type": "object",
+      "properties": {}
+    },
+    "ats_links": {
+      "type": "object",
+      "properties": {}
+    },
+    "required_skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "certification_requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "job_location_type": {
+      "type": "string",
+      "enum": [
+        "GLOBAL",
+        "LOCAL",
+        "LOCAL_WITH_RELOCATION",
+        "REMOTE"
+      ]
+    },
+    "job_person_relations": {
+      "type": "string",
+      "enum": [
+        "manager",
+        "hrbp",
+        "coowner",
+        "recruiter",
+        "viewer"
+      ]
+    },
+    "job_status": {
+      "type": "string",
+      "enum": [
+        "OP",
+        "CL",
+        "CA",
+        "PE"
+      ],
+      "description": "Job status:\n  * `OP` - open\n  * `PE` - pending\n  * `CL` - closed\n  * `CA` - closed for applications (invisible for imob)"
+    },
+    "language_array": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "level"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "2 letter language code"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "BA",
+              "AD",
+              "FL",
+              "NL",
+              "NT"
+            ],
+            "description": "language proficiency level:\n  * `BA` - Basic\n  * `AD` - Advanced\n  * `FL` - Fluent\n  * `NL` - Native Level\n  * `NT` - Native"
+          }
+        }
+      }
+    },
+    "language_dict": {
+      "type": "object",
+      "required": [
+        "title",
+        "description"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "description_html": {
+          "type": "string"
+        }
+      }
+    },
+    "location_array": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "city",
+          "country_code"
+        ],
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "default": ""
+          }
+        }
+      }
+    },
+    "person_array": {
+      "type": "array",
+      "title": "Persons Related to a Job",
+      "items": {
+        "type": "object",
+        "required": [
+          "user_id",
+          "email",
+          "first_name",
+          "last_name",
+          "relation"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "relation": {
+            "$ref": "#/$defs/job_person_relations"
+          }
+        }
+      }
+    },
+    "translation_dict": {
+      "type": "object",
+      "properties": {
+        "en": {
+          "$ref": "#/$defs/language_dict"
+        },
+        "fr": {
+          "$ref": "#/$defs/language_dict"
+        },
+        "etc...": {
+          "$ref": "#/$defs/language_dict"
+        }
+      }
+    }
+  }
+}

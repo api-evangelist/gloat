@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-simple-retrieval-request-schema.json",
+  "title": "SimpleRetrievalRequest",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-skills-foundation-api-openapi.yml#/components/schemas/SimpleRetrievalRequest",
+  "properties": {
+    "entity_type": {
+      "type": "string",
+      "title": "Entity Type",
+      "description": "Entity type to query. Currently only 'job_code' is supported."
+    },
+    "query": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Query",
+      "description": "Free-text search query on entity names using MongoDB $text search. Supports query operators: prefix with '-' to exclude terms, use double quotes for exact phrases (e.g., '\"Senior Engineer\"'). Special characters are passed through to the search engine."
+    },
+    "filters": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Filters",
+      "description": "Key-value filters. Valid keys for 'job_code': code, name, benchmark_title, function, status, business_status, job_type, job_source, grade_levels, competencies, experiences, skills (matches skill name), tasks (matches task text). Values can be a primitive (str, int, bool) or list for $in matching. Dict values are rejected to prevent operator injection."
+    },
+    "offset": {
+      "type": "integer",
+      "minimum": 0,
+      "title": "Offset",
+      "description": "Pagination offset",
+      "default": 0
+    },
+    "limit": {
+      "type": "integer",
+      "maximum": 1000,
+      "minimum": 1,
+      "title": "Limit",
+      "description": "Number of results per page (max 1000)",
+      "default": 50
+    },
+    "sort_by": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SortByField"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Optional sorting. Defaults to text relevance if query provided, otherwise creation date descending."
+    }
+  },
+  "additionalProperties": true,
+  "type": "object",
+  "required": [
+    "entity_type"
+  ],
+  "$defs": {
+    "SortByField": {
+      "properties": {
+        "field": {
+          "type": "string",
+          "title": "Field",
+          "description": "Field name to sort by"
+        },
+        "direction": {
+          "type": "string",
+          "title": "Direction",
+          "description": "Sort direction: 'asc' or 'desc'",
+          "default": "desc"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "field"
+      ],
+      "title": "SortByField"
+    }
+  }
+}

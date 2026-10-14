@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-xapi-action-result-schema.json",
+  "title": "XApiActionResult",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiActionResult",
+  "properties": {
+    "total_requested": {
+      "type": "integer",
+      "title": "Total Requested",
+      "description": "Total number of actions requested"
+    },
+    "succeeded_count": {
+      "type": "integer",
+      "title": "Succeeded Count",
+      "description": "Number of actions that succeeded"
+    },
+    "failed_count": {
+      "type": "integer",
+      "title": "Failed Count",
+      "description": "Number of actions that failed"
+    },
+    "succeeded_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Succeeded Ids",
+      "description": "List of IDs of the actions that succeeded"
+    },
+    "failed_ids": {
+      "additionalProperties": {
+        "$ref": "#/$defs/XApiResultMessage"
+      },
+      "type": "object",
+      "description": "For each failed action ID, the reason for failure"
+    }
+  },
+  "type": "object",
+  "required": [
+    "total_requested",
+    "succeeded_count",
+    "failed_count",
+    "succeeded_ids",
+    "failed_ids"
+  ],
+  "$defs": {
+    "XApiResultMessage": {
+      "type": "string",
+      "enum": [
+        "User does not exist",
+        "Opportunity does not exist",
+        "Illegal action was sent",
+        "Failed to add action",
+        "Action already updated",
+        "Invalid action time. The action timestamp predates the last action time."
+      ],
+      "title": "XApiResultMessage",
+      "description": "An enumeration."
+    }
+  }
+}

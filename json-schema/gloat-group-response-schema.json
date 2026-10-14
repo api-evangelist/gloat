@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-group-response-schema.json",
+  "title": "GroupResponse",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-authorization-openapi.yml#/components/schemas/GroupResponse",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "Id"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "type": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Type"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "rules": {
+      "$ref": "#/$defs/GroupRules"
+    },
+    "company_slug": {
+      "type": "string",
+      "title": "Company Slug"
+    },
+    "date_created": {
+      "type": "string",
+      "title": "Date Created"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "rules",
+    "company_slug",
+    "date_created"
+  ],
+  "$defs": {
+    "GroupRules": {
+      "properties": {
+        "predicate": {
+          "type": "string",
+          "title": "Predicate",
+          "default": "and"
+        },
+        "children": {
+          "items": {
+            "$ref": "#/$defs/RuleChild"
+          },
+          "type": "array",
+          "title": "Children",
+          "default": []
+        }
+      },
+      "type": "object",
+      "title": "GroupRules"
+    },
+    "RuleChild": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Operator"
+        },
+        "attrValue": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/RuleItem"
+              },
+              "type": "array"
+            },
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attrvalue"
+        },
+        "attrType": {
+          "type": "string",
+          "title": "Attrtype"
+        },
+        "attrName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attrname"
+        },
+        "numMembers": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Nummembers"
+        },
+        "params": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Params"
+        },
+        "GROUP": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Group"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "attrType"
+      ],
+      "title": "RuleChild"
+    },
+    "RuleItem": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "RuleItem"
+    }
+  }
+}

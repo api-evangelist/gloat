@@ -1,0 +1,1684 @@
+generated: '2026-10-14'
+method: generated
+source: openapi/gloat-authorization-openapi.yml, openapi/gloat-candidacy-openapi.yml, openapi/gloat-company-service-openapi.yml,
+  openapi/gloat-customer-api-openapi.yml, openapi/gloat-skills-foundation-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 130
+  by_action_class:
+    connected: 68
+    acting: 62
+  by_consequence:
+    read: 68
+    write: 38
+    safety-critical: 24
+  human_in_the_loop_required: 24
+operations:
+- path: /api/authorization/v1/access_rules
+  method: get
+  operationId: get_access_rules_api_authorization_v1_access_rules_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/access_rules/{access_rule_id}
+  method: get
+  operationId: get_access_rule_api_authorization_v1_access_rules__access_rule_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/admin-console-access
+  method: get
+  operationId: get_admin_console_access_api_authorization_v1_admin_console_access_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/groups
+  method: get
+  operationId: get_all_groups_api_authorization_v1_groups_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/groups/{group_id}
+  method: get
+  operationId: get_group_api_authorization_v1_groups__group_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/groups/{group_id}/users
+  method: get
+  operationId: get_group_users_api_authorization_v1_groups__group_id__users_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/permissions
+  method: get
+  operationId: get_all_available_permissions_api_authorization_v1_permissions_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/permissions/{permission}/users
+  method: get
+  operationId: get_permission_users_api_authorization_v1_permissions__permission__users_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/roles
+  method: get
+  operationId: get_all_roles_api_authorization_v1_roles_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/roles
+  method: post
+  operationId: create_role_api_authorization_v1_roles_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/authorization/v1/roles/{role_id}
+  method: get
+  operationId: get_role_api_authorization_v1_roles__role_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/roles/{role_id}
+  method: patch
+  operationId: update_role_api_authorization_v1_roles__role_id__patch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/authorization/v1/roles/{role_id}
+  method: delete
+  operationId: delete_role_api_authorization_v1_roles__role_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/authorization/v1/roles/{role_id}/users
+  method: get
+  operationId: get_role_users_api_authorization_v1_roles__role_id__users_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/authorization/v1/roles/{role_id}/users
+  method: post
+  operationId: assign_role_to_multiple_users_api_authorization_v1_roles__role_id__users_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/authorization/v1/roles/{role_id}/users/{user_id}
+  method: post
+  operationId: assign_role_to_user_api_authorization_v1_roles__role_id__users__user_id__post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/authorization/v1/roles/{role_id}/users/{user_id}
+  method: delete
+  operationId: revoke_user_from_role_api_authorization_v1_roles__role_id__users__user_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/authorization/v1/users/{user_id}
+  method: get
+  operationId: get_user_api_authorization_v1_users__user_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/candidacy/v1/xapi/action
+  method: post
+  operationId: learning_action_api_candidacy_v1_xapi_action_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/analytics/config
+  method: get
+  operationId: get_analytics_config_api_company_v1_analytics_config_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/analytics/embed-url
+  method: get
+  operationId: get_embed_url_api_company_v1_analytics_embed_url_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/applications
+  method: get
+  operationId: list_company_applications_api_company_v1_applications_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/applications
+  method: post
+  operationId: process_application_file_api_company_v1_applications_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/applications/download
+  method: get
+  operationId: download_all_applications_api_company_v1_applications_download_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/applications/status/{processing_id}
+  method: get
+  operationId: get_processing_status_by_id_api_company_v1_applications_status__processing_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/applications/{application_id}
+  method: get
+  operationId: get_application_details_api_company_v1_applications__application_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/applications/{application_id}/users
+  method: get
+  operationId: get_users_with_application_api_company_v1_applications__application_id__users_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/certifications
+  method: get
+  operationId: get_certification_by_ids_api_company_v1_certifications_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/certifications
+  method: post
+  operationId: upsert_api_company_v1_certifications_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/certifications/autocomplete
+  method: get
+  operationId: certifications_autocomplete_api_company_v1_certifications_autocomplete_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/certifications/{certification_id}
+  method: delete
+  operationId: delete_certification_api_company_v1_certifications__certification_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/data-direct/file-types
+  method: get
+  operationId: get_file_types_api_company_v1_data_direct_file_types_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/data-direct/presigned-urls
+  method: get
+  operationId: get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/data-direct/presigned-urls/all
+  method: get
+  operationId: get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/data-direct/trigger/{flow}
+  method: post
+  operationId: trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/integration-uploads/presigned-upload-url
+  method: post
+  operationId: create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/api-keys
+  method: get
+  operationId: list_keys_api_company_v1_settings_api_keys_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/settings/api-keys
+  method: post
+  operationId: create_key_api_company_v1_settings_api_keys_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/api-keys/rotate
+  method: post
+  operationId: rotate_key_api_company_v1_settings_api_keys_rotate_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/api-keys/{client_id}
+  method: get
+  operationId: get_key_api_company_v1_settings_api_keys__client_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/settings/api-keys/{client_id}
+  method: patch
+  operationId: update_key_api_company_v1_settings_api_keys__client_id__patch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/api-keys/{client_id}
+  method: delete
+  operationId: delete_key_api_company_v1_settings_api_keys__client_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/auth-settings/general
+  method: get
+  operationId: get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/settings/auth-settings/general
+  method: put
+  operationId: update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/auth-settings/idps
+  method: get
+  operationId: get_company_idps_api_company_v1_settings_auth_settings_idps_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/company/v1/settings/auth-settings/idps
+  method: post
+  operationId: create_company_idp_api_company_v1_settings_auth_settings_idps_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/auth-settings/idps/{idp_id}
+  method: put
+  operationId: update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/settings/auth-settings/idps/{idp_id}
+  method: delete
+  operationId: delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/company/v1/users/applications
+  method: post
+  operationId: get_applications_for_users_api_company_v1_users_applications_post
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /candidacies
+  method: post
+  operationId: candidacy upsert
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /candidacies
+  method: patch
+  operationId: candidacy patch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /candidacies
+  method: get
+  operationId: candidacy get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /candidacies/status
+  method: get
+  operationId: get candidacy IDs by status
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /departments
+  method: delete
+  operationId: department bulk delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /functions
+  method: post
+  operationId: function bulk insert
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /jobs
+  method: post
+  operationId: job upsert
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /jobs
+  method: patch
+  operationId: job patch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /jobs/desired
+  method: get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /jobs/status
+  method: get
+  operationId: get job by status
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /learning
+  method: post
+  operationId: opportunities-post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /learning
+  method: get
+  operationId: learning-get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /learning
+  method: patch
+  operationId: learning-patch
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /locations
+  method: post
+  operationId: location bulk insert
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /opportunities/matching
+  method: get
+  operationId: opportunities-personalized
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /outbound-post-candidate
+  method: post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /outbound-userskills
+  method: get
+  operationId: getUserSkillsOutbound
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /outbound-userskills
+  method: post
+  operationId: postUserSkillsOutbound
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /ping
+  method: get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /projects
+  method: get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /projects
+  method: post
+  operationId: project update or create
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /projects
+  method: patch
+  operationId: project update status
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /projects/roles
+  method: get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /projects/roles
+  method: post
+  operationId: project role update or create
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /projects/roles
+  method: patch
+  operationId: project role update status
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /roles
+  method: get
+  operationId: listCompanyRoles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /roles/all
+  method: get
+  operationId: listAllCompanyRoles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /roles/assignments
+  method: get
+  operationId: listRolesAssignments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /roles/grant-roles
+  method: post
+  operationId: grantRolesToUsers
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /roles/groups
+  method: get
+  operationId: listAllCompanyGroups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /roles/revoke-roles
+  method: post
+  operationId: revokeRolesFromUsers
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /search
+  method: get
+  operationId: search by keyword
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /skills
+  method: post
+  operationId: postSkills
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /user-skills
+  method: get
+  operationId: getUserSkills
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /user-skills
+  method: post
+  operationId: postUserSkills
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /user_profile/training
+  method: post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /users
+  method: get
+  operationId: listUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /users
+  method: post
+  operationId: user upsert
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /users
+  method: patch
+  operationId: patchUsers
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /users/activate
+  method: post
+  operationId: user activate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /users/cv
+  method: get
+  operationId: get gloat CV by user and job
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /users/groups
+  method: get
+  operationId: listUsersGroups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/file-download/files
+  method: get
+  operationId: list_downloadable_files_api_v2__company__file_download_files_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/file-download/files/latest/download-url
+  method: get
+  operationId: get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/file-download/files/{task_id}/download-url
+  method: get
+  operationId: get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/file-download/trigger
+  method: post
+  operationId: trigger_file_download_api_v2__company__file_download_trigger_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/insights/suggest
+  method: post
+  operationId: suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes
+  method: get
+  operationId: list_job_codes_api_v2__company__job_architecture_job_codes_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-codes
+  method: post
+  operationId: create_job_code_api_v2__company__job_architecture_job_codes_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes/skills/bulk
+  method: patch
+  operationId: bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes/tasks/automation-status/bulk
+  method: patch
+  operationId: bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes/{job_code_id}
+  method: get
+  operationId: get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-codes/{job_code_id}
+  method: patch
+  operationId: update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes/{job_code_id}
+  method: delete
+  operationId: delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes/{job_code_id}/description
+  method: get
+  operationId: get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-codes/{job_code_id}/description
+  method: put
+  operationId: update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-codes/{job_code_id}/similar
+  method: get
+  operationId: get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-families
+  method: get
+  operationId: list_job_families_api_v2__company__job_architecture_job_families_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-families
+  method: post
+  operationId: create_job_family_api_v2__company__job_architecture_job_families_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-families/{job_family_id}
+  method: get
+  operationId: get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-families/{job_family_id}
+  method: patch
+  operationId: update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-families/{job_family_id}
+  method: delete
+  operationId: delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-families/{job_family_id}/description
+  method: get
+  operationId: get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-families/{job_family_id}/description
+  method: put
+  operationId: update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-functions/autocomplete
+  method: get
+  operationId: get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-titles
+  method: get
+  operationId: get_job_titles_api_v2__company__job_architecture_job_titles_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-titles
+  method: post
+  operationId: create_job_title_api_v2__company__job_architecture_job_titles_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-titles/{job_title_id}
+  method: get
+  operationId: get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-titles/{job_title_id}
+  method: patch
+  operationId: update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-titles/{job_title_id}
+  method: delete
+  operationId: delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-titles/{job_title_id}/description
+  method: get
+  operationId: get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/job-architecture/job-titles/{job_title_id}/description
+  method: put
+  operationId: update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/job-architecture/job-titles/{job_title_id}/similar
+  method: get
+  operationId: get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/management-console/ontologies
+  method: post
+  operationId: create_ontology_api_v2__company__management_console_ontologies_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/management-console/ontologies/list
+  method: get
+  operationId: get_ontologies_list_api_v2__company__management_console_ontologies_list_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/management-console/ontologies/preferred
+  method: put
+  operationId: update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/retrieval
+  method: post
+  operationId: simple_retrieval_api_v2__company__retrieval_post
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/skills-foundation/retrieval/entity-types/{entity_type}/fields/{field}/values
+  method: get
+  operationId: get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/retrieval/entity-types/{entity_type}/schema
+  method: get
+  operationId: get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/skills-inventory/users
+  method: post
+  operationId: get_users_list_api_v2__company__skills_inventory_users_post
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/skills-foundation/v1/stats/tag-usage
+  method: post
+  operationId: get_tag_usage_api_v2__company__v1_stats_tag_usage_post
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

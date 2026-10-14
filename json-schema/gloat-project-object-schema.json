@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-project-object-schema.json",
+  "title": "Project",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-customer-api-openapi.yml#/components/schemas/project_object",
+  "type": "object",
+  "required": [
+    "project_id",
+    "vendor",
+    "status",
+    "startDate",
+    "endDate",
+    "owners"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "vendor": {
+      "type": "string"
+    },
+    "coverImage": {
+      "type": "string"
+    },
+    "locationLimitation": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "string"
+    },
+    "endDate": {
+      "type": "string"
+    },
+    "impact": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "owners": {
+      "$ref": "#/$defs/owners_array"
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "country_code": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "businessImpact": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/job_status"
+    }
+  },
+  "$defs": {
+    "job_status": {
+      "type": "string",
+      "enum": [
+        "OP",
+        "CL",
+        "CA",
+        "PE"
+      ],
+      "description": "Job status:\n  * `OP` - open\n  * `PE` - pending\n  * `CL` - closed\n  * `CA` - closed for applications (invisible for imob)"
+    },
+    "owners_array": {
+      "type": "array",
+      "title": "Owners related to a job/project",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

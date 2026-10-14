@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-application-file-status-response-schema.json",
+  "title": "ApplicationFileStatusResponse",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileStatusResponse",
+  "properties": {
+    "asset_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Asset Id"
+    },
+    "status": {
+      "$ref": "#/$defs/ProcessingStatus"
+    },
+    "filename": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Filename"
+    },
+    "application_count": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Application Count"
+    },
+    "applications_created": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Applications Created"
+    },
+    "applications_updated": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Applications Updated"
+    },
+    "errors": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Errors"
+    },
+    "warnings": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Warnings"
+    },
+    "error_message": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Error Message"
+    },
+    "date_created": {
+      "type": "string",
+      "title": "Date Created"
+    },
+    "started_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Started At"
+    },
+    "completed_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Completed At"
+    }
+  },
+  "type": "object",
+  "required": [
+    "status",
+    "date_created"
+  ],
+  "$defs": {
+    "ProcessingStatus": {
+      "type": "string",
+      "enum": [
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "title": "ProcessingStatus"
+    }
+  }
+}

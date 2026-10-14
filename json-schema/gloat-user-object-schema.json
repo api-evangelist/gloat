@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-user-object-schema.json",
+  "title": "user_object",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-customer-api-openapi.yml#/components/schemas/user_object",
+  "type": "object",
+  "required": [
+    "user_ids",
+    "status",
+    "first_name",
+    "last_name",
+    "grade_level",
+    "email",
+    "direct_manager_email",
+    "direct_manager_id",
+    "can_access_hire"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "grade_level": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string",
+      "format": "name"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/user_status"
+    },
+    "site": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "cluster": {
+      "type": "string"
+    },
+    "department": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "department_id": {
+      "type": "string"
+    },
+    "function": {
+      "type": "string"
+    },
+    "sub_function": {
+      "type": "string"
+    },
+    "in_role_since": {
+      "type": "string",
+      "format": "date"
+    },
+    "certifications": {
+      "$ref": "#/$defs/user_certifications"
+    },
+    "reporting_data": {
+      "type": "object",
+      "properties": {}
+    },
+    "state": {
+      "type": "string"
+    },
+    "business_unit": {
+      "type": "string"
+    },
+    "job_code": {
+      "type": "string"
+    },
+    "job_family": {
+      "type": "string"
+    },
+    "hrbp_id": {
+      "type": "string"
+    },
+    "hrbp_email": {
+      "type": "string"
+    },
+    "direct_manager_id": {
+      "type": "string"
+    },
+    "direct_manager_email": {
+      "type": "string"
+    },
+    "additional_managers": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "title": {
+      "type": "string"
+    },
+    "extra_data": {
+      "type": "object",
+      "properties": {}
+    },
+    "custom_fields": {
+      "type": "object",
+      "properties": {}
+    },
+    "can_access_hire": {
+      "type": "boolean"
+    },
+    "can_be_mentor": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "user_certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "certification_id": {
+            "type": "string"
+          },
+          "issue_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "expiration_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "certification_status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "user_status": {
+      "type": "string",
+      "title": "User Status",
+      "enum": [
+        "AC",
+        "TR",
+        "AP",
+        "IA",
+        "SU",
+        "RQ",
+        "DE"
+      ],
+      "description": "User Status:\n * `AC` - Active\n * `TR` - Terminated\n * `IA` - Inactive\n * `SU` - Suspended\n * `AP` - Approved\n * `RQ` - Requested\n * `DE` - Deleted"
+    }
+  }
+}

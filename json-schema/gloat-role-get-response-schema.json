@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-role-get-response-schema.json",
+  "title": "RoleGetResponse",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-authorization-openapi.yml#/components/schemas/RoleGetResponse",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "Id"
+    },
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description",
+      "default": ""
+    },
+    "is_ootb_role": {
+      "type": "boolean",
+      "title": "Is Ootb Role"
+    },
+    "num_members": {
+      "type": "integer",
+      "title": "Num Members"
+    },
+    "permissions": {
+      "items": {
+        "$ref": "#/$defs/PermissionResponse"
+      },
+      "type": "array",
+      "title": "Permissions",
+      "default": []
+    },
+    "role_metadata": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/RoleMetadataUserFacingEntry"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Role Metadata"
+    },
+    "date_created": {
+      "type": "string",
+      "title": "Date Created"
+    }
+  },
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "is_ootb_role",
+    "num_members",
+    "date_created"
+  ],
+  "$defs": {
+    "PermissionResponse": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "access": {
+          "type": "string",
+          "title": "Access"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "access"
+      ],
+      "title": "PermissionResponse"
+    },
+    "RoleMetadataUserFacingEntry": {
+      "properties": {
+        "key": {
+          "type": "string",
+          "title": "Key"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "key"
+      ],
+      "title": "RoleMetadataUserFacingEntry"
+    }
+  }
+}

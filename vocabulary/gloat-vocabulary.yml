@@ -1,0 +1,422 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/gloat-authorization-openapi.yml
+- openapi/gloat-candidacy-openapi.yml
+- openapi/gloat-company-service-openapi.yml
+- openapi/gloat-customer-api-openapi.yml
+- openapi/gloat-skills-foundation-api-openapi.yml
+vocabulary:
+  name: Gloat Domain Vocabulary
+  description: 'Terms declared by Gloat''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-14'
+  terms:
+  - term: Data direct
+    definition: The Data Sharing API provides endpoints for accessing and downloading your Gloat data. The API enables to retrieve lists of available
+      file types and generate pre-signed URLs for downloading specific data files. Note that in order to access use this API you'll need to create
+      an API key via the Admin area and contact your Gloat representative to ask for permissions for the Data Direct API.
+    tags:
+    - Resource Group
+    source: openapi/gloat-company-service-openapi.yml
+  - term: API keys
+    definition: API keys management endpoints for creating, updating, and managing API keys. These endpoints require the external_api_token_management
+      permission.
+    tags:
+    - Resource Group
+    source: openapi/gloat-company-service-openapi.yml
+  - term: Integration uploads
+    definition: Presigned HTTPS PUT URLs for uploading files to the integration (e.g. Boomi) S3 bucket under your company prefix. Requires the
+      upload_users permission. Configure INTEGRATION_UPLOADS_BUCKET and IRSA s3:PutObject on that bucket.
+    tags:
+    - Resource Group
+    source: openapi/gloat-company-service-openapi.yml
+  - term: Meta
+    definition: Endpoints related to service, authentication and connectivity
+    tags:
+    - Resource Group
+    source: openapi/gloat-customer-api-openapi.yml
+  - term: User
+    definition: Employee operations
+    tags:
+    - Resource Group
+    source: openapi/gloat-customer-api-openapi.yml
+  - term: Job
+    definition: Positions/requisitions operations
+    tags:
+    - Resource Group
+    source: openapi/gloat-customer-api-openapi.yml
+  - term: Candidacy
+    definition: Candidacies operations
+    tags:
+    - Resource Group
+    source: openapi/gloat-customer-api-openapi.yml
+  - term: Outbound
+    definition: Hooks to be implemented, which Gloat can be configured to call on certain events. The payloads are defined here; the URLs are
+      to be defined with the implementation specialist or customer success representative.
+    tags:
+    - Resource Group
+    source: openapi/gloat-customer-api-openapi.yml
+  - term: ErrorResponse
+    definition: 'Object declared by the contract with fields: status, message, code.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/ErrorResponse
+  - term: HTTPValidationError
+    definition: 'Object declared by the contract with fields: detail.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/HTTPValidationError
+  - term: UserPermissionsResponse
+    definition: 'Object declared by the contract with fields: name, target_groups, access.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/UserPermissionsResponse
+  - term: UserResponse
+    definition: 'Object declared by the contract with fields: id, roles, groups, permissions.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/UserResponse
+  - term: ValidationError
+    definition: 'Object declared by the contract with fields: loc, msg, type.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/ValidationError
+  - term: PaginatedAPIResponse[RoleGetResponse]
+    definition: 'Object declared by the contract with fields: items, page, has_next, total_count.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PaginatedAPIResponse_RoleGetResponse_
+  - term: PermissionResponse
+    definition: 'Object declared by the contract with fields: id, access.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PermissionResponse
+  - term: RoleGetResponse
+    definition: 'Object declared by the contract with fields: id, name, description, is_ootb_role, num_members, permissions, role_metadata, date_created.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleGetResponse
+  - term: RoleMetadataUserFacingEntry
+    definition: 'Object declared by the contract with fields: key, value.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleMetadataUserFacingEntry
+  - term: PermissionRequestBody
+    definition: 'Object declared by the contract with fields: id, name, access.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PermissionRequestBody
+  - term: RoleRequestBody
+    definition: 'Object declared by the contract with fields: name, description, permissions, role_metadata.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleRequestBody
+  - term: RoleResponse
+    definition: 'Object declared by the contract with fields: id, name, description, is_ootb_role, num_members, permissions, role_metadata, date_created.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleResponse
+  - term: PaginatedAPIResponse[dict]
+    definition: 'Object declared by the contract with fields: items, page, has_next, total_count.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PaginatedAPIResponse_dict_
+  - term: RoleAssignmentType
+    definition: 'Enumeration declared by the contract with values: Dynamic, Direct, All.'
+    tags:
+    - Enumeration
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleAssignmentType
+  - term: RoleMultipleUsersAssignmentRequest
+    definition: 'Object declared by the contract with fields: user_ids.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleMultipleUsersAssignmentRequest
+  - term: RoleMultipleUsersAssignmentResponse
+    definition: 'Object declared by the contract with fields: id, user_ids.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleMultipleUsersAssignmentResponse
+  - term: RoleUserAssignmentResponse
+    definition: 'Object declared by the contract with fields: role_id, user_id.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RoleUserAssignmentResponse
+  - term: GroupResponse
+    definition: 'Object declared by the contract with fields: id, name, type, description, rules, company_slug, date_created.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/GroupResponse
+  - term: GroupRules
+    definition: 'Object declared by the contract with fields: predicate, children.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/GroupRules
+  - term: PaginatedAPIResponse[GroupResponse]
+    definition: 'Object declared by the contract with fields: items, page, has_next, total_count.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PaginatedAPIResponse_GroupResponse_
+  - term: RuleChild
+    definition: 'Object declared by the contract with fields: id, name, operator, attrValue, attrType, attrName, numMembers, params, GROUP.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RuleChild
+  - term: RuleItem
+    definition: 'Object declared by the contract with fields: id, name.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/RuleItem
+  - term: PermissionModel
+    definition: Permission model returned by the API.
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PermissionModel
+  - term: AccessRuleResponse
+    definition: 'Object declared by the contract with fields: id, role_id, granted_group_id, target_group_id, date_created.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/AccessRuleResponse
+  - term: PaginatedAPIResponse[AccessRuleResponse]
+    definition: 'Object declared by the contract with fields: items, page, has_next, total_count.'
+    tags:
+    - Object
+    source: openapi/gloat-authorization-openapi.yml#/components/schemas/PaginatedAPIResponse_AccessRuleResponse_
+  - term: XApiActionResult
+    definition: 'Object declared by the contract with fields: total_requested, succeeded_count, failed_count, succeeded_ids, failed_ids.'
+    tags:
+    - Object
+    source: openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiActionResult
+  - term: XApiActorObject
+    definition: 'Object declared by the contract with fields: mbox, openid, account, objectType, name, user_identifier.'
+    tags:
+    - Object
+    source: openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiActorObject
+  - term: XApiObject
+    definition: 'Object declared by the contract with fields: id, objectType, definition.'
+    tags:
+    - Object
+    source: openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiObject
+  - term: XApiResultMessage
+    definition: An enumeration.
+    tags:
+    - Enumeration
+    source: openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiResultMessage
+  - term: XApiStatement
+    definition: 'Object declared by the contract with fields: id, timestamp, actor, verb, object.'
+    tags:
+    - Object
+    source: openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiStatement
+  - term: XApiVerbObject
+    definition: 'Object declared by the contract with fields: id, display.'
+    tags:
+    - Object
+    source: openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiVerbObject
+  - term: PresignedUrlEntryModel
+    definition: 'Object declared by the contract with fields: file_name, url.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/PresignedUrlEntryModel
+  - term: PresignedUrlsAllResponseModel
+    definition: 'Object declared by the contract with fields: catalog, dim, fact.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/PresignedUrlsAllResponseModel
+  - term: PresignedUrlsResponseModel
+    definition: 'Object declared by the contract with fields: items.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/PresignedUrlsResponseModel
+  - term: ApiKeyPermission
+    definition: 'Object declared by the contract with fields: name, access.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApiKeyPermission
+  - term: ApiKeyRead
+    definition: 'Object declared by the contract with fields: secretName, createdAt, createdBy, expiresAt, companySlug, permissions, clientId.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApiKeyRead
+  - term: ApiKeyCreateOrUpdate
+    definition: 'Object declared by the contract with fields: secretName, permissions.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApiKeyCreateOrUpdate
+  - term: ApiKeyPostResponse
+    definition: 'Object declared by the contract with fields: clientId, clientSecret.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApiKeyPostResponse
+  - term: ApiKeyGetResponse
+    definition: 'Object declared by the contract with fields: secretName, createdAt, createdBy, expiresAt, companySlug, permissions, clientId.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApiKeyGetResponse
+  - term: ApiKeyRotate
+    definition: 'Object declared by the contract with fields: clientId.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApiKeyRotate
+  - term: CertificationDetails
+    definition: 'Object declared by the contract with fields: description, requirements, provider, validityPeriod, renewalRequirements.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationDetails
+  - term: CertificationGetData
+    definition: 'Object declared by the contract with fields: id, name, issuer, locationIssued, level, satisfiedBy, type, details.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationGetData
+  - term: CertificationRequestBody
+    definition: 'Object declared by the contract with fields: certificationIds.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationRequestBody
+  - term: CertificationBulkUpsertBody
+    definition: 'Object declared by the contract with fields: certifications.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationBulkUpsertBody
+  - term: CertificationType
+    definition: 'Enumeration declared by the contract with values: State Issued Licence, Professional Certification, Company Specific, Other.'
+    tags:
+    - Enumeration
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationType
+  - term: CertificationUpsertBody
+    definition: 'Object declared by the contract with fields: certificationId, name, issuer, locationIssued, level, satisfiedBy, type, details.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationUpsertBody
+  - term: CertificationAutocompleteData
+    definition: 'Object declared by the contract with fields: id, name.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/CertificationAutocompleteData
+  - term: ApplicationCategory
+    definition: 'Enumeration declared by the contract with values: Technologies, AI Agents, AI Assistance.'
+    tags:
+    - Enumeration
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationCategory
+  - term: ApplicationListSchema
+    definition: 'Object declared by the contract with fields: items, page, limit, total_count, has_next, page_count.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationListSchema
+  - term: ApplicationPartialData
+    definition: 'Object declared by the contract with fields: id, name, category, description.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationPartialData
+  - term: ApplicationFileProcessingResponse
+    definition: 'Object declared by the contract with fields: message, asset_id, status, processing_id.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileProcessingResponse
+  - term: ApplicationFileRequestBody
+    definition: 'Object declared by the contract with fields: asset_id, data, processing_mode.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileRequestBody
+  - term: ProcessingMode
+    definition: 'Enumeration declared by the contract with values: upsert, overwrite.'
+    tags:
+    - Enumeration
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ProcessingMode
+  - term: ProcessingStatus
+    definition: 'Enumeration declared by the contract with values: processing, completed, failed.'
+    tags:
+    - Enumeration
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ProcessingStatus
+  - term: ApplicationGetSchema
+    definition: 'Object declared by the contract with fields: id, name, category, description, application_source, external_id, description_generated,
+      date_created, date_updated, updated_by, all_users.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationGetSchema
+  - term: ApplicationSource
+    definition: 'Enumeration declared by the contract with values: azure_ad, jumpcloud, custom.'
+    tags:
+    - Enumeration
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationSource
+  - term: ApplicationFileData
+    definition: 'Object declared by the contract with fields: applications.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileData
+  - term: ApplicationFileDownloadResponse
+    definition: 'Object declared by the contract with fields: data.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileDownloadResponse
+  - term: ApplicationFileEntry
+    definition: 'Object declared by the contract with fields: name, external_id, description, category, user_assignments.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileEntry
+  - term: ApplicationUsersListSchema
+    definition: 'Object declared by the contract with fields: items, page, limit, total_count, has_next, page_count.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationUsersListSchema
+  - term: ApplicationFileStatusResponse
+    definition: 'Object declared by the contract with fields: asset_id, status, filename, application_count, applications_created, applications_updated,
+      errors, warnings, error_message, date_created, started_at, completed_at.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/ApplicationFileStatusResponse
+  - term: UserApplicationsData
+    definition: 'Object declared by the contract with fields: user_id, applications.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/UserApplicationsData
+  - term: UserApplicationsListSchema
+    definition: 'Object declared by the contract with fields: items, page, limit, total_count, has_next, page_count.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/UserApplicationsListSchema
+  - term: UsersApplicationsRequestBody
+    definition: 'Object declared by the contract with fields: user_ids.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/UsersApplicationsRequestBody
+  - term: DagTriggerResponseModel
+    definition: 'Object declared by the contract with fields: flow, runs.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/DagTriggerResponseModel
+  - term: DagTriggerResultModel
+    definition: 'Object declared by the contract with fields: dag_id, run_id, state, newly_triggered.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/DagTriggerResultModel
+  - term: DataDirectFlow
+    definition: Trigger-able MWAA flows (RADIOHEAD-73). Maps to staging dag_ids below.
+    tags:
+    - Enumeration
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/DataDirectFlow
+  - term: PresignedIntegrationUploadRequest
+    definition: Body for minting a presigned S3 PUT URL under `{company_slug}/`.
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/PresignedIntegrationUploadRequest
+  - term: PresignedIntegrationUploadResponse
+    definition: 'Object declared by the contract with fields: url, http_method, bucket, key, expires_in_seconds, max_upload_bytes.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/PresignedIntegrationUploadResponse
+  - term: AnalyticsConfig
+    definition: 'Object declared by the contract with fields: sections.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/AnalyticsConfig
+  - term: Item
+    definition: 'Object declared by the contract with fields: id, label, name, enabled_based_on_config_path, enabled_based_on_split_feature_flag.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/Item
+  - term: Section
+    definition: 'Object declared by the contract with fields: section_name, permission, items, type.'
+    tags:
+    - Object
+    source: openapi/gloat-company-service-openapi.yml#/components/schemas/Section

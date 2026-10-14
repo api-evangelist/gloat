@@ -1,0 +1,2286 @@
+openapi: 3.1.0
+info:
+  title: Company Service
+  version: 0.1.0
+paths:
+  /api/company/v1/analytics/config:
+    get:
+      tags:
+      - Analytics
+      summary: Get Analytics Config
+      operationId: get_analytics_config_api_company_v1_analytics_config_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsConfig'
+      security:
+      - HTTPBearer: []
+  /api/company/v1/analytics/embed-url:
+    get:
+      tags:
+      - Analytics
+      summary: Get Embed Url
+      operationId: get_embed_url_api_company_v1_analytics_embed_url_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: initial_dashboard_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Initial Dashboard Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsEmbedUrl'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications:
+    get:
+      tags:
+      - Applications
+      summary: List Company Applications
+      operationId: list_company_applications_api_company_v1_applications_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Optional search query for application names
+          title: Q
+        description: Optional search query for application names
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of items per page (0 = no limit)
+          default: 20
+          title: Limit
+        description: Number of items per page (0 = no limit)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationListSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Applications
+      summary: Process Application File
+      operationId: process_application_file_api_company_v1_applications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationFileRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFileProcessingResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/download:
+    get:
+      tags:
+      - Applications
+      summary: Download All Applications
+      description: Download all applications for the company with their user assignments in upload format
+      operationId: download_all_applications_api_company_v1_applications_download_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFileDownloadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/status/{processing_id}:
+    get:
+      tags:
+      - Applications
+      summary: Get Processing Status By Id
+      operationId: get_processing_status_by_id_api_company_v1_applications_status__processing_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: processing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Processing ID to check status for
+          title: Processing Id
+        description: Processing ID to check status for
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFileStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/{application_id}:
+    get:
+      tags:
+      - Applications
+      summary: Get Application Details
+      operationId: get_application_details_api_company_v1_applications__application_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Application Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationGetSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/{application_id}/users:
+    get:
+      tags:
+      - Applications
+      summary: Get Users With Application
+      operationId: get_users_with_application_api_company_v1_applications__application_id__users_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Application ID to find users for
+          title: Application Id
+        description: Application ID to find users for
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of items per page (0 = no limit)
+          default: 20
+          title: Limit
+        description: Number of items per page (0 = no limit)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationUsersListSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/certifications:
+    get:
+      tags:
+      - Certifications
+      summary: Get Certification By Ids
+      operationId: get_certification_by_ids_api_company_v1_certifications_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificationRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificationGetData'
+                title: Response Get Certification By Ids Api Company V1 Certifications Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Certifications
+      summary: Upsert
+      operationId: upsert_api_company_v1_certifications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificationBulkUpsertBody'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/certifications/autocomplete:
+    get:
+      tags:
+      - Certifications
+      summary: Certifications Autocomplete
+      operationId: certifications_autocomplete_api_company_v1_certifications_autocomplete_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Q
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+          title: Limit
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificationAutocompleteData'
+                title: Response Certifications Autocomplete Api Company V1 Certifications Autocomplete Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/certifications/{certification_id}:
+    delete:
+      tags:
+      - Certifications
+      summary: Delete Certification
+      operationId: delete_certification_api_company_v1_certifications__certification_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: certification_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Certification Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/data-direct/file-types:
+    get:
+      tags:
+      - Data direct
+      summary: Get File Types
+      description: List available file types (some split into dimension/fact tables).
+      operationId: get_file_types_api_company_v1_data_direct_file_types_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+                title: Response Get File Types Api Company V1 Data Direct File Types Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/data-direct/presigned-urls:
+    get:
+      tags:
+      - Data direct
+      summary: Get File Name Presigned Urls
+      description: Generate a pre-signed URL for downloading a specific file within a date range.
+      operationId: get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: file_name
+        in: query
+        required: true
+        schema:
+          type: string
+          title: File Name
+      - name: start
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          description: Start date in ISO format (YYYY-MM-DD)
+          title: Start
+        description: Start date in ISO format (YYYY-MM-DD)
+      - name: end
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          description: End date in ISO format (YYYY-MM-DD)
+          title: End
+        description: End date in ISO format (YYYY-MM-DD)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignedUrlsResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/data-direct/presigned-urls/all:
+    get:
+      tags:
+      - Data direct
+      summary: Get All File Names Presigned Urls
+      description: Generate pre-signed URLs for downloading all files within a date range.
+      operationId: get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: start
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          description: Start date in ISO format (YYYY-MM-DD)
+          title: Start
+        description: Start date in ISO format (YYYY-MM-DD)
+      - name: end
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          description: End date in ISO format (YYYY-MM-DD)
+          title: End
+        description: End date in ISO format (YYYY-MM-DD)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignedUrlsAllResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/data-direct/trigger/{flow}:
+    post:
+      tags:
+      - Data direct
+      summary: Trigger Dag Flow
+      description: Trigger the MWAA DAG for `flow` (per-company flag gated + rate limited, see module notes).
+      operationId: trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: flow
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/DataDirectFlow'
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DagTriggerResponseModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/integration-uploads/presigned-upload-url:
+    post:
+      tags:
+      - Integration uploads
+      summary: Create Presigned Integration Upload Url
+      description: 'Mint a short-lived presigned **HTTPS PUT** URL for uploading one object to the integration
+
+        bucket under `{company_slug}/...`. The client must PUT the file body to the returned URL.'
+      operationId: create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresignedIntegrationUploadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignedIntegrationUploadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/api-keys:
+    get:
+      tags:
+      - API keys
+      summary: List Keys
+      operationId: list_keys_api_company_v1_settings_api_keys_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApiKeyRead'
+                title: Response List Keys Api Company V1 Settings Api Keys Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - API keys
+      summary: Create Key
+      operationId: create_key_api_company_v1_settings_api_keys_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ApiKeyCreateOrUpdate'
+              - type: string
+              title: Create Body
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyPostResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/api-keys/rotate:
+    post:
+      tags:
+      - API keys
+      summary: Rotate Key
+      operationId: rotate_key_api_company_v1_settings_api_keys_rotate_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ApiKeyRotate'
+              - type: string
+              title: Rotate Body
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyPostResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/api-keys/{client_id}:
+    get:
+      tags:
+      - API keys
+      summary: Get Key
+      operationId: get_key_api_company_v1_settings_api_keys__client_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: client_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Client Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyGetResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - API keys
+      summary: Update Key
+      operationId: update_key_api_company_v1_settings_api_keys__client_id__patch
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: client_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Client Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - $ref: '#/components/schemas/ApiKeyCreateOrUpdate'
+              - type: string
+              title: Update Body
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - API keys
+      summary: Delete Key
+      operationId: delete_key_api_company_v1_settings_api_keys__client_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: client_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Client Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/auth-settings/general:
+    get:
+      tags:
+      - auth-settings
+      summary: Get Company General Auth Settings
+      operationId: get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralAuthSettingsGetData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - auth-settings
+      summary: Update Company General Auth Settings
+      operationId: update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneralAuthSettingsUpdateData'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralAuthSettingsGetData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/auth-settings/idps:
+    get:
+      tags:
+      - auth-settings
+      summary: Get Company Idps
+      operationId: get_company_idps_api_company_v1_settings_auth_settings_idps_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/IdentityProviderData'
+                title: Response Get Company Idps Api Company V1 Settings Auth Settings Idps Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - auth-settings
+      summary: Create Company Idp
+      operationId: create_company_idp_api_company_v1_settings_auth_settings_idps_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderCreateData'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/IdentityProviderData'
+                title: Response Create Company Idp Api Company V1 Settings Auth Settings Idps Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/auth-settings/idps/{idp_id}:
+    put:
+      tags:
+      - auth-settings
+      summary: Update Company Idp
+      operationId: update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: idp_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Idp Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderUpdateData'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/IdentityProviderData'
+                title: Response Update Company Idp Api Company V1 Settings Auth Settings Idps  Idp Id  Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - auth-settings
+      summary: Delete Company Idp
+      operationId: delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: idp_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Idp Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/users/applications:
+    post:
+      tags:
+      - Users
+      summary: Get Applications For Users
+      description: Get applications assigned to a list of users with pagination support
+      operationId: get_applications_for_users_api_company_v1_users_applications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of items per page (0 = no limit)
+          default: 20
+          title: Limit
+        description: Number of items per page (0 = no limit)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersApplicationsRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApplicationsListSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PresignedUrlEntryModel:
+      properties:
+        file_name:
+          type: string
+          title: File Name
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - file_name
+      - url
+      title: PresignedUrlEntryModel
+    PresignedUrlsAllResponseModel:
+      properties:
+        catalog:
+          $ref: '#/components/schemas/PresignedUrlsResponseModel'
+          default:
+            items: []
+        dim:
+          $ref: '#/components/schemas/PresignedUrlsResponseModel'
+          default:
+            items: []
+        fact:
+          $ref: '#/components/schemas/PresignedUrlsResponseModel'
+          default:
+            items: []
+      type: object
+      title: PresignedUrlsAllResponseModel
+    PresignedUrlsResponseModel:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/PresignedUrlEntryModel'
+          type: array
+          title: Items
+      type: object
+      required:
+      - items
+      title: PresignedUrlsResponseModel
+    ApiKeyPermission:
+      properties:
+        name:
+          type: string
+          title: Name
+        access:
+          type: string
+          enum:
+          - R
+          - W
+          - A
+          title: Access
+      type: object
+      required:
+      - name
+      - access
+      title: ApiKeyPermission
+    ApiKeyRead:
+      properties:
+        secretName:
+          type: string
+          title: Secretname
+        createdAt:
+          type: string
+          title: Createdat
+        createdBy:
+          type: string
+          title: Createdby
+        expiresAt:
+          type: string
+          title: Expiresat
+        companySlug:
+          type: string
+          title: Companyslug
+        permissions:
+          items:
+            $ref: '#/components/schemas/ApiKeyPermission'
+          type: array
+          title: Permissions
+        clientId:
+          type: string
+          title: Clientid
+      type: object
+      required:
+      - secretName
+      - createdAt
+      - createdBy
+      - expiresAt
+      - companySlug
+      - clientId
+      title: ApiKeyRead
+    ApiKeyCreateOrUpdate:
+      properties:
+        secretName:
+          type: string
+          title: Secretname
+        permissions:
+          items:
+            $ref: '#/components/schemas/ApiKeyPermission'
+          type: array
+          title: Permissions
+      type: object
+      required:
+      - secretName
+      title: ApiKeyCreateOrUpdate
+    ApiKeyPostResponse:
+      properties:
+        clientId:
+          type: string
+          title: Clientid
+        clientSecret:
+          type: string
+          title: Clientsecret
+      type: object
+      required:
+      - clientId
+      - clientSecret
+      title: ApiKeyPostResponse
+    ApiKeyGetResponse:
+      properties:
+        secretName:
+          type: string
+          title: Secretname
+        createdAt:
+          type: string
+          title: Createdat
+        createdBy:
+          type: string
+          title: Createdby
+        expiresAt:
+          type: string
+          title: Expiresat
+        companySlug:
+          type: string
+          title: Companyslug
+        permissions:
+          items:
+            $ref: '#/components/schemas/ApiKeyPermission'
+          type: array
+          title: Permissions
+        clientId:
+          type: string
+          title: Clientid
+      type: object
+      required:
+      - secretName
+      - createdAt
+      - createdBy
+      - expiresAt
+      - companySlug
+      - clientId
+      title: ApiKeyGetResponse
+    ApiKeyRotate:
+      properties:
+        clientId:
+          type: string
+          title: Clientid
+      type: object
+      required:
+      - clientId
+      title: ApiKeyRotate
+    CertificationDetails:
+      properties:
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        requirements:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Requirements
+        provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider
+        validityPeriod:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Validityperiod
+        renewalRequirements:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Renewalrequirements
+      type: object
+      title: CertificationDetails
+    CertificationGetData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        issuer:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Issuer
+        locationIssued:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Locationissued
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+        satisfiedBy:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Satisfiedby
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+        details:
+          anyOf:
+          - $ref: '#/components/schemas/CertificationDetails'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - name
+      - issuer
+      - locationIssued
+      - level
+      - satisfiedBy
+      - type
+      - details
+      title: CertificationGetData
+    CertificationRequestBody:
+      properties:
+        certificationIds:
+          items:
+            type: string
+          type: array
+          title: Certificationids
+      type: object
+      required:
+      - certificationIds
+      title: CertificationRequestBody
+    CertificationBulkUpsertBody:
+      properties:
+        certifications:
+          items:
+            $ref: '#/components/schemas/CertificationUpsertBody'
+          type: array
+          title: Certifications
+      type: object
+      required:
+      - certifications
+      title: CertificationBulkUpsertBody
+    CertificationType:
+      type: string
+      enum:
+      - State Issued Licence
+      - Professional Certification
+      - Company Specific
+      - Other
+      title: CertificationType
+    CertificationUpsertBody:
+      properties:
+        certificationId:
+          type: string
+          title: Certificationid
+        name:
+          type: string
+          title: Name
+        issuer:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Issuer
+        locationIssued:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Locationissued
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+        satisfiedBy:
+          items:
+            type: string
+          type: array
+          title: Satisfiedby
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/CertificationType'
+          - type: 'null'
+        details:
+          anyOf:
+          - $ref: '#/components/schemas/CertificationDetails'
+          - type: 'null'
+      type: object
+      required:
+      - certificationId
+      - name
+      title: CertificationUpsertBody
+    CertificationAutocompleteData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: CertificationAutocompleteData
+    ApplicationCategory:
+      type: string
+      enum:
+      - Technologies
+      - AI Agents
+      - AI Assistance
+      title: ApplicationCategory
+    ApplicationListSchema:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ApplicationPartialData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        limit:
+          type: integer
+          title: Limit
+        total_count:
+          type: integer
+          title: Total Count
+        has_next:
+          type: boolean
+          title: Has Next
+          readOnly: true
+        page_count:
+          type: integer
+          title: Page Count
+          readOnly: true
+      type: object
+      required:
+      - items
+      - page
+      - limit
+      - total_count
+      - has_next
+      - page_count
+      title: ApplicationListSchema
+    ApplicationPartialData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/ApplicationCategory'
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - description
+      title: ApplicationPartialData
+    ApplicationFileProcessingResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        asset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Id
+        status:
+          $ref: '#/components/schemas/ProcessingStatus'
+        processing_id:
+          type: string
+          title: Processing Id
+      type: object
+      required:
+      - message
+      - status
+      - processing_id
+      title: ApplicationFileProcessingResponse
+    ApplicationFileRequestBody:
+      properties:
+        asset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Id
+        data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Data
+        processing_mode:
+          $ref: '#/components/schemas/ProcessingMode'
+          default: upsert
+      type: object
+      title: ApplicationFileRequestBody
+    ProcessingMode:
+      type: string
+      enum:
+      - upsert
+      - overwrite
+      title: ProcessingMode
+    ProcessingStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      - failed
+      title: ProcessingStatus
+    ApplicationGetSchema:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/ApplicationCategory'
+        description:
+          type: string
+          title: Description
+        application_source:
+          $ref: '#/components/schemas/ApplicationSource'
+        external_id:
+          type: string
+          title: External Id
+        description_generated:
+          type: boolean
+          title: Description Generated
+        date_created:
+          type: string
+          format: date-time
+          title: Date Created
+        date_updated:
+          type: string
+          format: date-time
+          title: Date Updated
+        updated_by:
+          type: string
+          title: Updated By
+        all_users:
+          type: boolean
+          title: All Users
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - description
+      - application_source
+      - external_id
+      - description_generated
+      - date_created
+      - date_updated
+      - updated_by
+      - all_users
+      title: ApplicationGetSchema
+    ApplicationSource:
+      type: string
+      enum:
+      - azure_ad
+      - jumpcloud
+      - custom
+      title: ApplicationSource
+    ApplicationFileData:
+      properties:
+        applications:
+          items:
+            $ref: '#/components/schemas/ApplicationFileEntry'
+          type: array
+          title: Applications
+      type: object
+      required:
+      - applications
+      title: ApplicationFileData
+    ApplicationFileDownloadResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ApplicationFileData'
+      type: object
+      required:
+      - data
+      title: ApplicationFileDownloadResponse
+    ApplicationFileEntry:
+      properties:
+        name:
+          type: string
+          title: Name
+        external_id:
+          type: string
+          title: External Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/ApplicationCategory'
+          - type: 'null'
+        user_assignments:
+          items:
+            type: string
+          type: array
+          title: User Assignments
+      type: object
+      required:
+      - name
+      - external_id
+      - user_assignments
+      title: ApplicationFileEntry
+    ApplicationUsersListSchema:
+      properties:
+        items:
+          items:
+            type: string
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        limit:
+          type: integer
+          title: Limit
+        total_count:
+          type: integer
+          title: Total Count
+        has_next:
+          type: boolean
+          title: Has Next
+          readOnly: true
+        page_count:
+          type: integer
+          title: Page Count
+          readOnly: true
+      type: object
+      required:
+      - items
+      - page
+      - limit
+      - total_count
+      - has_next
+      - page_count
+      title: ApplicationUsersListSchema
+    ApplicationFileStatusResponse:
+      properties:
+        asset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Id
+        status:
+          $ref: '#/components/schemas/ProcessingStatus'
+        filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filename
+        application_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Application Count
+        applications_created:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Applications Created
+        applications_updated:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Applications Updated
+        errors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Errors
+        warnings:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Warnings
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        date_created:
+          type: string
+          title: Date Created
+        started_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - status
+      - date_created
+      title: ApplicationFileStatusResponse
+    UserApplicationsData:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        applications:
+          items:
+            $ref: '#/components/schemas/ApplicationPartialData'
+          type: array
+          title: Applications
+      type: object
+      required:
+      - user_id
+      - applications
+      title: UserApplicationsData
+    UserApplicationsListSchema:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/UserApplicationsData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        limit:
+          type: integer
+          title: Limit
+        total_count:
+          type: integer
+          title: Total Count
+        has_next:
+          type: boolean
+          title: Has Next
+          readOnly: true
+        page_count:
+          type: integer
+          title: Page Count
+          readOnly: true
+      type: object
+      required:
+      - items
+      - page
+      - limit
+      - total_count
+      - has_next
+      - page_count
+      title: UserApplicationsListSchema
+    UsersApplicationsRequestBody:
+      properties:
+        user_ids:
+          items:
+            type: string
+          type: array
+          title: User Ids
+      type: object
+      required:
+      - user_ids
+      title: UsersApplicationsRequestBody
+    DagTriggerResponseModel:
+      properties:
+        flow:
+          $ref: '#/components/schemas/DataDirectFlow'
+        runs:
+          items:
+            $ref: '#/components/schemas/DagTriggerResultModel'
+          type: array
+          title: Runs
+      type: object
+      required:
+      - flow
+      - runs
+      title: DagTriggerResponseModel
+    DagTriggerResultModel:
+      properties:
+        dag_id:
+          type: string
+          title: Dag Id
+        run_id:
+          type: string
+          title: Run Id
+        state:
+          type: string
+          title: State
+        newly_triggered:
+          type: boolean
+          title: Newly Triggered
+      type: object
+      required:
+      - dag_id
+      - run_id
+      - state
+      - newly_triggered
+      title: DagTriggerResultModel
+    DataDirectFlow:
+      type: string
+      enum:
+      - data-direct
+      - downloadable-reports
+      title: DataDirectFlow
+      description: Trigger-able MWAA flows (RADIOHEAD-73). Maps to staging dag_ids below.
+    PresignedIntegrationUploadRequest:
+      properties:
+        relative_key:
+          type: string
+          minLength: 1
+          title: Relative Key
+          description: Path under the company prefix (no leading slash); must not contain '..'.
+      type: object
+      required:
+      - relative_key
+      title: PresignedIntegrationUploadRequest
+      description: Body for minting a presigned S3 PUT URL under `{company_slug}/`.
+    PresignedIntegrationUploadResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+        http_method:
+          type: string
+          title: Http Method
+          default: PUT
+        bucket:
+          type: string
+          title: Bucket
+        key:
+          type: string
+          title: Key
+        expires_in_seconds:
+          type: integer
+          title: Expires In Seconds
+        max_upload_bytes:
+          type: integer
+          title: Max Upload Bytes
+      type: object
+      required:
+      - url
+      - bucket
+      - key
+      - expires_in_seconds
+      - max_upload_bytes
+      title: PresignedIntegrationUploadResponse
+    AnalyticsConfig:
+      properties:
+        sections:
+          items:
+            $ref: '#/components/schemas/Section'
+          type: array
+          title: Sections
+      type: object
+      required:
+      - sections
+      title: AnalyticsConfig
+    Item:
+      properties:
+        id:
+          type: string
+          title: Id
+        label:
+          type: string
+          title: Label
+        name:
+          type: string
+          title: Name
+        enabled_based_on_config_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Enabled Based On Config Path
+        enabled_based_on_split_feature_flag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Enabled Based On Split Feature Flag
+      type: object
+      required:
+      - id
+      - label
+      - name
+      title: Item
+    Section:
+      properties:
+        section_name:
+          type: string
+          title: Section Name
+        permission:
+          type: string
+          title: Permission
+        items:
+          items:
+            $ref: '#/components/schemas/Item'
+          type: array
+          title: Items
+        type:
+          $ref: '#/components/schemas/SectionType'
+          default: Dashboard
+      type: object
+      required:
+      - section_name
+      - permission
+      - items
+      title: Section
+    SectionType:
+      type: string
+      enum:
+      - Dashboard
+      - GenerativeQnA
+      title: SectionType
+    AnalyticsEmbedUrl:
+      properties:
+        embed_url:
+          type: string
+          title: Embed Url
+        parameters:
+          items:
+            additionalProperties:
+              anyOf:
+              - type: string
+              - items:
+                  type: string
+                type: array
+            type: object
+          type: array
+          title: Parameters
+      type: object
+      required:
+      - embed_url
+      - parameters
+      title: AnalyticsEmbedUrl
+    AuthorizationServer:
+      properties:
+        audienceUri:
+          type: string
+          title: Audienceuri
+        assertionUrl:
+          type: string
+          title: Assertionurl
+      type: object
+      required:
+      - audienceUri
+      - assertionUrl
+      title: AuthorizationServer
+    Cookie:
+      properties:
+        timeout:
+          type: integer
+          title: Timeout
+        timeoutType:
+          $ref: '#/components/schemas/TimeoutType'
+        isLogoutOnBrowserClose:
+          type: boolean
+          title: Islogoutonbrowserclose
+      type: object
+      required:
+      - timeout
+      - timeoutType
+      - isLogoutOnBrowserClose
+      title: Cookie
+    GeneralAuthSettingsGetData:
+      properties:
+        cookie:
+          $ref: '#/components/schemas/Cookie'
+        inactivity:
+          $ref: '#/components/schemas/Inactivity'
+        logoutUrl:
+          type: string
+          title: Logouturl
+        isCognitoUsernamePasswordEnabled:
+          type: boolean
+          title: Iscognitousernamepasswordenabled
+          default: false
+        authorizationServer:
+          $ref: '#/components/schemas/AuthorizationServer'
+      type: object
+      required:
+      - cookie
+      - inactivity
+      - logoutUrl
+      - authorizationServer
+      title: GeneralAuthSettingsGetData
+    Inactivity:
+      properties:
+        isOn:
+          type: boolean
+          title: Ison
+        timeout:
+          type: integer
+          title: Timeout
+        timeoutType:
+          $ref: '#/components/schemas/TimeoutType'
+      type: object
+      required:
+      - isOn
+      - timeout
+      - timeoutType
+      title: Inactivity
+    TimeoutType:
+      type: string
+      enum:
+      - m
+      - h
+      - d
+      title: TimeoutType
+    GeneralAuthSettingsUpdateData:
+      properties:
+        cookie:
+          $ref: '#/components/schemas/Cookie'
+        inactivity:
+          anyOf:
+          - $ref: '#/components/schemas/Inactivity'
+          - type: 'null'
+        logoutUrl:
+          type: string
+          title: Logouturl
+        isCognitoUsernamePasswordEnabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Iscognitousernamepasswordenabled
+      type: object
+      required:
+      - cookie
+      - logoutUrl
+      title: GeneralAuthSettingsUpdateData
+    IdentityProviderData:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        nameIdOverride:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nameidoverride
+        defaultRelayState:
+          type: string
+          title: Defaultrelaystate
+        metadataUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadataurl
+        metadataFile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadatafile
+        isIdpInitiated:
+          type: boolean
+          title: Isidpinitiated
+          default: true
+      type: object
+      required:
+      - name
+      - nameIdOverride
+      - defaultRelayState
+      title: IdentityProviderData
+    IdentityProviderCreateData:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        nameIdOverride:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nameidoverride
+        metadataUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadataurl
+        metadataFile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadatafile
+        isIdpInitiated:
+          type: boolean
+          title: Isidpinitiated
+          default: true
+      type: object
+      required:
+      - name
+      - nameIdOverride
+      title: IdentityProviderCreateData
+    IdentityProviderUpdateData:
+      properties:
+        nameIdOverride:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nameidoverride
+        metadataUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadataurl
+        metadataFile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadatafile
+        isIdpInitiated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Isidpinitiated
+      type: object
+      required:
+      - nameIdOverride
+      title: IdentityProviderUpdateData
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+tags:
+- name: Data direct
+  description: 'The Data Sharing API provides endpoints for accessing and downloading your Gloat data.
+
+    The API enables to retrieve lists of available file types and generate pre-signed URLs for downloading specific data files.
+
+    Note that in order to access use this API you''ll need to create an API key via the Admin area and contact your Gloat representative to ask for permissions for the Data Direct API.'
+- name: API keys
+  description: 'API keys management endpoints for creating, updating, and managing API keys.
+
+    These endpoints require the external_api_token_management permission.'
+- name: Integration uploads
+  description: Presigned HTTPS PUT URLs for uploading files to the integration (e.g. Boomi) S3 bucket under your company prefix. Requires the upload_users permission. Configure INTEGRATION_UPLOADS_BUCKET and IRSA s3:PutObject on that bucket.
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md
+  - https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md
+  - https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md
+  - https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md
+  - https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md
+  - https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md
+  - https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md
+  - https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md
+  - https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md
+  - https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md
+  - https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md
+  - https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md
+  - https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md
+  - https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md
+  - https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md
+  - https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md
+  - https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md
+  - https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md
+  - https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md
+  - https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md
+  - https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md
+  - https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md
+  - https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md
+  - https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md
+  - https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md
+  - https://developer.gloat.com/reference/trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post.md
+  - https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md
+  - https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md
+  - https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md
+  - https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md
+  merge:
+    pages: 30
+    deduped: 105
+    conflicts_kept_first: 0

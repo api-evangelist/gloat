@@ -1,0 +1,854 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-job-code-read-schema.json",
+  "title": "JobCodeRead",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-skills-foundation-api-openapi.yml#/components/schemas/JobCodeRead",
+  "properties": {
+    "skills": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/SkillAPI"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Skills"
+    },
+    "skillComponents": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/SkillComponent-Output"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Skillcomponents"
+    },
+    "code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Code"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Name"
+    },
+    "benchmarkTitle": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Benchmarktitle"
+    },
+    "family": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JobCodeFamilyAPI-Output"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "function": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Function"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "descriptionSource": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/DescriptionSource"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Status"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "businessStatus": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BusinessStatus"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "compensationRange": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CompensationRange"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "employeeCountByCountry": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Employeecountbycountry"
+    },
+    "competencies": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Competencies"
+    },
+    "experiences": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Experiences"
+    },
+    "tasks": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/TaskAPI"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Tasks"
+    },
+    "extraData": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Extradata"
+    },
+    "jobType": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JobType"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "employeeGlobalCount": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Employeeglobalcount",
+      "description": "Global employee count for the job code (behind the scences, this is distributed between geos)"
+    },
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Id"
+    },
+    "lastUpdated": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChangeInfoRead"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "created": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChangeInfoRead"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "employeeCount": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Employeecount"
+    },
+    "jobTitlesCount": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Jobtitlescount"
+    },
+    "gradeLevels": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Gradelevels"
+    },
+    "areRequiredSkillsDescriptionBased": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Arerequiredskillsdescriptionbased",
+      "default": false
+    },
+    "genaiImpact": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GenAIImpactAPI"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "BusinessStatus": {
+      "type": "string",
+      "enum": [
+        "at_risk",
+        "stable",
+        "critical"
+      ],
+      "title": "BusinessStatus"
+    },
+    "ChangeInfoRead": {
+      "properties": {
+        "date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Date"
+        },
+        "userId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Userid"
+        },
+        "userName": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Username"
+        }
+      },
+      "type": "object",
+      "title": "ChangeInfoRead"
+    },
+    "CompensationRange": {
+      "properties": {
+        "min": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Min"
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Max"
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Currency",
+          "default": "USD"
+        }
+      },
+      "type": "object",
+      "title": "CompensationRange"
+    },
+    "DescriptionSource": {
+      "type": "string",
+      "enum": [
+        "source",
+        "ai"
+      ],
+      "title": "DescriptionSource"
+    },
+    "DisplayedTerm": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "display": {
+          "type": "string",
+          "title": "Display"
+        },
+        "language": {
+          "type": "string",
+          "title": "Language"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "id",
+        "display",
+        "language"
+      ],
+      "title": "DisplayedTerm",
+      "description": "Represents a displayed term with basic properties.\n\nThis model is configured to allow additional fields beyond those explicitly defined.\nThis flexibility enables the incorporation of extra keys from the ontology without enforcing a rigid schema."
+    },
+    "GenAIImpactAPI": {
+      "properties": {
+        "score": {
+          "type": "number",
+          "title": "Score"
+        },
+        "skills": {
+          "items": {
+            "$ref": "#/$defs/SkillGenAIImpactSchema"
+          },
+          "type": "array",
+          "title": "Skills"
+        },
+        "impactEnum": {
+          "$ref": "#/$defs/GenAIImpactLevel"
+        },
+        "companySlug": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Companyslug"
+        },
+        "impact": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Impact",
+          "readOnly": true
+        }
+      },
+      "type": "object",
+      "required": [
+        "score",
+        "skills",
+        "impactEnum",
+        "impact"
+      ],
+      "title": "GenAIImpactAPI"
+    },
+    "GenAIImpactLevel": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "full"
+      ],
+      "title": "GenAIImpactLevel"
+    },
+    "ImportanceEnum": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "crucial"
+      ],
+      "title": "ImportanceEnum"
+    },
+    "JobCodeFamilyAPI-Output": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "JobCodeFamilyAPI"
+    },
+    "JobType": {
+      "type": "string",
+      "enum": [
+        "manager",
+        "individual"
+      ],
+      "title": "JobType"
+    },
+    "SkillAPI": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "language": {
+          "type": "string",
+          "title": "Language",
+          "default": "en"
+        },
+        "level": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Level"
+        },
+        "source": {
+          "$ref": "#/$defs/SkillSource",
+          "default": "company"
+        },
+        "importance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ImportanceEnum"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entitySource": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "job_title",
+                "job_code",
+                "job_family"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Entitysource"
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "title": "Isdeleted",
+          "default": false
+        },
+        "isCascaded": {
+          "type": "boolean",
+          "title": "Iscascaded",
+          "default": false
+        },
+        "createdAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Createdat"
+        },
+        "modifiedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Modifiedat"
+        },
+        "externalId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Externalid"
+        },
+        "taxonomy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Taxonomy"
+        }
+      },
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "title": "SkillAPI",
+      "description": "Skill model for API responses (GET) - no validation to support legacy data"
+    },
+    "SkillComponent-Output": {
+      "properties": {
+        "skill": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DisplayedTerm"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "tags": {
+          "items": {
+            "$ref": "#/$defs/Tag"
+          },
+          "type": "array",
+          "title": "Tags"
+        },
+        "entity": {
+          "additionalProperties": true,
+          "type": "object",
+          "title": "Entity"
+        },
+        "is_unknown_skill": {
+          "type": "boolean",
+          "title": "Is Unknown Skill",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "title": "Name",
+          "readOnly": true
+        }
+      },
+      "type": "object",
+      "required": [
+        "tags",
+        "is_unknown_skill",
+        "name"
+      ],
+      "title": "SkillComponent",
+      "description": "Represents a grouped skill component.\n\nAttributes:\n  - skill: The associated DisplayedTerm (if found).\n  - tags: A list of Tag objects grouped for this skill.\n  - entity: A dictionary containing additional merged entity data."
+    },
+    "SkillGenAIImpactSchema": {
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name"
+        },
+        "skill_class": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Skill Class"
+        },
+        "genai_impact": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Genai Impact"
+        },
+        "importance": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Importance"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "name",
+        "skill_class",
+        "genai_impact",
+        "importance"
+      ],
+      "title": "SkillGenAIImpactSchema"
+    },
+    "SkillSource": {
+      "type": "string",
+      "enum": [
+        "company",
+        "enrichment"
+      ],
+      "title": "SkillSource"
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Inactive",
+        "Draft"
+      ],
+      "title": "Status",
+      "description": "a class represents the status"
+    },
+    "Tag": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "language": {
+          "type": "string",
+          "title": "Language"
+        }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+        "name",
+        "language"
+      ],
+      "title": "Tag",
+      "description": "Represents a tag with basic attributes.\n\nThe model accepts extra entity data beyond the defined fields, allowing for the inclusion of\nadditional metadata without a strict format requirement."
+    },
+    "TaskAPI": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id"
+        },
+        "text": {
+          "type": "string",
+          "title": "Text"
+        },
+        "language": {
+          "type": "string",
+          "title": "Language",
+          "default": "en"
+        },
+        "source": {
+          "$ref": "#/$defs/TaskSource",
+          "default": "company"
+        },
+        "importance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ImportanceEnum"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fte": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Fte"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "TaskAPI"
+    },
+    "TaskSource": {
+      "type": "string",
+      "enum": [
+        "company",
+        "enrichment"
+      ],
+      "title": "TaskSource"
+    }
+  }
+}

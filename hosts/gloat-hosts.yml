@@ -1,0 +1,79 @@
+generated: '2026-10-14'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 6
+  own: 6
+  other_domain: 0
+  platform: 0
+  roles:
+  - marketing
+  - other
+  - portal
+  - status
+  - website
+hosts:
+- host: compliance.gloat.com
+  found_by:
+  - pointer
+  types:
+  - TrustCenter
+  serves: []
+  registrable_domain: gloat.com
+  role: other
+  relation: own
+- host: developer.gloat.com
+  found_by:
+  - pointer
+  - apis[]
+  types:
+  - DeveloperPortal
+  - Documentation
+  - APIReference
+  - GettingStarted
+  serves:
+  - docs
+  registrable_domain: gloat.com
+  role: portal
+  relation: own
+- host: gloat.com
+  found_by:
+  - pointer
+  types:
+  - BlogRSS
+  - Blog
+  - TermsOfService
+  - PrivacyPolicy
+  - Compliance
+  serves: []
+  registrable_domain: gloat.com
+  role: marketing
+  relation: own
+- host: status.gloat.com
+  found_by:
+  - pointer
+  types:
+  - StatusPage
+  serves: []
+  registrable_domain: gloat.com
+  role: status
+  relation: own
+- host: www.gloat.com
+  found_by:
+  - pointer
+  types:
+  - Website
+  serves: []
+  registrable_domain: gloat.com
+  role: website
+  relation: own
+- host: '{company_slug}.gloat.com'
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: gloat.com
+  role: other
+  relation: own

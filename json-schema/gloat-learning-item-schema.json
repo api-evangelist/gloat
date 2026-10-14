@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-learning-item-schema.json",
+  "title": "learning_item",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-customer-api-openapi.yml#/components/schemas/learning_item",
+  "type": "object",
+  "required": [
+    "vendor",
+    "link",
+    "item_id",
+    "title",
+    "description_html",
+    "language"
+  ],
+  "properties": {
+    "vendor": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "iri": {
+      "type": "string"
+    },
+    "item_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description_html": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "description": "Language for fields: link, title, description, item_image, item_video"
+    },
+    "item_source": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "default": "OP",
+      "description": "Learning Item Status:\n * `OP` - Open\n * `CL` - Closed"
+    },
+    "type": {
+      "type": "string",
+      "default": "NO",
+      "description": "Learning Item Type:\n * `NO` - Unknown\n * `CS` - Course\n * `CL` - Curriculum\n * `AR` - Article\n * `BO` - Book\n * `VI` - Video\n * `AS` - Assessment\n * `PO` - Podcast\n * `PA` - Pathway\n * `PL` - Plans\n * `JO` - Journey"
+    },
+    "level": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "item_image": {
+      "type": "string"
+    },
+    "item_video": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "integer",
+      "description": "Duration in seconds"
+    },
+    "item_rating": {
+      "type": "integer"
+    },
+    "prerequisites": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Languages on which the learning item is suggested"
+    },
+    "compatibility": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "related_labels_and_tags": {
+      "type": "array",
+      "description": "Array of labels and tags objects which related to learning opportunity",
+      "items": {
+        "$ref": "#/$defs/related_learning"
+      }
+    },
+    "related_skills": {
+      "type": "array",
+      "description": "Array of skills objects which related to learning opportunity",
+      "items": {
+        "$ref": "#/$defs/related_learning"
+      }
+    },
+    "related_items_id": {
+      "type": "array",
+      "description": "Array of learning items objects which related to learning opportunity",
+      "items": {
+        "$ref": "#/$defs/related_learning"
+      }
+    },
+    "translations": {
+      "type": "object",
+      "description": "translations for learning presentative data. key- language code, value- translation object",
+      "properties": {
+        "lang_code_key": {
+          "type": "object",
+          "properties": {
+            "link": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "item_image": {
+              "type": "string"
+            },
+            "item_video": {
+              "type": "string"
+            },
+            "related_skills": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/related_learning"
+              }
+            }
+          }
+        }
+      }
+    },
+    "extra_info": {
+      "type": "object",
+      "description": "if the learning item is of type pathway, this field will contain all the pathway steps",
+      "properties": {}
+    }
+  },
+  "$defs": {
+    "related_learning": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

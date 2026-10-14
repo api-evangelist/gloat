@@ -1,22 +1,26 @@
 aid: gloat
+
 name: Gloat
-description: >-
-  Gloat is an AI-native workforce orchestration and talent-marketplace platform.
-  Its developer APIs let enterprises connect HR, learning, and skills data to Gloat:
-  syncing users, jobs, projects, candidacies, and learning items, and maintaining a
-  skills-and-job-architecture ontology (the Skills Foundation) of job families, job
-  codes, and position titles. The platform also exposes RBAC authorization (roles,
-  groups, permissions, access rules), certifications, applications, analytics embeds,
-  and outbound sync webhooks. Customer APIs authenticate with a client-credentials
-  JWT; Talent Marketplace APIs use an X-Gloat-API-Key header. All hosts are
-  per-tenant at https://{company_slug}.gloat.com/api.
+
+description: 'Gloat is an AI-native workforce orchestration and talent-marketplace platform. Its developer APIs let enterprises connect HR, learning,
+  and skills data to Gloat: syncing users, jobs, projects, candidacies, and learning items, and maintaining a skills-and-job-architecture ontology
+  (the Skills Foundation) of job families, job codes, and position titles. The platform also exposes RBAC authorization (roles, groups, permissions,
+  access rules), certifications, applications, analytics embeds, and outbound sync webhooks. Customer APIs authenticate with a client-credentials
+  JWT; Talent Marketplace APIs use an X-Gloat-API-Key header. All hosts are per-tenant at https://{company_slug}.gloat.com/api.'
+
 url: https://raw.githubusercontent.com/api-evangelist/gloat/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - accel
+
 x-tier: stub
+
 x-tier-reason: portfolio-lead
+
 deliveryModel:
   model: saas
   open_source: false
@@ -28,6 +32,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -40,13 +45,21 @@ accessModel:
   - authentication
   generated: '2026-07-22'
   method: derived
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-10-06'
+
 image: https://www.gloat.com/favicon.ico
+
 x-docs-platform: readme
+
 x-docs-platform-confidence: high
+
 x-docs-platform-checked: 2026-10-03
+
 tags:
 - Company
 - Artificial Intelligence
@@ -55,6 +68,7 @@ tags:
 - Skills
 - Workforce
 - Internal Mobility
+
 tags_raw:
 - Company
 - Ai
@@ -64,31 +78,30 @@ tags_raw:
 - Workforce
 - Internal Mobility
 - HR Tech
-apis:
-- name: Gloat Customer API
-  description: >-
-    Tenant-scoped REST API to sync users, jobs, candidacies, projects, learning items,
-    and the Skills Foundation job architecture into Gloat, plus RBAC authorization and
-    company settings.
-  humanURL: https://developer.gloat.com/
-  baseURL: https://{company_slug}.gloat.com/api
-  tags:
-  - Talent
-  - Skills
-  - Human Resources
-  properties:
-  - type: Documentation
-    url: https://developer.gloat.com/docs
-  - type: APIReference
-    url: https://developer.gloat.com/reference
-  - type: Authentication
-    url: authentication/gloat-authentication.yml
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/gloat-agentic-access.yml
+- type: Spectral
+  url: rules/gloat-rules.yml
+- type: JSONLD
+  url: json-ld/gloat-context.jsonld
+- type: Vocabulary
+  url: vocabulary/gloat-vocabulary.yml
+- type: ErrorCatalog
+  url: errors/gloat-problem-types.yml
+- type: Hosts
+  url: hosts/gloat-hosts.yml
+- type: Vendors
+  url: vendors/gloat-vendors.yml
+- type: Newsroom
+  url: https://gloat.com/newsroom/
 - url: https://gloat.com/blog/feed/
   type: BlogRSS
 - type: Website
@@ -129,7 +142,9 @@ common:
   url: sandbox/gloat-sandbox.yml
 - type: X-MCPServerCandidate
   url: mcp/gloat-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+    API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+    the artifact-type surfaces with a server that does not exist.'
 - type: Webhooks
   url: asyncapi/gloat-webhooks.yml
 - type: AgentSkill
@@ -138,8 +153,141 @@ common:
   url: security/gloat-trust-center.yml
 - type: DomainSecurity
   url: security/gloat-domain-security.yml
+
+apis:
+- name: Gloat Customer API
+  description: Tenant-scoped REST API to sync users, jobs, candidacies, projects, learning items, and the Skills Foundation job architecture into
+    Gloat, plus RBAC authorization and company settings.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Talent
+  - Skills
+  - Human Resources
+  properties:
+  - type: Documentation
+    url: https://developer.gloat.com/docs
+  - type: APIReference
+    url: https://developer.gloat.com/reference
+  - type: Authentication
+    url: authentication/gloat-authentication.yml
+  aid: gloat:gloat-customer-api-2
+- aid: gloat:gloat-authorization
+  name: Gloat Authorization Openapi.Yml API
+  description: The Authorization Openapi.Yml API from Gloat — 13 operation(s) for authorization openapi.yml.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Authorization Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-authorization-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+- aid: gloat:gloat-candidacy
+  name: Gloat Candidacy Openapi.Yml API
+  description: The Candidacy Openapi.Yml API from Gloat — 1 operation(s) for candidacy openapi.yml.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Candidacy Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-candidacy-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+- aid: gloat:gloat-company-service
+  name: Gloat Data direct API
+  description: 'The Data Sharing API provides endpoints for accessing and downloading your Gloat data.
+
+    The API enables to retrieve lists of available file types and generate pre-signed URLs for downloading specific data files.
+
+    Note that in order to access use this API you''ll need to create an API key via the Admin area and contact your Gloat representative to ask
+    for permissions for the Data Direct API.'
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Data direct
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-company-service-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+- aid: gloat:gloat-customer-api
+  name: Gloat Meta API
+  description: Endpoints related to service, authentication and connectivity
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Meta
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-customer-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+- aid: gloat:gloat-skills-foundation-api
+  name: Gloat Skills Foundation API
+  description: The Skills Foundation API from Gloat — 27 operation(s) for skills foundation.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Skills Foundation
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-skills-foundation-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+
 x-enrichment:
   date: '2026-07-19'
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 130
+  tool: harvest-readme-openapi.py
+  portal: https://developer.gloat.com

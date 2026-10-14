@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/gloat/main/json-schema/gloat-xapi-statement-schema.json",
+  "title": "XApiStatement",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/gloat-candidacy-openapi.yml#/components/schemas/XApiStatement",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "Id",
+      "description": "xAPI statement id (typically UUID)"
+    },
+    "timestamp": {
+      "type": "string",
+      "title": "Timestamp",
+      "description": "When did the action occur (in UTC format)"
+    },
+    "actor": {
+      "$ref": "#/$defs/XApiActorObject"
+    },
+    "verb": {
+      "$ref": "#/$defs/XApiVerbObject"
+    },
+    "object": {
+      "$ref": "#/$defs/XApiObject"
+    }
+  },
+  "type": "object",
+  "required": [
+    "actor",
+    "verb",
+    "object"
+  ],
+  "$defs": {
+    "XApiActorObject": {
+      "properties": {
+        "mbox": {
+          "type": "string",
+          "title": "Mbox",
+          "description": "User’s email address as loaded to Gloat, preceded by mailto:"
+        },
+        "openid": {
+          "type": "string",
+          "title": "Openid"
+        },
+        "account": {
+          "type": "object",
+          "title": "Account",
+          "description": "Describes the name of an account using a User ID, as per the HCM integration"
+        },
+        "objectType": {
+          "type": "string",
+          "title": "Objecttype"
+        },
+        "name": {
+          "type": "string",
+          "title": "Name"
+        },
+        "user_identifier": {
+          "type": "string",
+          "title": "User Identifier"
+        }
+      },
+      "type": "object",
+      "title": "XApiActorObject"
+    },
+    "XApiObject": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id",
+          "description": "Learning item ID which corresponds to the IRI in learning content integration"
+        },
+        "objectType": {
+          "type": "string",
+          "title": "Objecttype",
+          "default": "Activity"
+        },
+        "definition": {
+          "type": "object",
+          "title": "Definition",
+          "description": "Human-readable, internationalized representation of the item"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "title": "XApiObject"
+    },
+    "XApiVerbObject": {
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "Id",
+          "description": "URL pointing to a unique resource for one of the accepted verbs: started, completed, canceled, closed"
+        },
+        "display": {
+          "type": "object",
+          "title": "Display",
+          "description": "Human-readable, internationalized representation of the verb"
+        }
+      },
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "title": "XApiVerbObject"
+    }
+  }
+}
