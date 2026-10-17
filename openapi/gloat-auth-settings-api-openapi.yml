@@ -1,0 +1,480 @@
+openapi: 3.2.0
+info:
+  title: Company Service Auth Settings API
+  version: 0.1.0
+tags:
+- name: auth-settings
+paths:
+  /api/company/v1/settings/auth-settings/general:
+    get:
+      tags:
+      - auth-settings
+      summary: Get Company General Auth Settings
+      operationId: get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralAuthSettingsGetData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - auth-settings
+      summary: Update Company General Auth Settings
+      operationId: update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneralAuthSettingsUpdateData'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralAuthSettingsGetData'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/auth-settings/idps:
+    get:
+      tags:
+      - auth-settings
+      summary: Get Company Idps
+      operationId: get_company_idps_api_company_v1_settings_auth_settings_idps_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/IdentityProviderData'
+                title: Response Get Company Idps Api Company V1 Settings Auth Settings Idps Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - auth-settings
+      summary: Create Company Idp
+      operationId: create_company_idp_api_company_v1_settings_auth_settings_idps_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderCreateData'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/IdentityProviderData'
+                title: Response Create Company Idp Api Company V1 Settings Auth Settings Idps Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/settings/auth-settings/idps/{idp_id}:
+    put:
+      tags:
+      - auth-settings
+      summary: Update Company Idp
+      operationId: update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: idp_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Idp Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdentityProviderUpdateData'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/IdentityProviderData'
+                title: Response Update Company Idp Api Company V1 Settings Auth Settings Idps  Idp Id  Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - auth-settings
+      summary: Delete Company Idp
+      operationId: delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: idp_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Idp Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Inactivity:
+      properties:
+        isOn:
+          type: boolean
+          title: Ison
+        timeout:
+          type: integer
+          title: Timeout
+        timeoutType:
+          $ref: '#/components/schemas/TimeoutType'
+      type: object
+      required:
+      - isOn
+      - timeout
+      - timeoutType
+      title: Inactivity
+    GeneralAuthSettingsGetData:
+      properties:
+        cookie:
+          $ref: '#/components/schemas/Cookie'
+        inactivity:
+          $ref: '#/components/schemas/Inactivity'
+        logoutUrl:
+          type: string
+          title: Logouturl
+        isCognitoUsernamePasswordEnabled:
+          type: boolean
+          title: Iscognitousernamepasswordenabled
+          default: false
+        authorizationServer:
+          $ref: '#/components/schemas/AuthorizationServer'
+      type: object
+      required:
+      - cookie
+      - inactivity
+      - logoutUrl
+      - authorizationServer
+      title: GeneralAuthSettingsGetData
+    IdentityProviderCreateData:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        nameIdOverride:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nameidoverride
+        metadataUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadataurl
+        metadataFile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadatafile
+        isIdpInitiated:
+          type: boolean
+          title: Isidpinitiated
+          default: true
+      type: object
+      required:
+      - name
+      - nameIdOverride
+      title: IdentityProviderCreateData
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GeneralAuthSettingsUpdateData:
+      properties:
+        cookie:
+          $ref: '#/components/schemas/Cookie'
+        inactivity:
+          anyOf:
+          - $ref: '#/components/schemas/Inactivity'
+          - type: 'null'
+        logoutUrl:
+          type: string
+          title: Logouturl
+        isCognitoUsernamePasswordEnabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Iscognitousernamepasswordenabled
+      type: object
+      required:
+      - cookie
+      - logoutUrl
+      title: GeneralAuthSettingsUpdateData
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AuthorizationServer:
+      properties:
+        audienceUri:
+          type: string
+          title: Audienceuri
+        assertionUrl:
+          type: string
+          title: Assertionurl
+      type: object
+      required:
+      - audienceUri
+      - assertionUrl
+      title: AuthorizationServer
+    Cookie:
+      properties:
+        timeout:
+          type: integer
+          title: Timeout
+        timeoutType:
+          $ref: '#/components/schemas/TimeoutType'
+        isLogoutOnBrowserClose:
+          type: boolean
+          title: Islogoutonbrowserclose
+      type: object
+      required:
+      - timeout
+      - timeoutType
+      - isLogoutOnBrowserClose
+      title: Cookie
+    TimeoutType:
+      type: string
+      enum:
+      - m
+      - h
+      - d
+      title: TimeoutType
+    IdentityProviderData:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        nameIdOverride:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nameidoverride
+        defaultRelayState:
+          type: string
+          title: Defaultrelaystate
+        metadataUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadataurl
+        metadataFile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadatafile
+        isIdpInitiated:
+          type: boolean
+          title: Isidpinitiated
+          default: true
+      type: object
+      required:
+      - name
+      - nameIdOverride
+      - defaultRelayState
+      title: IdentityProviderData
+    IdentityProviderUpdateData:
+      properties:
+        nameIdOverride:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Nameidoverride
+        metadataUrl:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadataurl
+        metadataFile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metadatafile
+        isIdpInitiated:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Isidpinitiated
+      type: object
+      required:
+      - nameIdOverride
+      title: IdentityProviderUpdateData
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md
+  - https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md
+  - https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md
+  - https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md
+  - https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md
+  - https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md
+  - https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md
+  - https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md
+  - https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md
+  - https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md
+  - https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md
+  - https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md
+  - https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md
+  - https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md
+  - https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md
+  - https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md
+  - https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md
+  - https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md
+  - https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md
+  - https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md
+  - https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md
+  - https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md
+  - https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md
+  - https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md
+  - https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md
+  - https://developer.gloat.com/reference/trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post.md
+  - https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md
+  - https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md
+  - https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md
+  - https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md
+  merge:
+    pages: 30
+    deduped: 105
+    conflicts_kept_first: 0

@@ -1,0 +1,397 @@
+openapi: 3.2.0
+info:
+  title: Company Service Certifications API
+  version: 0.1.0
+tags:
+- name: Certifications
+paths:
+  /api/company/v1/certifications:
+    get:
+      tags:
+      - Certifications
+      summary: Get Certification By Ids
+      operationId: get_certification_by_ids_api_company_v1_certifications_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificationRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificationGetData'
+                title: Response Get Certification By Ids Api Company V1 Certifications Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Certifications
+      summary: Upsert
+      operationId: upsert_api_company_v1_certifications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificationBulkUpsertBody'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/certifications/autocomplete:
+    get:
+      tags:
+      - Certifications
+      summary: Certifications Autocomplete
+      operationId: certifications_autocomplete_api_company_v1_certifications_autocomplete_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Q
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+          title: Limit
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificationAutocompleteData'
+                title: Response Certifications Autocomplete Api Company V1 Certifications Autocomplete Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/certifications/{certification_id}:
+    delete:
+      tags:
+      - Certifications
+      summary: Delete Certification
+      operationId: delete_certification_api_company_v1_certifications__certification_id__delete
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: certification_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Certification Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CertificationRequestBody:
+      properties:
+        certificationIds:
+          items:
+            type: string
+          type: array
+          title: Certificationids
+      type: object
+      required:
+      - certificationIds
+      title: CertificationRequestBody
+    CertificationDetails:
+      properties:
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        requirements:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Requirements
+        provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Provider
+        validityPeriod:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Validityperiod
+        renewalRequirements:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Renewalrequirements
+      type: object
+      title: CertificationDetails
+    CertificationBulkUpsertBody:
+      properties:
+        certifications:
+          items:
+            $ref: '#/components/schemas/CertificationUpsertBody'
+          type: array
+          title: Certifications
+      type: object
+      required:
+      - certifications
+      title: CertificationBulkUpsertBody
+    CertificationUpsertBody:
+      properties:
+        certificationId:
+          type: string
+          title: Certificationid
+        name:
+          type: string
+          title: Name
+        issuer:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Issuer
+        locationIssued:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Locationissued
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+        satisfiedBy:
+          items:
+            type: string
+          type: array
+          title: Satisfiedby
+        type:
+          anyOf:
+          - $ref: '#/components/schemas/CertificationType'
+          - type: 'null'
+        details:
+          anyOf:
+          - $ref: '#/components/schemas/CertificationDetails'
+          - type: 'null'
+      type: object
+      required:
+      - certificationId
+      - name
+      title: CertificationUpsertBody
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CertificationAutocompleteData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: CertificationAutocompleteData
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CertificationType:
+      type: string
+      enum:
+      - State Issued Licence
+      - Professional Certification
+      - Company Specific
+      - Other
+      title: CertificationType
+    CertificationGetData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        issuer:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Issuer
+        locationIssued:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Locationissued
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+        satisfiedBy:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Satisfiedby
+        type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Type
+        details:
+          anyOf:
+          - $ref: '#/components/schemas/CertificationDetails'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - name
+      - issuer
+      - locationIssued
+      - level
+      - satisfiedBy
+      - type
+      - details
+      title: CertificationGetData
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md
+  - https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md
+  - https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md
+  - https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md
+  - https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md
+  - https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md
+  - https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md
+  - https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md
+  - https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md
+  - https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md
+  - https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md
+  - https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md
+  - https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md
+  - https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md
+  - https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md
+  - https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md
+  - https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md
+  - https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md
+  - https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md
+  - https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md
+  - https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md
+  - https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md
+  - https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md
+  - https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md
+  - https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md
+  - https://developer.gloat.com/reference/trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post.md
+  - https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md
+  - https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md
+  - https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md
+  - https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md
+  merge:
+    pages: 30
+    deduped: 105
+    conflicts_kept_first: 0

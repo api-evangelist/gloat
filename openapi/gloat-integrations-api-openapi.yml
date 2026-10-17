@@ -1,0 +1,234 @@
+openapi: 3.2.0
+info:
+  title: Candidacy Integrations API
+  version: 0.1.0
+servers:
+- url: https://acme.gloat.com/api/candidacy/
+  description: Example company (change the first part to your company slug)
+tags:
+- name: Integrations
+paths:
+  /api/candidacy/v1/xapi/action:
+    post:
+      tags:
+      - Integrations
+      summary: Learning Action
+      description: 'Create a new action (that presumably happened on another system), according to the xAPI spec. Update the status of the candidacy accordingly.
+
+        This endpoint supports up to 100 requests in a single batch. If you need to process more, call it multiple times.
+
+        The items in the list will be processed sequentially.'
+      operationId: learning_action_api_candidacy_v1_xapi_action_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/XApiStatement'
+              type: array
+              title: Request Body
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/XApiActionResult'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    XApiStatement:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: xAPI statement id (typically UUID)
+          example: 33cff416-e331-4a9d-969e-5373b1756120
+        timestamp:
+          type: string
+          title: Timestamp
+          description: When did the action occur (in UTC format)
+          example: '2024-03-03T09:17:00+00:00'
+        actor:
+          $ref: '#/components/schemas/XApiActorObject'
+        verb:
+          $ref: '#/components/schemas/XApiVerbObject'
+        object:
+          $ref: '#/components/schemas/XApiObject'
+      type: object
+      required:
+      - actor
+      - verb
+      - object
+      title: XApiStatement
+    XApiActorObject:
+      properties:
+        mbox:
+          type: string
+          title: Mbox
+          description: 'User’s email address as loaded to Gloat, preceded by mailto:'
+          example: mailto:person.a@example.com
+        openid:
+          type: string
+          title: Openid
+          example: https://example.com/person/a
+        account:
+          type: object
+          title: Account
+          description: Describes the name of an account using a User ID, as per the HCM integration
+          example:
+            name: person.a
+        objectType:
+          type: string
+          title: Objecttype
+          example: Activity
+        name:
+          type: string
+          title: Name
+        user_identifier:
+          type: string
+          title: User Identifier
+      type: object
+      title: XApiActorObject
+    XApiObject:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Learning item ID which corresponds to the IRI in learning content integration
+          example: http://example.com/activities/solo-hang-gliding
+        objectType:
+          type: string
+          title: Objecttype
+          default: Activity
+        definition:
+          type: object
+          title: Definition
+          description: Human-readable, internationalized representation of the item
+          example:
+            en-US: Solo Hang Gliding
+      type: object
+      required:
+      - id
+      title: XApiObject
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    XApiVerbObject:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: 'URL pointing to a unique resource for one of the accepted verbs: started, completed, canceled, closed'
+          example: http://example.com/xapi/verbs/completed
+        display:
+          type: object
+          title: Display
+          description: Human-readable, internationalized representation of the verb
+          example:
+            en-US: completed
+      type: object
+      required:
+      - id
+      title: XApiVerbObject
+    XApiActionResult:
+      properties:
+        total_requested:
+          type: integer
+          title: Total Requested
+          description: Total number of actions requested
+          example: 6
+        succeeded_count:
+          type: integer
+          title: Succeeded Count
+          description: Number of actions that succeeded
+          example: 2
+        failed_count:
+          type: integer
+          title: Failed Count
+          description: Number of actions that failed
+          example: 4
+        succeeded_ids:
+          items:
+            type: string
+          type: array
+          title: Succeeded Ids
+          description: List of IDs of the actions that succeeded
+          example:
+          - 33cff416-e331-4c9d-969e-5373a1756120
+          - 33cff416-e331-4c9d-969e-5373a1756145
+        failed_ids:
+          additionalProperties:
+            $ref: '#/components/schemas/XApiResultMessage'
+          type: object
+          description: For each failed action ID, the reason for failure
+          example:
+            33cff416-e331-4c9d-969e-5373a1756152: User does not exist
+            33cff416-e331-4c9d-969e-5373a1756153: Opportunity does not exist
+            33cff416-e331-4c9d-969e-5373a1756154: Illegal action was sent
+            33cff416-e331-4c9d-969e-5373a1756155: Failed to add action
+            33cff416-e331-4c9d-969e-5373a1756145: Action already updated
+      type: object
+      required:
+      - total_requested
+      - succeeded_count
+      - failed_count
+      - succeeded_ids
+      - failed_ids
+      title: XApiActionResult
+    XApiResultMessage:
+      type: string
+      enum:
+      - User does not exist
+      - Opportunity does not exist
+      - Illegal action was sent
+      - Failed to add action
+      - Action already updated
+      - Invalid action time. The action timestamp predates the last action time.
+      title: XApiResultMessage
+      description: An enumeration.
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/learning_action_api_candidacy_v1_xapi_action_post.md
+  merge:
+    pages: 1
+    deduped: 0
+    conflicts_kept_first: 0

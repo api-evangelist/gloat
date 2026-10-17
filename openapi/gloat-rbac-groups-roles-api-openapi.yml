@@ -1,0 +1,673 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer RBAC Groups & Roles API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: RBAC Groups & Roles
+paths:
+  /roles:
+    get:
+      tags:
+      - RBAC Groups & Roles
+      summary: Paginated RBAC roles
+      description: Fetch paginated RBAC roles of the company
+      operationId: listCompanyRoles
+      parameters:
+      - name: offset
+        in: query
+        description: Offset to skip
+        schema:
+          type: number
+          default: 0
+          minimum: 0
+      - name: limit
+        in: query
+        description: Limit of roles in page
+        schema:
+          type: number
+          default: 20
+          minimum: 0
+          maximum: 100
+      - name: category
+        in: query
+        description: Category of the rbac role to filter by
+        example: admin
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - admin
+        explode: true
+      - name: role_id
+        in: query
+        description: Role ids to filter by
+        example: 123,1538
+        schema:
+          type: array
+          items:
+            type: number
+        explode: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    description: RBAC roles
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/rbac_role'
+                  count:
+                    type: number
+                    description: total count of the roles
+                    example: 100
+                  pageSize:
+                    type: number
+                    description: requested size of the page
+                    example: 1
+                  totalPages:
+                    type: number
+                    description: total number of pages
+                    example: 100
+                  currentPage:
+                    type: number
+                    description: current page
+                    example: 0
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Pagination Params
+        '405':
+          description: Invalid request method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Request Method
+  /roles/all:
+    get:
+      tags:
+      - RBAC Groups & Roles
+      summary: All RBAC roles
+      description: Fetch all RBAC roles of the company
+      operationId: listAllCompanyRoles
+      parameters:
+      - name: category
+        in: query
+        description: Category of the rbac role to filter by
+        example: admin
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - admin
+        explode: true
+      - name: role_id
+        in: query
+        description: Role ids to filter by
+        example: 123,1538
+        schema:
+          type: array
+          items:
+            type: number
+        explode: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                description: All RBAC roles
+                items:
+                  $ref: '#/components/schemas/rbac_role'
+        '405':
+          description: Invalid request method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Request Method
+  /roles/assignments:
+    get:
+      tags:
+      - RBAC Groups & Roles
+      summary: Paginated RBAC roles assignments
+      description: Fetch paginated RBAC roles assignments of the company
+      operationId: listRolesAssignments
+      parameters:
+      - name: currentPage
+        in: query
+        description: Offset to skip
+        schema:
+          type: number
+          default: 0
+          minimum: 0
+      - name: pageSize
+        in: query
+        description: Limit of roles in page
+        schema:
+          type: number
+          default: 20
+          minimum: 0
+          maximum: 100
+      - name: category
+        in: query
+        description: Category of the rbac role to filter by
+        example: admin
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - admin
+        explode: true
+      - name: role_id
+        in: query
+        description: Role ids to filter by
+        example: 123,1538
+        schema:
+          type: array
+          items:
+            type: number
+        explode: true
+      - name: user_id
+        in: query
+        description: User ids to filter by
+        example: 1231538,123321
+        schema:
+          type: array
+          items:
+            type: string
+        explode: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    description: Users with RBAC roles assignments
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user_role_assignment'
+                  count:
+                    type: number
+                    description: total count of the roles
+                    example: 100
+                  pageSize:
+                    type: number
+                    description: requested size of the page
+                    example: 1
+                  totalPages:
+                    type: number
+                    description: total number of pages
+                    example: 100
+                  currentPage:
+                    type: number
+                    description: current page
+                    example: 0
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Pagination Params
+        '405':
+          description: Invalid request method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Request Method
+  /roles/grant-roles:
+    post:
+      tags:
+      - RBAC Groups & Roles
+      summary: Grant roles
+      description: Grant RBAC roles to users
+      operationId: grantRolesToUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/user_roles_and_groups'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Payload must be a list
+        '404':
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: no such role
+                  failedEntry:
+                    type: number
+                    example: 12
+        '405':
+          description: Invalid request method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Request Method
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /roles/groups:
+    get:
+      tags:
+      - RBAC Groups & Roles
+      summary: RBAC groups
+      description: Fetch all RBAC groups of the company
+      operationId: listAllCompanyGroups
+      parameters:
+      - name: group_id
+        in: query
+        description: Group ids to filter by
+        example: 12,18
+        schema:
+          type: array
+          items:
+            type: number
+        explode: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                description: All RBAC groups
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      example: 748
+                    name:
+                      type: string
+                      example: Function R&D
+        '405':
+          description: Invalid request method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Request Method
+  /roles/revoke-roles:
+    post:
+      tags:
+      - RBAC Groups & Roles
+      summary: Revoke roles
+      description: Revoke RBAC roles from users
+      operationId: revokeRolesFromUsers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/user_roles_and_groups'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Payload must be a list
+        '404':
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: no such role
+                  failedEntry:
+                    type: number
+                    example: 12
+        '405':
+          description: Invalid request method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid Request Method
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /users/groups:
+    get:
+      tags:
+      - RBAC Groups & Roles
+      summary: Paginated users groups
+      description: Fetch RBAC groups per user ID, optionally filtered by user_ids/group_types/group_ids, paginated
+      operationId: listUsersGroups
+      parameters:
+      - name: currentPage
+        in: query
+        description: Page to return
+        schema:
+          type: number
+          default: 0
+          minimum: 0
+      - name: pageSize
+        in: query
+        description: Number of users in page
+        schema:
+          type: number
+          default: 100
+          minimum: 0
+          maximum: 1000
+      - name: group_type
+        in: query
+        description: 'Group types to filter by (SG: SEGREGATION, AC: ACCESS, TP: TALENT_POOL, OG: OPPORTUNITY_GROUP)'
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - SG
+            - AC
+            - TP
+            - OG
+          default: '[]'
+        explode: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+                    description: total number of users
+                    example: 999
+                  pageSize:
+                    type: number
+                    description: page size
+                    example: 100
+                  totalPages:
+                    type: number
+                    description: total number of pages
+                    example: 10
+                  currentPage:
+                    type: number
+                    description: current page
+                    example: 0
+                  invalid_ids:
+                    type: array
+                    description: list of not found user ids
+                    items:
+                      type: string
+                      example: inv_id_1
+                  invalid_count:
+                    type: number
+                    description: number of not found user ids
+                    example: 1
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      example:
+                        user_id: valid_id1
+                        groups:
+                        - id: '1'
+                          name: first group
+                          type: TP
+        '400':
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: 'Bad Request: invalid group types'
+components:
+  schemas:
+    user_roles_and_groups:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: '101123'
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+                example: 1234
+              target_groups:
+                type: array
+                items:
+                  type: number
+                  description: id of the target groups
+                  example: 117
+    user_role_assignment:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: '101123'
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+                example: 1234
+              name:
+                type: string
+                example: sso permission
+              granted_group:
+                type: number
+                description: id of the granted group
+                example: 422
+              target_group:
+                type: number
+                description: id of the target group
+                example: 224
+        lastLogin:
+          type: number
+          description: last login in epoch
+          example: 1667128217
+        status:
+          type: string
+          description: "User Status:\n * `AC` - Active\n * `TR` - Terminated\n * `IA` - Inactive\n * `SU` - Suspended\n * `AP` - Approved\n * `RQ` - Requested\n * `DE` - Deleted"
+          example: AP
+    rbac_role:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 2
+        name:
+          type: string
+          example: Core team
+        categories:
+          type: array
+          items:
+            type: string
+            enum:
+            - admin
+          example:
+          - admin
+        permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: A
+                description: "Permission type:\n * `A` - Authorized (Read & Write)\n * `R` - Read\n * `W` - Write"
+              name:
+                type: string
+                example: Allow users to manage role assignments
+        description:
+          type: string
+          example: Organizational operational team with the highest level of permissions
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

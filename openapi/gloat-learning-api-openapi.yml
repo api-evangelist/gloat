@@ -1,0 +1,401 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Learning API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Learning
+paths:
+  /learning:
+    post:
+      tags:
+      - Learning
+      summary: Upsert learning items (courses, curriculums etc) for consumption by users
+      description: Insert or update learning opportunities in Gloat
+      operationId: opportunities-post
+      requestBody:
+        description: List of learning items
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                learning_items:
+                  type: array
+                  description: Array of learning-item objects
+                  items:
+                    $ref: '#/components/schemas/learning_item'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  stats:
+                    type: object
+                    example:
+                      learning_created: 1
+                      learning_updated: 0
+                      learning_failed: 1
+                      failed_ids:
+                      - ed122
+                      succeeded_ids:
+                      - ed123
+        '201':
+          description: successful operation - single learning created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '400':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Learning items upsert failed
+    get:
+      tags:
+      - Learning
+      summary: Returns all learning item external ids with the provided statuses
+      description: Get all learning items with matching external ids
+      operationId: learning-get
+      parameters:
+      - name: status
+        in: query
+        required: true
+        description: Learning item statuses to filter by
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - OP
+            - CL
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  hasMore:
+                    type: boolean
+                    example: true
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        external_id:
+                          type: string
+        '400':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Request not well defined
+    patch:
+      tags:
+      - Learning
+      summary: Update learning items status
+      description: Provide a list of identifying objects and the status to change them to
+      operationId: learning-patch
+      requestBody:
+        description: List of learning items
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: Array of learning-item identifiers, and the status to change them to
+                  items:
+                    type: object
+                    properties:
+                      item_id:
+                        type: string
+                        example: item_id
+                      vendor:
+                        type: string
+                        example: vendor_name
+                      item_source:
+                        type: string
+                        example: source_name
+                      status:
+                        type: string
+                        enum:
+                        - OP
+                        - CL
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        item_id:
+                          type: string
+                          example: item_id
+                        vendor:
+                          type: string
+                          example: vendor_name
+                        item_source:
+                          type: string
+                          example: source_name
+                        success:
+                          type: boolean
+                          example: true
+        '400':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Request not well defined
+components:
+  schemas:
+    learning_item:
+      type: object
+      required:
+      - vendor
+      - link
+      - item_id
+      - title
+      - description_html
+      - language
+      properties:
+        vendor:
+          type: string
+          example: vendor_name
+        link:
+          type: string
+          example: https://www.youtube.com/watch?v=rfscVS0vtbw
+        iri:
+          type: string
+          example: http://example.com/activities/solo-hang-gliding
+        item_id:
+          type: string
+          example: yu123
+        title:
+          type: string
+          example: Python Course
+        description_html:
+          type: string
+          example: In this course, you will learn Python. It is expected that you're proficient in at least one other programming language.
+        language:
+          type: string
+          example: en
+          description: 'Language for fields: link, title, description, item_image, item_video'
+        item_source:
+          type: string
+          example: youtube
+        status:
+          type: string
+          example: OP
+          default: OP
+          description: "Learning Item Status:\n * `OP` - Open\n * `CL` - Closed"
+        type:
+          type: string
+          example: CS
+          default: 'NO'
+          description: "Learning Item Type:\n * `NO` - Unknown\n * `CS` - Course\n * `CL` - Curriculum\n * `AR` - Article\n * `BO` - Book\n * `VI` - Video\n * `AS` - Assessment\n * `PO` - Podcast\n * `PA` - Pathway\n * `PL` - Plans\n * `JO` - Journey"
+        level:
+          type: string
+          example: Beginner
+        category:
+          type: string
+          example: Programming languages
+        item_image:
+          type: string
+          example: https://i.ytimg.com/an_webp/b093aqAZiPU/mqdefault_6s.webp?du=3000&sqp=CMiz_o8G&rs=AOn4CLAxnZ_NUoo3aLsjHxM2Ued9B0xD0w
+        item_video:
+          type: string
+          example: ''
+        duration:
+          type: integer
+          example: 302
+          description: Duration in seconds
+        item_rating:
+          type: integer
+          example: 90
+        prerequisites:
+          type: string
+          example: databases
+        created_at:
+          type: string
+          example: '2020-11-17T11:30:45.000Z'
+        languages:
+          type: array
+          items:
+            type: string
+          example: '["en", "pt"]'
+          description: Languages on which the learning item is suggested
+        compatibility:
+          type: array
+          items:
+            type: string
+          example: '["desktop", "mobile"]'
+        related_labels_and_tags:
+          type: array
+          description: Array of labels and tags objects which related to learning opportunity
+          items:
+            $ref: '#/components/schemas/related_learning'
+        related_skills:
+          type: array
+          description: Array of skills objects which related to learning opportunity
+          items:
+            $ref: '#/components/schemas/related_learning'
+        related_items_id:
+          type: array
+          description: Array of learning items objects which related to learning opportunity
+          items:
+            $ref: '#/components/schemas/related_learning'
+        translations:
+          type: object
+          description: translations for learning presentative data. key- language code, value- translation object
+          properties:
+            lang_code_key:
+              type: object
+              properties:
+                link:
+                  type: string
+                  example: https://www.youtube.com/watch?v=rfscVS0vtbw/es
+                title:
+                  type: string
+                  example: Curso de Python
+                description:
+                  type: string
+                  example: En este curso, aprenderá Python. Se espera que domines al menos otro lenguaje de programación.
+                item_image:
+                  type: string
+                  example: https://i.ytimg.com/an_webp/b093aqAZiPU/mqdefault_6s.webp?du=3000&sqp=CMiz_o8G&rs=AOn4CLAxnZ_NUoo3aLsjHxM2Ued9B0xD0w
+                item_video:
+                  type: string
+                  example: ''
+                related_skills:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/related_learning'
+        extra_info:
+          type: object
+          description: if the learning item is of type pathway, this field will contain all the pathway steps
+          properties: {}
+    related_learning:
+      type: object
+      properties:
+        id:
+          type: string
+          example: id123
+        name:
+          type: string
+          example: name
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

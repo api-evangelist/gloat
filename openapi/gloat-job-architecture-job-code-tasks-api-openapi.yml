@@ -1,0 +1,324 @@
+openapi: 3.2.0
+info:
+  title: Skills Foundation Job Architecture > Job Code > Tasks API
+  version: 1.0.0
+tags:
+- name: Job Architecture > Job Code > Tasks
+paths:
+  /api/skills-foundation/job-architecture/job-codes/tasks/automation-status/bulk:
+    patch:
+      tags:
+      - Job Architecture > Job Code > Tasks
+      summary: Bulk update task automation status
+      description: 'Update automation status for multiple tasks across multiple job codes.
+
+
+        This endpoint allows bulk updates of task automation levels, affecting
+
+        Net AI Impact calculations. The score is calculated at query time based on
+
+        the status using the AUTOMATION_STATUS_SCORES mapping.'
+      operationId: bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkTaskAutomationStatusRequest'
+        required: true
+      responses:
+        '200':
+          description: All updates succeeded
+        '207':
+          description: Mixed results (some succeeded, some failed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkTaskAutomationStatusResponse'
+        '400':
+          description: Bad request or all updates failed with client errors (404, validation errors, etc.)
+        '401':
+          description: Unauthenticated
+        '403':
+          description: No WRITE permission
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '500':
+          description: All updates failed with server errors
+components:
+  schemas:
+    BulkTaskAutomationStatusResponse:
+      properties:
+        tasks:
+          items:
+            $ref: '#/components/schemas/TaskAutomationBulkResult'
+          type: array
+          title: Tasks
+          description: Results per task
+        totalSuccess:
+          type: integer
+          title: Totalsuccess
+          description: Total successful updates across all tasks
+        totalFailures:
+          type: integer
+          title: Totalfailures
+          description: Total failed updates across all tasks
+      type: object
+      required:
+      - tasks
+      - totalSuccess
+      - totalFailures
+      title: BulkTaskAutomationStatusResponse
+    TaskAutomationBulkResult:
+      properties:
+        taskId:
+          type: string
+          title: Taskid
+          description: Task ID
+        successCount:
+          type: integer
+          title: Successcount
+          description: Number of successful updates
+        failureCount:
+          type: integer
+          title: Failurecount
+          description: Number of failed updates
+        results:
+          items:
+            $ref: '#/components/schemas/TaskJobCodeAutomationResult'
+          type: array
+          title: Results
+          description: Individual results per job code
+      type: object
+      required:
+      - taskId
+      - successCount
+      - failureCount
+      - results
+      title: TaskAutomationBulkResult
+      description: 'Results for all job code updates of a single task.
+
+
+        Aggregates per-job-code results with success/failure counts.'
+    BulkTaskAutomationStatusRequest:
+      properties:
+        tasks:
+          items:
+            $ref: '#/components/schemas/TaskAutomationStatusBulkUpdate'
+          type: array
+          minItems: 1
+          title: Tasks
+          description: List of tasks to update (at least 1 required)
+      type: object
+      required:
+      - tasks
+      title: BulkTaskAutomationStatusRequest
+    TaskAutomationStatusBulkUpdate:
+      properties:
+        taskId:
+          type: string
+          title: Taskid
+          description: Task identifier (UUID from Ontology Service)
+        status:
+          $ref: '#/components/schemas/AutomationStatus'
+          description: Automation status to apply
+        jobCodes:
+          items:
+            $ref: '#/components/schemas/JobCodeAutomationUpdate'
+          type: array
+          minItems: 1
+          title: Jobcodes
+          description: List of job codes to update (at least 1 required)
+      type: object
+      required:
+      - taskId
+      - status
+      - jobCodes
+      title: TaskAutomationStatusBulkUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AutomationStatus:
+      type: string
+      enum:
+      - full
+      - high
+      - moderate
+      - low
+      - not_automating
+      - in_progress
+      - no_status
+      title: AutomationStatus
+      description: 'Enum representing the automation status levels for tasks.
+
+
+        Each level corresponds to a specific automation score that impacts AI calculations.
+
+        Scores are defined in the AUTOMATION_STATUS_SCORES constant.'
+    TaskJobCodeAutomationResult:
+      properties:
+        jobCodeId:
+          type: string
+          title: Jobcodeid
+          description: Job code ID
+        taskId:
+          type: string
+          title: Taskid
+          description: Task ID
+        status:
+          type: integer
+          title: Status
+          description: HTTP status code (200 = success, 404 = not found, etc.)
+        detail:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Detail
+          description: Error detail if status is not 200
+        automationStatus:
+          anyOf:
+          - $ref: '#/components/schemas/TaskAutomationStatusRead'
+          - type: 'null'
+          description: Updated automation status (only on success)
+      type: object
+      required:
+      - jobCodeId
+      - taskId
+      - status
+      title: TaskJobCodeAutomationResult
+      description: 'Result for a single task-job_code automation status update.
+
+
+        Contains HTTP status code, optional error detail, and the automation status on success.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JobCodeAutomationUpdate:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Job code ID
+      type: object
+      required:
+      - id
+      title: JobCodeAutomationUpdate
+      description: Single job code reference for bulk automation status updates.
+    TaskAutomationStatusRead:
+      properties:
+        jobCodeId:
+          type: string
+          title: Jobcodeid
+          description: Job code identifier
+        taskId:
+          type: string
+          title: Taskid
+          description: Task identifier
+        status:
+          $ref: '#/components/schemas/AutomationStatus'
+          description: Current automation status
+        timestamp:
+          type: string
+          format: date-time
+          title: Timestamp
+          description: When the status was last updated
+        modifiedBy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Modifiedby
+          description: User ID who modified the status
+        modifiedByName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Modifiedbyname
+          description: Name of user who modified the status
+      type: object
+      required:
+      - jobCodeId
+      - taskId
+      - status
+      - timestamp
+      title: TaskAutomationStatusRead
+      description: 'Response model for task automation status.
+
+
+        Returns the status - score calculations are done at query time based on status value.'
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md
+  - https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md
+  - https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md
+  - https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md
+  - https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md
+  - https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md
+  - https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md
+  - https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md
+  - https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md
+  - https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md
+  - https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md
+  - https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md
+  - https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md
+  - https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md
+  - https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md
+  - https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md
+  - https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md
+  - https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md
+  - https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md
+  - https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md
+  - https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md
+  - https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md
+  - https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md
+  - https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md
+  - https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md
+  - https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md
+  - https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md
+  - https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md
+  - https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md
+  - https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md
+  merge:
+    pages: 39
+    deduped: 328
+    conflicts_kept_first: 0

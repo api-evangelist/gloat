@@ -1,0 +1,481 @@
+openapi: 3.2.0
+info:
+  title: Skills Foundation Skills Inventory > Users API
+  version: 1.0.0
+tags:
+- name: Skills Inventory > Users
+paths:
+  /api/skills-foundation/skills-inventory/users:
+    post:
+      tags:
+      - Skills Inventory > Users
+      summary: Get Users List
+      operationId: get_users_list_api_v2__company__skills_inventory_users_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_get_users_list_api_v2__company__skills_inventory_users_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersPaginationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    UserOutput:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: string
+          - type: 'null'
+          title: Id
+        userId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Userid
+        companySlug:
+          type: string
+          title: Companyslug
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        isStaff:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Isstaff
+          default: false
+        firstName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Firstname
+        lastName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Lastname
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        gradeLevel:
+          anyOf:
+          - $ref: '#/components/schemas/GradeLevelObj'
+          - type: 'null'
+        jobCode:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Jobcode
+        department:
+          anyOf:
+          - $ref: '#/components/schemas/Department'
+          - type: 'null'
+        jobFamily:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Jobfamily
+        function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Function
+        subFunction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Subfunction
+        residence:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Residence
+        skills:
+          anyOf:
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/SkillBase'
+              - $ref: '#/components/schemas/SkillComponent-Output'
+            type: array
+          - type: 'null'
+          title: Skills
+        inferredSkills:
+          anyOf:
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/SkillBase'
+              - $ref: '#/components/schemas/SkillComponent-Output'
+            type: array
+          - type: 'null'
+          title: Inferredskills
+        experiences:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Experiences
+        educations:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Educations
+        positions:
+          anyOf:
+          - items:
+              additionalProperties: true
+              type: object
+            type: array
+          - type: 'null'
+          title: Positions
+        claimedProfile:
+          type: boolean
+          title: Claimedprofile
+          default: false
+        directManagerId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Directmanagerid
+        directManager:
+          anyOf:
+          - $ref: '#/components/schemas/UserOutput'
+          - type: 'null'
+      type: object
+      required:
+      - id
+      - companySlug
+      title: UserOutput
+    Body_get_users_list_api_v2__company__skills_inventory_users_post:
+      properties:
+        page:
+          type: integer
+          minimum: 1
+          title: Page
+          default: 1
+        page_size:
+          type: integer
+          maximum: 50
+          minimum: 1
+          title: Page Size
+          default: 20
+        priority_users:
+          items:
+            type: string
+          type: array
+          title: Priority Users
+          default: []
+        search_query:
+          type: string
+          title: Search Query
+          default: ''
+        advanced_filters:
+          items:
+            items:
+              anyOf:
+              - $ref: '#/components/schemas/StringListFilter'
+              - $ref: '#/components/schemas/SkillsFilter'
+            type: array
+          type: array
+          title: Advanced Filters
+          default: []
+      type: object
+      title: Body_get_users_list_api_v2__company__skills_inventory_users_post
+    DisplayedTerm:
+      properties:
+        id:
+          type: string
+          title: Id
+        display:
+          type: string
+          title: Display
+        language:
+          type: string
+          title: Language
+      additionalProperties: true
+      type: object
+      required:
+      - id
+      - display
+      - language
+      title: DisplayedTerm
+      description: 'Represents a displayed term with basic properties.
+
+
+        This model is configured to allow additional fields beyond those explicitly defined.
+
+        This flexibility enables the incorporation of extra keys from the ontology without enforcing a rigid schema.'
+    Tag:
+      properties:
+        name:
+          type: string
+          title: Name
+        language:
+          type: string
+          title: Language
+      additionalProperties: true
+      type: object
+      required:
+      - name
+      - language
+      title: Tag
+      description: 'Represents a tag with basic attributes.
+
+
+        The model accepts extra entity data beyond the defined fields, allowing for the inclusion of
+
+        additional metadata without a strict format requirement.'
+    SkillBase:
+      properties:
+        name:
+          type: string
+          title: Name
+        language:
+          type: string
+          title: Language
+        taxonomy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Taxonomy
+      type: object
+      required:
+      - name
+      - language
+      title: SkillBase
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UsersPaginationResponse:
+      properties:
+        users:
+          items:
+            $ref: '#/components/schemas/UserOutput'
+          type: array
+          title: Users
+          default: []
+        hasNext:
+          type: boolean
+          title: Hasnext
+          default: true
+        numResults:
+          type: integer
+          title: Numresults
+        pageCount:
+          type: integer
+          title: Pagecount
+      type: object
+      required:
+      - numResults
+      - pageCount
+      title: UsersPaginationResponse
+    SkillsFilter:
+      properties:
+        name:
+          type: string
+          const: skills
+          title: Name
+        value:
+          items:
+            $ref: '#/components/schemas/TagFilter'
+          type: array
+          title: Value
+      type: object
+      required:
+      - name
+      - value
+      title: SkillsFilter
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GradeLevelObj:
+      properties:
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+      type: object
+      title: GradeLevelObj
+    SkillComponent-Output:
+      properties:
+        skill:
+          anyOf:
+          - $ref: '#/components/schemas/DisplayedTerm'
+          - type: 'null'
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        entity:
+          additionalProperties: true
+          type: object
+          title: Entity
+        is_unknown_skill:
+          type: boolean
+          title: Is Unknown Skill
+          readOnly: true
+        name:
+          type: string
+          title: Name
+          readOnly: true
+      type: object
+      required:
+      - tags
+      - is_unknown_skill
+      - name
+      title: SkillComponent
+      description: "Represents a grouped skill component.\n\nAttributes:\n  - skill: The associated DisplayedTerm (if found).\n  - tags: A list of Tag objects grouped for this skill.\n  - entity: A dictionary containing additional merged entity data."
+    Department:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+      type: object
+      required:
+      - id
+      - name
+      title: Department
+    TagFilter:
+      properties:
+        name:
+          type: string
+          title: Name
+        language:
+          type: string
+          title: Language
+      additionalProperties: true
+      type: object
+      required:
+      - name
+      - language
+      title: TagFilter
+    StringListFilter:
+      properties:
+        name:
+          type: string
+          enum:
+          - grade_levels
+          - job_codes
+          - departments
+          - locations
+          - titles
+          - job_families
+          title: Name
+        value:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Value
+      type: object
+      required:
+      - name
+      - value
+      title: StringListFilter
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md
+  - https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md
+  - https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md
+  - https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md
+  - https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md
+  - https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md
+  - https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md
+  - https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md
+  - https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md
+  - https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md
+  - https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md
+  - https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md
+  - https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md
+  - https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md
+  - https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md
+  - https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md
+  - https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md
+  - https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md
+  - https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md
+  - https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md
+  - https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md
+  - https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md
+  - https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md
+  - https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md
+  - https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md
+  - https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md
+  - https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md
+  - https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md
+  - https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md
+  - https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md
+  merge:
+    pages: 39
+    deduped: 328
+    conflicts_kept_first: 0

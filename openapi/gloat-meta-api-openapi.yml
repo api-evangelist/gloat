@@ -1,0 +1,86 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Meta API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Meta
+  description: Endpoints related to service, authentication and connectivity
+paths:
+  /ping:
+    get:
+      tags:
+      - Meta
+      summary: Test service availability and authorization
+      description: Returns a successful response, if authorization succeeded
+      responses:
+        '200':
+          description: successful operation
+          content: {}
+      operationId: getPing
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

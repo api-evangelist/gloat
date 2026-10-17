@@ -1,0 +1,155 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer User Profile API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: User Profile
+paths:
+  /user_profile/training:
+    post:
+      tags:
+      - User Profile
+      summary: Insert user training records
+      description: Upload training records for user profile
+      requestBody:
+        description: Object with ids as keys and array of records as a value
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_training:
+                  type: object
+                  properties:
+                    <user_id>:
+                      type: array
+                      description: Array of training objects
+                      items:
+                        $ref: '#/components/schemas/training'
+        required: true
+      responses:
+        '200':
+          description: Successful Upload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  training_result:
+                    type: object
+                    properties:
+                      success:
+                        type: boolean
+                        example: true
+                      stats:
+                        type: object
+                        example:
+                          total_training_records: 2
+                          training_created: 1
+                          training_failed: 1
+                          total_num_of_users: 2
+                          invalid_users: 1
+        '400':
+          description: Integration failed, missing data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Training upload failed
+      operationId: postUserProfileTraining
+      x-operation-id-source: derived
+components:
+  schemas:
+    training:
+      type: object
+      required:
+      - user_id
+      - course_name
+      - start_date
+      properties:
+        course_name:
+          type: string
+          example: Python
+        start_date:
+          type: string
+          example: '2020-05-28'
+        end_date:
+          type: string
+          example: '2020-12-30'
+        institution:
+          type: string
+          example: udemy
+        type:
+          type: string
+          example: online
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

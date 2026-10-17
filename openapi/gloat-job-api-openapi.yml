@@ -1,0 +1,578 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Job API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Job
+  description: Positions/requisitions operations
+paths:
+  /jobs:
+    post:
+      tags:
+      - Job
+      summary: Upsert job
+      description: Update or insert jobs in Gloat
+      operationId: jobUpsert
+      requestBody:
+        description: Gloat job object
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - jobs
+              - vendor
+              properties:
+                jobs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/job_object'
+                vendor:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: successful operation
+        '201':
+          description: successful operation
+        '400':
+          description: data params problem
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  created:
+                    type: integer
+                    example: 1
+                  failed:
+                    type: integer
+                    example: 3
+                  updated:
+                    type: integer
+                    example: 1
+                  ignored:
+                    type: integer
+                    example: 1
+                  total:
+                    type: integer
+                    example: 8
+                  status_summary:
+                    type:
+                    - object
+                    - 'null'
+                    additionalProperties:
+                      type: integer
+                    example:
+                      internal error: 2
+                      invalid payload: 1
+                      success: 5
+                  validation_errors:
+                    type:
+                    - object
+                    - 'null'
+                    additionalProperties:
+                      type: integer
+                    example:
+                      'Missing mandatory fields: status': 2
+      x-codegen-request-body-name: body
+      x-operation-id-source: normalized
+      x-operation-id-original: job upsert
+    patch:
+      tags:
+      - Job
+      summary: Set jobs status by id
+      description: Update jobs status by ids
+      operationId: jobPatch
+      requestBody:
+        description: Gloat job object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vendor:
+                  type: string
+                jobs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/job_patch_object'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: object
+                    example:
+                      Success:
+                      - id1
+                      - id2
+                      Invalid input:
+                      - id3
+                      Not found:
+                      - id4
+                      Unknown error:
+                      - id5
+      x-codegen-request-body-name: body
+      x-operation-id-source: normalized
+      x-operation-id-original: job patch
+  /jobs/desired:
+    get:
+      tags:
+      - Job
+      summary: Get users and their desired roles
+      description: users and desired roles
+      parameters:
+      - in: query
+        name: userId
+        schema:
+          type: string
+        description: a specific external user id to get desired roles for
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: The numbers of items to return
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: The offset of items to return
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        userId:
+                          type: string
+                        desiredRoles:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              name:
+                                type: string
+      operationId: getJobsDesired
+      x-operation-id-source: derived
+  /jobs/status:
+    get:
+      tags:
+      - Job
+      summary: Job IDs by status
+      description: Retrieve list of Job ID's by list of statuses
+      operationId: getJobByStatus
+      parameters:
+      - name: vendor
+        in: query
+        description: job integration vendor
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: "Job status to filter by:\n  * `OP` - open\n  * `CL` - close\n  * `CA` - closed for applications\n  * `IN` - invisible\n  * `PA` - open pending approval\n  * `DE` - deleted\n  * `AR` - archived"
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - OP
+            - CL
+            - CA
+            - IN
+            - PA
+            - DE
+            - AR
+          default: '[''OP'']'
+      - name: offset
+        in: query
+        description: how many jobs to skip from beginning
+        schema:
+          type: number
+          default: 0
+          minimum: 0
+      - name: limit
+        in: query
+        description: how many jobs to return (max 100)
+        schema:
+          type: number
+          default: 100
+          minimum: 1
+          maximum: 100
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/job_detail_object'
+        '400':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: invalid list of status to check
+      x-operation-id-source: normalized
+      x-operation-id-original: get job by status
+components:
+  schemas:
+    job_detail_object:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              projectId:
+                type: string
+              description:
+                type: string
+              locations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    provider:
+                      type: string
+                    name:
+                      type: string
+                    id:
+                      type: string
+                    country:
+                      type: string
+                    displayName:
+                      type: string
+              locationLimitation:
+                type: string
+              skills:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    language:
+                      type: string
+              experiences:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+              link:
+                type: string
+              status:
+                type: string
+              title:
+                type: string
+              dateCreated:
+                type: string
+              descriptionHtml:
+                type: string
+    language_array:
+      type: array
+      items:
+        type: object
+        required:
+        - code
+        - level
+        properties:
+          code:
+            type: string
+            example: en
+            description: 2 letter language code
+          level:
+            type: string
+            enum:
+            - BA
+            - AD
+            - FL
+            - NL
+            - NT
+            description: "language proficiency level:\n  * `BA` - Basic\n  * `AD` - Advanced\n  * `FL` - Fluent\n  * `NL` - Native Level\n  * `NT` - Native"
+            example: BA
+    job_person_relations:
+      type: string
+      enum:
+      - manager
+      - hrbp
+      - coowner
+      - recruiter
+      - viewer
+    certification_requirements:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+        example: '[{"id": "certification_id_1"}]'
+    location_array:
+      type: array
+      items:
+        type: object
+        required:
+        - city
+        - country_code
+        properties:
+          city:
+            type: string
+            example: Manchester
+          country_code:
+            type: string
+            example: UK
+          state:
+            type: string
+            default: ''
+            example: England
+    job_status:
+      type: string
+      enum:
+      - OP
+      - CL
+      - CA
+      - PE
+      description: "Job status:\n  * `OP` - open\n  * `PE` - pending\n  * `CL` - closed\n  * `CA` - closed for applications (invisible for imob)"
+    job_patch_object:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The external job ID
+        status:
+          $ref: '#/components/schemas/job_status'
+    job_location_type:
+      type: string
+      enum:
+      - GLOBAL
+      - LOCAL
+      - LOCAL_WITH_RELOCATION
+      - REMOTE
+    job_object:
+      type: object
+      required:
+      - grade_level
+      - job_id
+      - status
+      - title
+      properties:
+        grade_level:
+          type: string
+        job_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/job_status'
+        title:
+          type: string
+        description:
+          type: string
+        description_html:
+          type: string
+        department_id:
+          type: string
+        departments:
+          type: array
+          items:
+            type: string
+        experiences:
+          type: array
+          items:
+            type: string
+        function:
+          type: string
+        sub_function:
+          type: string
+        business_unit:
+          type: string
+        job_code:
+          type: string
+        job_family:
+          type: string
+        languages:
+          $ref: '#/components/schemas/language_array'
+        location_type:
+          $ref: '#/components/schemas/job_location_type'
+        locations:
+          $ref: '#/components/schemas/location_array'
+        persons:
+          $ref: '#/components/schemas/person_array'
+        requirements:
+          type: string
+        sites:
+          type: array
+          items:
+            type: string
+        certification_requirements:
+          $ref: '#/components/schemas/certification_requirements'
+        translations:
+          $ref: '#/components/schemas/translation_dict'
+        unposting_date:
+          type: string
+        extra_data:
+          type: object
+          properties: {}
+        ats_links:
+          type: object
+          properties: {}
+        required_skills:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Python
+    person_array:
+      type: array
+      title: Persons Related to a Job
+      items:
+        type: object
+        required:
+        - user_id
+        - email
+        - first_name
+        - last_name
+        - relation
+        properties:
+          user_id:
+            type: string
+          email:
+            type: string
+          first_name:
+            type: string
+          last_name:
+            type: string
+          relation:
+            $ref: '#/components/schemas/job_person_relations'
+    language_dict:
+      type: object
+      required:
+      - title
+      - description
+      properties:
+        title:
+          type: string
+          example: Software Developer
+        description:
+          type: string
+        description_html:
+          type: string
+    translation_dict:
+      type: object
+      properties:
+        en:
+          $ref: '#/components/schemas/language_dict'
+        fr:
+          $ref: '#/components/schemas/language_dict'
+        etc...:
+          $ref: '#/components/schemas/language_dict'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

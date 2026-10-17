@@ -1,0 +1,262 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Core Entities API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Core Entities
+paths:
+  /departments:
+    delete:
+      tags:
+      - Core Entities
+      summary: Delete Departments
+      description: Delete departments - by ID, by name, or all
+      operationId: departmentBulkDelete
+      parameters:
+      - name: all
+        in: query
+        schema:
+          type: string
+      - name: id
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        explode: true
+      - name: name
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        explode: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  stats:
+                    type: object
+                    example: 5
+      x-codegen-request-body-name: departments
+      x-operation-id-source: normalized
+      x-operation-id-original: department bulk delete
+  /functions:
+    post:
+      tags:
+      - Core Entities
+      summary: Insert functions (bulk)
+      description: Create functions and sub-functions
+      operationId: functionBulkInsert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                functions:
+                  type: array
+                  description: Array of function objects
+                  items:
+                    $ref: '#/components/schemas/function_object'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  stats:
+                    type: object
+                    example:
+                      preexisting_functions: 5
+                      preexisting_subfunctions: 30
+                      received: 1
+                      received_existing: 1
+                      created: 1
+                      updated_name: 3
+                      parent: 4
+                      updated: 1
+      x-codegen-request-body-name: functions
+      x-operation-id-source: normalized
+      x-operation-id-original: function bulk insert
+  /locations:
+    post:
+      tags:
+      - Core Entities
+      summary: Insert locations (bulk)
+      description: Create locations (a.k.a. sites)
+      operationId: locationBulkInsert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - locations
+              type: object
+              properties:
+                locations:
+                  type: array
+                  description: Array of location objects
+                  items:
+                    $ref: '#/components/schemas/location_object'
+                updateExisting:
+                  type: boolean
+                  description: If true, existing location IDs would be updated to reflect the latest info. If false, only new locations would be created, but existing ones would not be updated even if their information is different.
+                  default: false
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  stats:
+                    type: object
+                    example:
+                      preexisting: 3
+                      newly_mapped: 10
+                      existed: 2
+                      failed: 1
+                      invalid_countries: 1
+      x-codegen-request-body-name: locations
+      x-operation-id-source: normalized
+      x-operation-id-original: location bulk insert
+components:
+  schemas:
+    location_object:
+      type: object
+      required:
+      - external_id
+      - source
+      - is_active
+      - is_remote
+      properties:
+        external_id:
+          type: string
+          example: id123
+        source:
+          type: string
+          example: workday
+        is_active:
+          type: boolean
+          example: true
+        is_remote:
+          type: boolean
+          example: false
+        display_name:
+          type: string
+          example: London, UK
+        city:
+          type: string
+          example: London
+        country:
+          type: string
+          example: England
+        country_code:
+          type: string
+          example: UK
+        state:
+          type: string
+        region:
+          type: string
+        googlable_name:
+          type: string
+    function_object:
+      type: object
+      required:
+      - id
+      - name
+      - parent_id
+      properties:
+        id:
+          type: string
+          example: id123
+        name:
+          type: string
+          example: function
+        parent_id:
+          type: string
+          example: pid123
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

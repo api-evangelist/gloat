@@ -1,0 +1,648 @@
+openapi: 3.2.0
+info:
+  title: Company Service Applications API
+  version: 0.1.0
+tags:
+- name: Applications
+paths:
+  /api/company/v1/applications:
+    get:
+      tags:
+      - Applications
+      summary: List Company Applications
+      operationId: list_company_applications_api_company_v1_applications_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Optional search query for application names
+          title: Q
+        description: Optional search query for application names
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of items per page (0 = no limit)
+          default: 20
+          title: Limit
+        description: Number of items per page (0 = no limit)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationListSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Applications
+      summary: Process Application File
+      operationId: process_application_file_api_company_v1_applications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationFileRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFileProcessingResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/download:
+    get:
+      tags:
+      - Applications
+      summary: Download All Applications
+      description: Download all applications for the company with their user assignments in upload format
+      operationId: download_all_applications_api_company_v1_applications_download_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFileDownloadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/status/{processing_id}:
+    get:
+      tags:
+      - Applications
+      summary: Get Processing Status By Id
+      operationId: get_processing_status_by_id_api_company_v1_applications_status__processing_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: processing_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Processing ID to check status for
+          title: Processing Id
+        description: Processing ID to check status for
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationFileStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/{application_id}:
+    get:
+      tags:
+      - Applications
+      summary: Get Application Details
+      operationId: get_application_details_api_company_v1_applications__application_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Application Id
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationGetSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/company/v1/applications/{application_id}/users:
+    get:
+      tags:
+      - Applications
+      summary: Get Users With Application
+      operationId: get_users_with_application_api_company_v1_applications__application_id__users_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: application_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Application ID to find users for
+          title: Application Id
+        description: Application ID to find users for
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of items per page (0 = no limit)
+          default: 20
+          title: Limit
+        description: Number of items per page (0 = no limit)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationUsersListSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ApplicationFileDownloadResponse:
+      properties:
+        data:
+          $ref: '#/components/schemas/ApplicationFileData'
+      type: object
+      required:
+      - data
+      title: ApplicationFileDownloadResponse
+    ApplicationFileEntry:
+      properties:
+        name:
+          type: string
+          title: Name
+        external_id:
+          type: string
+          title: External Id
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          anyOf:
+          - $ref: '#/components/schemas/ApplicationCategory'
+          - type: 'null'
+        user_assignments:
+          items:
+            type: string
+          type: array
+          title: User Assignments
+      type: object
+      required:
+      - name
+      - external_id
+      - user_assignments
+      title: ApplicationFileEntry
+    ProcessingMode:
+      type: string
+      enum:
+      - upsert
+      - overwrite
+      title: ProcessingMode
+    ApplicationCategory:
+      type: string
+      enum:
+      - Technologies
+      - AI Agents
+      - AI Assistance
+      title: ApplicationCategory
+    ApplicationSource:
+      type: string
+      enum:
+      - azure_ad
+      - jumpcloud
+      - custom
+      title: ApplicationSource
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ApplicationFileRequestBody:
+      properties:
+        asset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Id
+        data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Data
+        processing_mode:
+          $ref: '#/components/schemas/ProcessingMode'
+          default: upsert
+      type: object
+      title: ApplicationFileRequestBody
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ApplicationPartialData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/ApplicationCategory'
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - description
+      title: ApplicationPartialData
+    ApplicationFileProcessingResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        asset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Id
+        status:
+          $ref: '#/components/schemas/ProcessingStatus'
+        processing_id:
+          type: string
+          title: Processing Id
+      type: object
+      required:
+      - message
+      - status
+      - processing_id
+      title: ApplicationFileProcessingResponse
+    ApplicationUsersListSchema:
+      properties:
+        items:
+          items:
+            type: string
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        limit:
+          type: integer
+          title: Limit
+        total_count:
+          type: integer
+          title: Total Count
+        has_next:
+          type: boolean
+          title: Has Next
+          readOnly: true
+        page_count:
+          type: integer
+          title: Page Count
+          readOnly: true
+      type: object
+      required:
+      - items
+      - page
+      - limit
+      - total_count
+      - has_next
+      - page_count
+      title: ApplicationUsersListSchema
+    ProcessingStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      - failed
+      title: ProcessingStatus
+    ApplicationListSchema:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ApplicationPartialData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        limit:
+          type: integer
+          title: Limit
+        total_count:
+          type: integer
+          title: Total Count
+        has_next:
+          type: boolean
+          title: Has Next
+          readOnly: true
+        page_count:
+          type: integer
+          title: Page Count
+          readOnly: true
+      type: object
+      required:
+      - items
+      - page
+      - limit
+      - total_count
+      - has_next
+      - page_count
+      title: ApplicationListSchema
+    ApplicationGetSchema:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/ApplicationCategory'
+        description:
+          type: string
+          title: Description
+        application_source:
+          $ref: '#/components/schemas/ApplicationSource'
+        external_id:
+          type: string
+          title: External Id
+        description_generated:
+          type: boolean
+          title: Description Generated
+        date_created:
+          type: string
+          format: date-time
+          title: Date Created
+        date_updated:
+          type: string
+          format: date-time
+          title: Date Updated
+        updated_by:
+          type: string
+          title: Updated By
+        all_users:
+          type: boolean
+          title: All Users
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - description
+      - application_source
+      - external_id
+      - description_generated
+      - date_created
+      - date_updated
+      - updated_by
+      - all_users
+      title: ApplicationGetSchema
+    ApplicationFileStatusResponse:
+      properties:
+        asset_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Id
+        status:
+          $ref: '#/components/schemas/ProcessingStatus'
+        filename:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Filename
+        application_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Application Count
+        applications_created:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Applications Created
+        applications_updated:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Applications Updated
+        errors:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Errors
+        warnings:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Warnings
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        date_created:
+          type: string
+          title: Date Created
+        started_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Started At
+        completed_at:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - status
+      - date_created
+      title: ApplicationFileStatusResponse
+    ApplicationFileData:
+      properties:
+        applications:
+          items:
+            $ref: '#/components/schemas/ApplicationFileEntry'
+          type: array
+          title: Applications
+      type: object
+      required:
+      - applications
+      title: ApplicationFileData
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md
+  - https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md
+  - https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md
+  - https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md
+  - https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md
+  - https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md
+  - https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md
+  - https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md
+  - https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md
+  - https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md
+  - https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md
+  - https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md
+  - https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md
+  - https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md
+  - https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md
+  - https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md
+  - https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md
+  - https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md
+  - https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md
+  - https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md
+  - https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md
+  - https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md
+  - https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md
+  - https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md
+  - https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md
+  - https://developer.gloat.com/reference/trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post.md
+  - https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md
+  - https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md
+  - https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md
+  - https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md
+  merge:
+    pages: 30
+    deduped: 105
+    conflicts_kept_first: 0

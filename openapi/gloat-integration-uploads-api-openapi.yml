@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: Company Service Integration uploads API
+  version: 0.1.0
+  description: Presigned HTTPS PUT URLs for uploading files to the integration (e.g. Boomi) S3 bucket under your company prefix. Requires the upload_users permission. Configure INTEGRATION_UPLOADS_BUCKET and IRSA s3:PutObject on that bucket.
+tags:
+- name: Integration uploads
+  description: Presigned HTTPS PUT URLs for uploading files to the integration (e.g. Boomi) S3 bucket under your company prefix. Requires the upload_users permission. Configure INTEGRATION_UPLOADS_BUCKET and IRSA s3:PutObject on that bucket.
+paths:
+  /api/company/v1/integration-uploads/presigned-upload-url:
+    post:
+      tags:
+      - Integration uploads
+      summary: Create Presigned Integration Upload Url
+      description: 'Mint a short-lived presigned **HTTPS PUT** URL for uploading one object to the integration
+
+        bucket under `{company_slug}/...`. The client must PUT the file body to the returned URL.'
+      operationId: create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresignedIntegrationUploadRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresignedIntegrationUploadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PresignedIntegrationUploadResponse:
+      properties:
+        url:
+          type: string
+          title: Url
+        http_method:
+          type: string
+          title: Http Method
+          default: PUT
+        bucket:
+          type: string
+          title: Bucket
+        key:
+          type: string
+          title: Key
+        expires_in_seconds:
+          type: integer
+          title: Expires In Seconds
+        max_upload_bytes:
+          type: integer
+          title: Max Upload Bytes
+      type: object
+      required:
+      - url
+      - bucket
+      - key
+      - expires_in_seconds
+      - max_upload_bytes
+      title: PresignedIntegrationUploadResponse
+    PresignedIntegrationUploadRequest:
+      properties:
+        relative_key:
+          type: string
+          minLength: 1
+          title: Relative Key
+          description: Path under the company prefix (no leading slash); must not contain '..'.
+      type: object
+      required:
+      - relative_key
+      title: PresignedIntegrationUploadRequest
+      description: Body for minting a presigned S3 PUT URL under `{company_slug}/`.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md
+  - https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md
+  - https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md
+  - https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md
+  - https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md
+  - https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md
+  - https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md
+  - https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md
+  - https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md
+  - https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md
+  - https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md
+  - https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md
+  - https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md
+  - https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md
+  - https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md
+  - https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md
+  - https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md
+  - https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md
+  - https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md
+  - https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md
+  - https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md
+  - https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md
+  - https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md
+  - https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md
+  - https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md
+  - https://developer.gloat.com/reference/trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post.md
+  - https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md
+  - https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md
+  - https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md
+  - https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md
+  merge:
+    pages: 30
+    deduped: 105
+    conflicts_kept_first: 0

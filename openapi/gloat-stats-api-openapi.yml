@@ -1,0 +1,188 @@
+openapi: 3.2.0
+info:
+  title: Skills Foundation Stats API
+  version: 1.0.0
+tags:
+- name: Stats
+paths:
+  /api/skills-foundation/v1/stats/tag-usage:
+    post:
+      tags:
+      - Stats
+      summary: Get Tag Usage
+      description: 'Get usage counts for skills across job architecture entities.
+
+
+        This endpoint is used by the Ontology Service to count how many times
+
+        skills are used in job families, job codes, and job titles.
+
+
+        Returns separate counts for each entity type that uses the skill.
+
+        Only returns counts > 0 (omits skills with no usage).'
+      operationId: get_tag_usage_api_v2__company__v1_stats_tag_usage_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagUsageCountRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagUsageCountResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TagUsageCountResponse:
+      properties:
+        counts:
+          items:
+            $ref: '#/components/schemas/TagUsageCount'
+          type: array
+          title: Counts
+      type: object
+      required:
+      - counts
+      title: TagUsageCountResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TagUsageCountRequest:
+      properties:
+        tags:
+          items:
+            $ref: '#/components/schemas/TagUsageCountInput'
+          type: array
+          title: Tags
+      type: object
+      required:
+      - tags
+      title: TagUsageCountRequest
+    TagUsageCountInput:
+      properties:
+        name:
+          type: string
+          title: Name
+        language:
+          type: string
+          title: Language
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - name
+      - language
+      - type
+      title: TagUsageCountInput
+    TagUsageCount:
+      properties:
+        tag_name:
+          type: string
+          title: Tag Name
+        language:
+          type: string
+          title: Language
+        type:
+          type: string
+          title: Type
+        counts:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Counts
+          description: Mapping of object_type (e.g., 'user') to count
+      type: object
+      required:
+      - tag_name
+      - language
+      - type
+      - counts
+      title: TagUsageCount
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md
+  - https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md
+  - https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md
+  - https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md
+  - https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md
+  - https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md
+  - https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md
+  - https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md
+  - https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md
+  - https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md
+  - https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md
+  - https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md
+  - https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md
+  - https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md
+  - https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md
+  - https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md
+  - https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md
+  - https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md
+  - https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md
+  - https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md
+  - https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md
+  - https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md
+  - https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md
+  - https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md
+  - https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md
+  - https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md
+  - https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md
+  - https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md
+  - https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md
+  - https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md
+  merge:
+    pages: 39
+    deduped: 328
+    conflicts_kept_first: 0

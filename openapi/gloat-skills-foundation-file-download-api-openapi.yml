@@ -1,0 +1,263 @@
+openapi: 3.2.0
+info:
+  title: Skills foundation > File Download API
+  version: 1.0.0
+tags:
+- name: Skills foundation > File Download
+paths:
+  /api/skills-foundation/file-download/files:
+    get:
+      tags:
+      - Skills foundation > File Download
+      summary: List Downloadable Files
+      description: Retrieve a list of all available downloadable files for a specified file type.
+      operationId: list_downloadable_files_api_v2__company__file_download_files_get
+      parameters:
+      - name: fileType
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/FileDownloadType'
+          description: The type of the downloadable files to list
+        description: The type of the downloadable files to list
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileDownloadRead'
+                title: Response List Downloadable Files Api V2  Company  File Download Files Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/file-download/files/latest/download-url:
+    get:
+      tags:
+      - Skills foundation > File Download
+      summary: Get Last File Download Url
+      description: Retrieve the download URL for the most recently uploaded file of a specified file type.
+      operationId: get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get
+      parameters:
+      - name: fileType
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/FileDownloadType'
+          description: The type of the file
+        description: The type of the file
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadURLRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/file-download/files/{task_id}/download-url:
+    get:
+      tags:
+      - Skills foundation > File Download
+      summary: Get File Download Url
+      description: 'Retrieve the download URL for a specific file download task.
+
+        A file download task should first be initiated at `/api/skills-foundation'
+      operationId: get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get
+      parameters:
+      - name: task_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: 'The ID of the file download task, returned in: `/api/skills-foundation/file-download/trigger` - `id` field'
+          title: Task Id
+        description: 'The ID of the file download task, returned in: `/api/skills-foundation/file-download/trigger` - `id` field'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadURLRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/file-download/trigger:
+    post:
+      tags:
+      - Skills foundation > File Download
+      summary: Trigger File Download
+      description: 'As file generation is a resource-intensive task, it must be initiated asynchronously.
+
+        This endpoint triggers a new file download task and returns a task ID.
+
+        The file type should be specified in the request body to indicate the type of file to be downloaded.'
+      operationId: trigger_file_download_api_v2__company__file_download_trigger_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_trigger_file_download_api_v2__company__file_download_trigger_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDownloadRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FileDownloadType:
+      type: string
+      enum:
+      - job-architecture
+      - management-console
+      - ai-index
+      title: FileDownloadType
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DownloadURLRead:
+      properties:
+        url:
+          type: string
+          title: Url
+      type: object
+      required:
+      - url
+      title: DownloadURLRead
+    Body_trigger_file_download_api_v2__company__file_download_trigger_post:
+      properties:
+        file_type:
+          $ref: '#/components/schemas/FileDownloadType'
+          description: The type of the file to download
+      type: object
+      required:
+      - file_type
+      title: Body_trigger_file_download_api_v2__company__file_download_trigger_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    FileDownloadRead:
+      properties:
+        id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+        fileType:
+          type: string
+          title: Filetype
+        createdAt:
+          type: string
+          format: date-time
+          title: Createdat
+        status:
+          type: string
+          title: Status
+        isDownloadable:
+          type: boolean
+          title: Isdownloadable
+          default: false
+      type: object
+      required:
+      - id
+      - fileType
+      - createdAt
+      - status
+      title: FileDownloadRead
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md
+  - https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md
+  - https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md
+  - https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md
+  - https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md
+  - https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md
+  - https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md
+  - https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md
+  - https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md
+  - https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md
+  - https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md
+  - https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md
+  - https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md
+  - https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md
+  - https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md
+  - https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md
+  - https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md
+  - https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md
+  - https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md
+  - https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md
+  - https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md
+  - https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md
+  - https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md
+  - https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md
+  - https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md
+  - https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md
+  - https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md
+  - https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md
+  - https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md
+  - https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md
+  merge:
+    pages: 39
+    deduped: 328
+    conflicts_kept_first: 0

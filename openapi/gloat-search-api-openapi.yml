@@ -1,0 +1,297 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Search API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Search
+paths:
+  /opportunities/matching:
+    get:
+      tags:
+      - Search
+      summary: Opportunity recommendations for an end-user
+      description: '__In planning__
+
+        quota: Costs 5 credits.'
+      operationId: opportunities-personalized
+      parameters:
+      - name: user_id
+        in: query
+        description: ID of user for whom recommendations are to be provided
+        schema:
+          type: string
+          example: ABC123
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search_response'
+  /search:
+    get:
+      tags:
+      - Search
+      summary: Search for various entities
+      description: 'Return short descriptions of entities (jobs, roles, people) according
+
+        to a free textual query
+
+        Quota: Costs 5 credits.'
+      operationId: searchByKeyword
+      parameters:
+      - name: user_id
+        in: query
+        description: The user's id
+        required: true
+        schema:
+          type: string
+      - name: query
+        in: query
+        description: Text to search for (max 200 characters)
+        required: true
+        schema:
+          type: string
+      - name: language code
+        in: query
+        description: Language of entities to return. Entities will be returned only in this language and in English.
+        schema:
+          type: string
+          default: en
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search_response'
+        '400':
+          description: Bad request - missing user id | missing user | missing search query
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: triggered a search without a external user id
+        '403':
+          description: Bad request - not authorized user | language not available
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: language not available
+      x-operation-id-source: normalized
+      x-operation-id-original: search by keyword
+components:
+  schemas:
+    language_array:
+      type: array
+      items:
+        type: object
+        required:
+        - code
+        - level
+        properties:
+          code:
+            type: string
+            example: en
+            description: 2 letter language code
+          level:
+            type: string
+            enum:
+            - BA
+            - AD
+            - FL
+            - NL
+            - NT
+            description: "language proficiency level:\n  * `BA` - Basic\n  * `AD` - Advanced\n  * `FL` - Fluent\n  * `NL` - Native Level\n  * `NT` - Native"
+            example: BA
+    user_simple:
+      type: object
+      title: User - Simple Fields
+      properties:
+        user_id:
+          type: string
+          example: '123456'
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        title:
+          type: string
+          example: Eye Care Professional
+        type:
+          type: string
+          example: Doctor
+        link:
+          type: string
+          example: www.twitter.com/JohnDoe
+    project:
+      type: object
+      title: Project
+      properties:
+        id:
+          type: integer
+          example: 12345
+        name:
+          type: string
+          example: Sore eye treatment
+        owner_user_id:
+          type: string
+          example: '123456'
+    location_array:
+      type: array
+      items:
+        type: object
+        required:
+        - city
+        - country_code
+        properties:
+          city:
+            type: string
+            example: Manchester
+          country_code:
+            type: string
+            example: UK
+          state:
+            type: string
+            default: ''
+            example: England
+    job_simple:
+      type: object
+      title: Job/Requisition Basic Fields
+      properties:
+        job_id:
+          type: string
+          example: '123123'
+        title:
+          type: string
+          example: Eye Care Professional
+        description:
+          type: string
+          example: Examine, diagnose, and treat patients eyes.
+        locations:
+          $ref: '#/components/schemas/location_array'
+        languages:
+          $ref: '#/components/schemas/language_array'
+        link:
+          type: string
+          example: www.jobs.com/eye_care_professional
+    role_simple:
+      type: object
+      title: Job/Requisition Basic Fields
+      properties:
+        role_id:
+          type: string
+          example: '1231231'
+        title:
+          type: string
+          example: Ophthalmologist
+        description:
+          type: string
+          example: Perform medical and surgical treatments for eye conditions
+        locations:
+          $ref: '#/components/schemas/location_array'
+        languages:
+          $ref: '#/components/schemas/language_array'
+        link:
+          type: string
+          example: www.eyecare.com/eyes/Ophthalmologist
+        project:
+          $ref: '#/components/schemas/project'
+    search_response:
+      type: object
+      properties:
+        results:
+          type: object
+          properties:
+            jobs:
+              type: array
+              items:
+                $ref: '#/components/schemas/job_simple'
+            roles:
+              type: array
+              items:
+                $ref: '#/components/schemas/role_simple'
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/user_simple'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

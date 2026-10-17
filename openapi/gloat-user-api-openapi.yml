@@ -1,0 +1,507 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer User API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: User
+  description: Employee operations
+paths:
+  /users:
+    get:
+      tags:
+      - User
+      summary: Fetch user IDs, optionally filtered by some attributes
+      description: Retrieve list of user ID's according to filters
+      operationId: listUsers
+      parameters:
+      - name: status
+        in: query
+        description: User status to filter by
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - AC
+            - TR
+            - SU
+            - AP
+            - RQ
+            - IA
+            - DE
+          default: '["AC"]'
+      - name: manual
+        in: query
+        required: false
+        description: If true, only manually uploaded users will be returned
+        schema:
+          type: boolean
+          default: false
+        example: ?manual=1
+      - name: email
+        in: query
+        description: Return only the user having this exact email address
+        schema:
+          type: string
+        required: false
+      - name: offset
+        in: query
+        description: how many users to skip from beginning
+        schema:
+          type: number
+          default: 0
+      - name: limit
+        in: header
+        description: how many users to return (max 1000)
+        schema:
+          type: number
+          default: 500
+          minimum: 1
+          maximum: 1000
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_status_response'
+        '400':
+          description: Bad request - unknown status | non positive numbers (offset, limit) | limit exceeded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Received invalid list of statuses
+    post:
+      tags:
+      - User
+      summary: Upsert users
+      description: Update or insert users to Gloat - single or bulk
+      operationId: userUpsert
+      requestBody:
+        description: Gloat users object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/user_object'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+        '201':
+          description: single user created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+        '400':
+          description: Bad request - invalid user data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: Users upsert failed
+      x-codegen-request-body-name: body
+      x-operation-id-source: normalized
+      x-operation-id-original: user upsert
+    patch:
+      tags:
+      - User
+      summary: Update existing users
+      description: Update user's status or custom fields
+      operationId: patchUsers
+      requestBody:
+        description: Gloat users object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/user_patch_object'
+                ignoreTerminationThreshold:
+                  type: boolean
+                  default: false
+                maxToTerminate:
+                  type: number
+                  default: 100
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad request - missing payload | too many terminations | invalid status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: object
+                    properties:
+                      Not found:
+                        type: array
+                        items:
+                          type: string
+                          example: '123'
+                      Invalid status:
+                        type: array
+                        items:
+                          type: string
+                          example: '456'
+                      Invalid operation:
+                        type: array
+                        items:
+                          type: string
+                          example: '789'
+                      Unknown error:
+                        type: array
+                        items:
+                          type: string
+                          example: '159'
+  /users/activate:
+    post:
+      tags:
+      - User
+      summary: Activate one user
+      description: Simulates user onboarding; typically should not be required in real-world scenario as users do it themselves
+      operationId: userActivate
+      requestBody:
+        description: Gloat users object
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                external_id:
+                  type: string
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  internal_user_id:
+                    type: integer
+        '400':
+          description: Bad request
+        '404':
+          description: User not found
+      x-codegen-request-body-name: body
+      x-operation-id-source: normalized
+      x-operation-id-original: user activate
+  /users/cv:
+    get:
+      tags:
+      - User
+      summary: CV by user
+      description: get gloat CV by user and job
+      operationId: getGloatCVByUserAndJob
+      parameters:
+      - name: vendor
+        in: query
+        description: job integration vendor
+        required: false
+        schema:
+          type: string
+      - name: job_id
+        in: query
+        description: requisition id
+        required: false
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: user id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation - (pdf file will be returned)
+        '400':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: missing param user_id
+        '404':
+          description: integration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: couldn't find user
+      x-operation-id-source: normalized
+      x-operation-id-original: get gloat CV by user and job
+components:
+  schemas:
+    user_patch_object:
+      type: object
+      required:
+      - user_id
+      properties:
+        user_id:
+          type: string
+          example: '123456'
+        status:
+          $ref: '#/components/schemas/user_status'
+        certifications:
+          $ref: '#/components/schemas/user_certifications'
+        custom_fields:
+          type: object
+          properties: {}
+    user_response:
+      type: object
+      properties:
+        success:
+          type: boolean
+    user_status_response:
+      type: object
+      properties:
+        count:
+          type: number
+        hasMore:
+          type: boolean
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: number
+    user_object:
+      type: object
+      required:
+      - user_ids
+      - status
+      - first_name
+      - last_name
+      - grade_level
+      - email
+      - direct_manager_email
+      - direct_manager_id
+      - can_access_hire
+      properties:
+        user_id:
+          type: string
+          example: '123456'
+        email:
+          type: string
+          format: email
+        grade_level:
+          type: string
+          example: A
+        first_name:
+          type: string
+          format: name
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        status:
+          $ref: '#/components/schemas/user_status'
+        site:
+          type: string
+          example: London_cx5
+        city:
+          type: string
+          example: london
+        country_code:
+          type: string
+          example: UK
+        cluster:
+          type: string
+        department:
+          type: array
+          items:
+            type: string
+        department_id:
+          type: string
+          example: '1234'
+        function:
+          type: string
+        sub_function:
+          type: string
+        in_role_since:
+          type: string
+          format: date
+        certifications:
+          $ref: '#/components/schemas/user_certifications'
+        reporting_data:
+          type: object
+          properties: {}
+        state:
+          type: string
+          example: london
+        business_unit:
+          type: string
+          example: main office
+        job_code:
+          type: string
+        job_family:
+          type: string
+        hrbp_id:
+          type: string
+        hrbp_email:
+          type: string
+        direct_manager_id:
+          type: string
+        direct_manager_email:
+          type: string
+        additional_managers:
+          type: object
+          properties:
+            id:
+              type: string
+            email:
+              type: string
+        title:
+          type: string
+        extra_data:
+          type: object
+          properties: {}
+        custom_fields:
+          type: object
+          properties: {}
+        can_access_hire:
+          type: boolean
+          example: false
+        can_be_mentor:
+          type: boolean
+          example: false
+    user_certifications:
+      type: array
+      items:
+        type: object
+        properties:
+          certification_id:
+            type: string
+          issue_date:
+            type: string
+            format: date
+          expiration_date:
+            type: string
+            format: date
+          certification_status:
+            type: string
+            example: active|expired|suspended
+    user_status:
+      type: string
+      title: User Status
+      enum:
+      - AC
+      - TR
+      - AP
+      - IA
+      - SU
+      - RQ
+      - DE
+      description: "User Status:\n * `AC` - Active\n * `TR` - Terminated\n * `IA` - Inactive\n * `SU` - Suspended\n * `AP` - Approved\n * `RQ` - Requested\n * `DE` - Deleted"
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

@@ -1,0 +1,277 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Outbound API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Outbound
+  description: Hooks to be implemented, which Gloat can be configured to call on certain events. The payloads are defined here; the URLs are to be defined with the implementation specialist or customer success representative.
+paths:
+  /outbound-post-candidate:
+    post:
+      tags:
+      - Outbound
+      summary: Candidacy insert or update
+      description: Called when a new candidacy is created, or when its status is updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/candidacy_outbound_object_post'
+        required: true
+      responses:
+        '200':
+          description: successful operation. If external_id is returned in the json response, Gloat will use this ID as 'external_id' in future calls to updates.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  external_id:
+                    type: string
+      operationId: postOutboundPostCandidate
+      x-operation-id-source: derived
+  /outbound-userskills:
+    get:
+      tags:
+      - Outbound
+      summary: Skills by user ID
+      description: __In planning__ Used by Gloat to synchronize the list of top skills or desired skills entered by the user on another platform.
+      operationId: getUserSkillsOutbound
+      parameters:
+      - name: user_id
+        in: query
+        schema:
+          type: string
+      - name: purpose
+        in: query
+        schema:
+          type: string
+          enum:
+          - topSkills
+          - desiredSkills
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skills:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/skill'
+    post:
+      tags:
+      - Outbound
+      summary: Change the list of top skills or desired skills for user (following a change…
+      description: __In planning__
+      operationId: postUserSkillsOutbound
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                skills:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/skill'
+        required: true
+      parameters:
+      - name: user_id
+        in: query
+        schema:
+          type: string
+      - name: purpose
+        in: query
+        schema:
+          type: string
+          enum:
+          - topSkills
+          - desiredSkills
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skills:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/skill'
+components:
+  schemas:
+    basic_user_object:
+      type: object
+      title: Basic User Data
+      required:
+      - first_name
+      - last_name
+      - email
+      properties:
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john.doe@gloat.com
+    candidacy_outbound_object_post:
+      type: object
+      title: Candidacy
+      properties:
+        candidacy_id:
+          type: string
+        external_id:
+          type: string
+        job_id:
+          type: string
+        user_id:
+          type: string
+        candidacy_status:
+          $ref: '#/components/schemas/candidacy_status_object'
+        user_data:
+          $ref: '#/components/schemas/basic_user_object'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/candidacy_action'
+    candidacy_action:
+      type: object
+      title: Candidacy Action
+      properties:
+        action:
+          type: string
+          example: CL
+          description: candidacy action (2 letter code)
+        timestamp:
+          type: string
+          format: date-time
+    skill:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Management
+        language:
+          type: string
+          example: en
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+          description: Self or manager rating for the skill (0-5 scale). Optional field for skill evaluations.
+          example: 3
+        manager_id:
+          type: string
+          description: External ID of the manager providing the evaluation. When present, indicates this is a manager evaluation rather than a self-evaluation.
+          example: MGR123
+    candidacy_status_object:
+      type: object
+      title: Candidacy Status Object
+      properties:
+        status:
+          $ref: '#/components/schemas/candidacy_status'
+        changed_by:
+          type: string
+          example: 123456
+          description: external user id of actor
+        changed_by_user_data:
+          $ref: '#/components/schemas/basic_user_object'
+        description:
+          type: string
+        free_text:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+    candidacy_status:
+      type: string
+      title: Candidacy Status
+      enum:
+      - apply
+      - match
+      - reject
+      - invited-to-interview
+      - interview
+      - on-hold
+      - advanced
+      - phone-approach
+      - email-approach
+      - offer
+      - hired
+      - withdrew
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

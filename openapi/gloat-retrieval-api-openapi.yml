@@ -1,0 +1,512 @@
+openapi: 3.2.0
+info:
+  title: Skills Foundation Retrieval API
+  version: 1.0.0
+tags:
+- name: Retrieval
+paths:
+  /api/skills-foundation/retrieval:
+    post:
+      tags:
+      - Retrieval
+      summary: Simple Retrieval
+      operationId: simple_retrieval_api_v2__company__retrieval_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleRetrievalRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleRetrievalResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/retrieval/entity-types/{entity_type}/fields/{field}/values:
+    get:
+      tags:
+      - Retrieval
+      summary: Get Unique Values
+      operationId: get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get
+      parameters:
+      - name: entity_type
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Entity Type
+      - name: field
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Field
+      - name: query
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UniqueValuesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/retrieval/entity-types/{entity_type}/schema:
+    get:
+      tags:
+      - Retrieval
+      summary: Get Entity Schema
+      operationId: get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get
+      parameters:
+      - name: entity_type
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Entity Type
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntitySchemaResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    JobCodeRetrievalResult:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Job code ID
+        code:
+          type: string
+          title: Code
+          description: Job code unique identifier
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+          description: Job code name/title
+        benchmarkTitle:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Benchmarktitle
+          description: Benchmark title
+        function:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Function
+          description: Job function
+        status:
+          type: string
+          title: Status
+          description: 'Status: Active, Inactive, Draft'
+        businessStatus:
+          type: string
+          title: Businessstatus
+          description: 'Business status: stable, at_risk, critical'
+        jobType:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Jobtype
+          description: 'Job type: manager, individual'
+        jobSource:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Jobsource
+          description: Source of the job code
+        gradeLevels:
+          items:
+            type: string
+          type: array
+          title: Gradelevels
+          description: Associated grade levels
+        competencies:
+          items:
+            type: string
+          type: array
+          title: Competencies
+          description: Associated competencies
+        experiences:
+          items:
+            type: string
+          type: array
+          title: Experiences
+          description: Associated experiences
+        skills:
+          items:
+            $ref: '#/components/schemas/SkillResult'
+          type: array
+          title: Skills
+          description: Associated skills
+        tasks:
+          items:
+            $ref: '#/components/schemas/TaskResult'
+          type: array
+          title: Tasks
+          description: Associated tasks
+        created:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Created
+          description: Creation metadata
+        lastUpdated:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Lastupdated
+          description: Last update metadata
+      type: object
+      required:
+      - id
+      - code
+      - status
+      - businessStatus
+      title: JobCodeRetrievalResult
+      description: Job code entity for retrieval results.
+    TaskResult:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Task ID
+        text:
+          type: string
+          title: Text
+          description: Task description text
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: Language code
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: 'Task source: company or enrichment'
+        importance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Importance
+          description: 'Importance: low, medium, high, crucial'
+        fte:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Fte
+          description: Full-time equivalent time allocation
+      type: object
+      required:
+      - id
+      - text
+      title: TaskResult
+    SimpleRetrievalRequest:
+      properties:
+        entity_type:
+          type: string
+          title: Entity Type
+          description: Entity type to query. Currently only 'job_code' is supported.
+        query:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Query
+          description: 'Free-text search query on entity names using MongoDB $text search. Supports query operators: prefix with ''-'' to exclude terms, use double quotes for exact phrases (e.g., ''"Senior Engineer"''). Special characters are passed through to the search engine.'
+        filters:
+          anyOf:
+          - additionalProperties:
+              anyOf:
+              - type: string
+              - type: integer
+              - type: boolean
+              - items:
+                  anyOf:
+                  - type: string
+                  - type: integer
+                  - type: boolean
+                type: array
+            type: object
+          - type: 'null'
+          title: Filters
+          description: 'Key-value filters. Valid keys for ''job_code'': code, name, benchmark_title, function, status, business_status, job_type, job_source, grade_levels, competencies, experiences, skills (matches skill name), tasks (matches task text). Values can be a primitive (str, int, bool) or list for $in matching. Dict values are rejected to prevent operator injection.'
+        offset:
+          type: integer
+          minimum: 0
+          title: Offset
+          description: Pagination offset
+          default: 0
+        limit:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          title: Limit
+          description: Number of results per page (max 1000)
+          default: 50
+        sort_by:
+          anyOf:
+          - $ref: '#/components/schemas/SortByField'
+          - type: 'null'
+          description: Optional sorting. Defaults to text relevance if query provided, otherwise creation date descending.
+      additionalProperties: true
+      type: object
+      required:
+      - entity_type
+      title: SimpleRetrievalRequest
+    SimpleRetrievalResponse:
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/JobCodeRetrievalResult'
+          type: array
+          title: Results
+          description: Array of matching job codes with their attributes
+        totalCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Totalcount
+          description: Total matching entities across all pages (may be omitted for expensive text searches)
+        offset:
+          type: integer
+          title: Offset
+          description: Current pagination offset
+        limit:
+          type: integer
+          title: Limit
+          description: Results per page
+      type: object
+      required:
+      - results
+      - totalCount
+      - offset
+      - limit
+      title: SimpleRetrievalResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SortByField:
+      properties:
+        field:
+          type: string
+          title: Field
+          description: Field name to sort by
+        direction:
+          type: string
+          title: Direction
+          description: 'Sort direction: ''asc'' or ''desc'''
+          default: desc
+      additionalProperties: true
+      type: object
+      required:
+      - field
+      title: SortByField
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UniqueValuesResponse:
+      properties:
+        entityType:
+          type: string
+          title: Entitytype
+          description: The entity type queried
+        field:
+          type: string
+          title: Field
+          description: The field name queried
+        values:
+          items:
+            type: string
+          type: array
+          title: Values
+          description: List of unique values for the field
+        totalCount:
+          type: integer
+          title: Totalcount
+          description: Total number of unique values that exist for this field
+        requiresQuery:
+          type: boolean
+          title: Requiresquery
+          description: True if there are more values than returned and client should use autocomplete
+        message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Message
+          description: Human-readable message when requires_query is true
+      type: object
+      required:
+      - entityType
+      - field
+      - values
+      - totalCount
+      - requiresQuery
+      title: UniqueValuesResponse
+    EntitySchemaResponse:
+      properties:
+        entityType:
+          type: string
+          title: Entitytype
+          description: The entity type this schema describes
+        filterableFields:
+          items:
+            type: string
+          type: array
+          title: Filterablefields
+          description: Sorted list of valid filter keys for this entity type
+        sortableFields:
+          items:
+            type: string
+          type: array
+          title: Sortablefields
+          description: Sorted list of valid sort fields for this entity type
+      type: object
+      required:
+      - entityType
+      - filterableFields
+      - sortableFields
+      title: EntitySchemaResponse
+    SkillResult:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Skill name
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+          description: Language code
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+          description: Proficiency level
+        source:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source
+          description: 'Skill source: company or enrichment'
+        importance:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Importance
+          description: 'Importance: low, medium, high, crucial'
+      type: object
+      required:
+      - name
+      title: SkillResult
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md
+  - https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md
+  - https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md
+  - https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md
+  - https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md
+  - https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md
+  - https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md
+  - https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md
+  - https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md
+  - https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md
+  - https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md
+  - https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md
+  - https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md
+  - https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md
+  - https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md
+  - https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md
+  - https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md
+  - https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md
+  - https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md
+  - https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md
+  - https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md
+  - https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md
+  - https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md
+  - https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md
+  - https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md
+  - https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md
+  - https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md
+  - https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md
+  - https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md
+  - https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md
+  merge:
+    pages: 39
+    deduped: 328
+    conflicts_kept_first: 0

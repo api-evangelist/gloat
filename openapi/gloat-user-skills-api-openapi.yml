@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer User Skills API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: User Skills
+paths:
+  /user-skills:
+    get:
+      tags:
+      - User Skills
+      summary: Get skills of users by providing user id's
+      operationId: getUserSkills
+      parameters:
+      - name: user_ids
+        description: string with comma separated list of ids
+        in: query
+        schema:
+          type: string
+        example: id1,id2
+        required: true
+      - name: emails
+        description: string with comma separated list of emails, only if user_ids not provided
+        in: query
+        schema:
+          type: string
+        example: email1@at.com,email2@at.com
+      - name: ontology
+        description: either a valid ontology or an empty string
+        in: query
+        schema:
+          type: string
+        required: true
+      - name: purpose
+        in: query
+        schema:
+          type: string
+          enum:
+          - top_skills
+          - desired_skills
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/skill_for_all_ontologies'
+        '400':
+          description: bad request
+        '500':
+          description: internal problem
+    post:
+      tags:
+      - User Skills
+      summary: Upsert skills and evaluations for users
+      description: 'Change the list of top skills or desired skills for users. Optionally includes skill evaluations (self and/or manager ratings).
+
+
+        When skills include `rating` field, evaluations are processed:
+
+        - Skills with only `rating` are treated as self-evaluations
+
+        - Skills with both `rating` and `manager_id` are treated as manager evaluations
+
+
+        Manager evaluations require the manager to be the user''s direct manager.'
+      operationId: postUserSkills
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                vendor:
+                  type: string
+                  example: vendor
+                ontology:
+                  type: string
+                  example: ontology
+                purpose:
+                  type: string
+                  enum:
+                  - top_skills
+                  - desired_skills
+                by_email:
+                  type: boolean
+                  default: false
+                  description: whether to look up users by email or by external id
+                users_skills:
+                  $ref: '#/components/schemas/user_skills'
+                users_skills_list:
+                  $ref: '#/components/schemas/user_skills_list'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  skills_added:
+                    type: integer
+                    description: Number of new skills added
+                    example: 5
+                  evaluations_processed:
+                    type: boolean
+                    description: Whether skill evaluations were processed
+                    example: true
+                  missing users:
+                    type: array
+                    description: List of user IDs that were not found
+                    items:
+                      type: string
+        '400':
+          description: bad request
+        '404':
+          description: could not find users
+        '500':
+          description: internal problem
+components:
+  schemas:
+    skill:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Management
+        language:
+          type: string
+          example: en
+        rating:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 5
+          description: Self or manager rating for the skill (0-5 scale). Optional field for skill evaluations.
+          example: 3
+        manager_id:
+          type: string
+          description: External ID of the manager providing the evaluation. When present, indicates this is a manager evaluation rather than a self-evaluation.
+          example: MGR123
+    user_skills_list:
+      type: array
+      items:
+        properties:
+          user_id:
+            type: string
+          skills:
+            type: array
+            items:
+              $ref: '#/components/schemas/skill'
+    user_skills:
+      type: object
+      properties:
+        user_id_or_email:
+          type: array
+          items:
+            $ref: '#/components/schemas/skill'
+    skill_for_all_ontologies:
+      type: array
+      items:
+        type: object
+        properties:
+          gloat:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              language:
+                type: string
+          external_ontology:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              language:
+                type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

@@ -1,0 +1,799 @@
+openapi: 3.2.0
+info:
+  title: Skills Foundation Job Architecture > Job Family API
+  version: 1.0.0
+tags:
+- name: Job Architecture > Job Family
+paths:
+  /api/skills-foundation/job-architecture/job-families:
+    get:
+      tags:
+      - Job Architecture > Job Family
+      summary: List Job Families
+      description: Retrieve a list of job families.
+      operationId: list_job_families_api_v2__company__job_architecture_job_families_get
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 20
+          title: Pagesize
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Search for any match in name field (case-insensitive)
+          default: ''
+          title: Search
+        description: Search for any match in name field (case-insensitive)
+      - name: sort
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/JobFamilySortOptions'
+          description: Field to sort by
+          default: name
+        description: Field to sort by
+      - name: sortDir
+        in: query
+        required: false
+        schema:
+          type: string
+          pattern: ^(asc|desc)$
+          description: Sort direction, either `asc` or `desc`
+          default: asc
+          title: Sortdir
+        description: Sort direction, either `asc` or `desc`
+      - name: status
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/Status'
+          description: Filter by job family status
+          default: Active
+        description: Filter by job family status
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobFamiliesPaginationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - Job Architecture > Job Family
+      summary: Create Job Family
+      description: Create a new job family.
+      operationId: create_job_family_api_v2__company__job_architecture_job_families_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobFamilyWrite'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobFamilyRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/job-architecture/job-families/{job_family_id}:
+    get:
+      tags:
+      - Job Architecture > Job Family
+      summary: Get Job Family
+      description: Retrieve a single job family by its ID.
+      operationId: get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get
+      parameters:
+      - name: job_family_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Family Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobFamilyRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - Job Architecture > Job Family
+      summary: Update Job Family
+      description: 'Update an existing job family.
+
+        If only the description needs updating, use `/api/skills-foundation/job-architecture/job-families/{job_family_id}/description` instead.'
+      operationId: update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch
+      parameters:
+      - name: job_family_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Family Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobFamilyWrite'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobFamilyRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - Job Architecture > Job Family
+      summary: Delete Job Family
+      description: 'Delete a job family by its ID.
+
+        This will cascade delete all related job codes and job titles.'
+      operationId: delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete
+      parameters:
+      - name: job_family_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Family Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/skills-foundation/job-architecture/job-families/{job_family_id}/description:
+    get:
+      tags:
+      - Job Architecture > Job Family
+      summary: Get Job Family Description
+      description: Retrieve the description of a job family.
+      operationId: get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get
+      parameters:
+      - name: job_family_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Family Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DescriptionResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - Job Architecture > Job Family
+      summary: Update Job Family Description
+      description: Update the description of a job family.
+      operationId: update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put
+      parameters:
+      - name: job_family_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Family Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Body_update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobFamilyRead'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    DescriptionResponse:
+      properties:
+        type:
+          anyOf:
+          - type: string
+            enum:
+            - ai
+            - source
+          - type: 'null'
+          title: Type
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+      type: object
+      required:
+      - type
+      - description
+      title: DescriptionResponse
+    JobFamilyRead:
+      properties:
+        skills:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SkillAPI'
+            type: array
+          - type: 'null'
+          title: Skills
+        skillComponents:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SkillComponent-Output'
+            type: array
+          - type: 'null'
+          title: Skillcomponents
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        descriptionSource:
+          anyOf:
+          - $ref: '#/components/schemas/DescriptionSource'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/Status'
+        id:
+          anyOf:
+          - type: string
+            example: 5eb7cf5a86d9755df3a6c593
+          - type: 'null'
+          title: Id
+        lastUpdated:
+          anyOf:
+          - $ref: '#/components/schemas/ChangeInfoRead'
+          - type: 'null'
+        created:
+          anyOf:
+          - $ref: '#/components/schemas/ChangeInfoRead'
+          - type: 'null'
+        jobCodesCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobcodescount
+        jobTitlesCount:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Jobtitlescount
+      type: object
+      title: JobFamilyRead
+    SkillComponent-Output:
+      properties:
+        skill:
+          anyOf:
+          - $ref: '#/components/schemas/DisplayedTerm'
+          - type: 'null'
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        entity:
+          additionalProperties: true
+          type: object
+          title: Entity
+        is_unknown_skill:
+          type: boolean
+          title: Is Unknown Skill
+          readOnly: true
+        name:
+          type: string
+          title: Name
+          readOnly: true
+      type: object
+      required:
+      - tags
+      - is_unknown_skill
+      - name
+      title: SkillComponent
+      description: "Represents a grouped skill component.\n\nAttributes:\n  - skill: The associated DisplayedTerm (if found).\n  - tags: A list of Tag objects grouped for this skill.\n  - entity: A dictionary containing additional merged entity data."
+    DescriptionSource:
+      type: string
+      enum:
+      - source
+      - ai
+      title: DescriptionSource
+    Tag:
+      properties:
+        name:
+          type: string
+          title: Name
+        language:
+          type: string
+          title: Language
+      additionalProperties: true
+      type: object
+      required:
+      - name
+      - language
+      title: Tag
+      description: 'Represents a tag with basic attributes.
+
+
+        The model accepts extra entity data beyond the defined fields, allowing for the inclusion of
+
+        additional metadata without a strict format requirement.'
+    Status:
+      type: string
+      enum:
+      - Active
+      - Inactive
+      - Draft
+      title: Status
+      description: a class represents the status
+    SkillAPI:
+      properties:
+        name:
+          type: string
+          title: Name
+        language:
+          type: string
+          title: Language
+          default: en
+        level:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Level
+        source:
+          $ref: '#/components/schemas/SkillSource'
+          default: company
+        importance:
+          anyOf:
+          - $ref: '#/components/schemas/ImportanceEnum'
+          - type: 'null'
+        entitySource:
+          anyOf:
+          - type: string
+            enum:
+            - job_title
+            - job_code
+            - job_family
+          - type: 'null'
+          title: Entitysource
+        isDeleted:
+          type: boolean
+          title: Isdeleted
+          default: false
+        isCascaded:
+          type: boolean
+          title: Iscascaded
+          default: false
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        modifiedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modifiedat
+        externalId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Externalid
+        taxonomy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Taxonomy
+      type: object
+      required:
+      - name
+      title: SkillAPI
+      description: Skill model for API responses (GET) - no validation to support legacy data
+    TaskSource:
+      type: string
+      enum:
+      - company
+      - enrichment
+      title: TaskSource
+    JobFamiliesPaginationResponse:
+      properties:
+        families:
+          items:
+            $ref: '#/components/schemas/JobFamilyRead'
+          type: array
+          title: Families
+          default: []
+        hasNext:
+          type: boolean
+          title: Hasnext
+          default: false
+        numResults:
+          type: integer
+          title: Numresults
+          default: 0
+        pageCount:
+          type: integer
+          title: Pagecount
+          default: 0
+      type: object
+      title: JobFamiliesPaginationResponse
+    DisplayedTerm:
+      properties:
+        id:
+          type: string
+          title: Id
+        display:
+          type: string
+          title: Display
+        language:
+          type: string
+          title: Language
+      additionalProperties: true
+      type: object
+      required:
+      - id
+      - display
+      - language
+      title: DisplayedTerm
+      description: 'Represents a displayed term with basic properties.
+
+
+        This model is configured to allow additional fields beyond those explicitly defined.
+
+        This flexibility enables the incorporation of extra keys from the ontology without enforcing a rigid schema.'
+    SkillComponent-Input:
+      properties:
+        skill:
+          anyOf:
+          - $ref: '#/components/schemas/DisplayedTerm'
+          - type: 'null'
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        entity:
+          additionalProperties: true
+          type: object
+          title: Entity
+      type: object
+      required:
+      - tags
+      title: SkillComponent
+      description: "Represents a grouped skill component.\n\nAttributes:\n  - skill: The associated DisplayedTerm (if found).\n  - tags: A list of Tag objects grouped for this skill.\n  - entity: A dictionary containing additional merged entity data."
+    Body_update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put:
+      properties:
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - description
+      title: Body_update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put
+    JobFamilyWrite:
+      properties:
+        skills:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SkillAPIWrite'
+            type: array
+          - type: 'null'
+          title: Skills
+        tasks:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/TaskInput'
+            type: array
+          - type: 'null'
+          title: Tasks
+        skillComponents:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/SkillComponent-Input'
+            type: array
+          - type: 'null'
+          title: Skillcomponents
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        descriptionSource:
+          anyOf:
+          - $ref: '#/components/schemas/DescriptionSource'
+          - type: 'null'
+        status:
+          $ref: '#/components/schemas/Status'
+      type: object
+      title: JobFamilyWrite
+    ChangeInfoRead:
+      properties:
+        date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date
+        userId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Userid
+        userName:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Username
+      type: object
+      title: ChangeInfoRead
+    SkillSource:
+      type: string
+      enum:
+      - company
+      - enrichment
+      title: SkillSource
+    ImportanceEnum:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - crucial
+      title: ImportanceEnum
+    TaskInput:
+      properties:
+        id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Id
+        text:
+          type: string
+          title: Text
+        language:
+          type: string
+          title: Language
+          default: en
+        source:
+          $ref: '#/components/schemas/TaskSource'
+          default: company
+        importance:
+          anyOf:
+          - $ref: '#/components/schemas/ImportanceEnum'
+          - type: 'null'
+        fte:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Fte
+      type: object
+      required:
+      - text
+      title: TaskInput
+    SkillAPIWrite:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          title: Name
+        language:
+          type: string
+          title: Language
+          default: en
+        level:
+          anyOf:
+          - type: string
+          - type: integer
+          - type: 'null'
+          title: Level
+        source:
+          $ref: '#/components/schemas/SkillSource'
+          default: company
+        importance:
+          anyOf:
+          - $ref: '#/components/schemas/ImportanceEnum'
+          - type: 'null'
+        entitySource:
+          anyOf:
+          - type: string
+            enum:
+            - job_title
+            - job_code
+            - job_family
+          - type: 'null'
+          title: Entitysource
+        isDeleted:
+          type: boolean
+          title: Isdeleted
+          default: false
+        isCascaded:
+          type: boolean
+          title: Iscascaded
+          default: false
+        createdAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Createdat
+        modifiedAt:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Modifiedat
+        externalId:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Externalid
+        taxonomy:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Taxonomy
+      type: object
+      required:
+      - name
+      title: SkillAPIWrite
+      description: Skill model for API input (POST/PATCH) - enforces 100 char limit
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JobFamilySortOptions:
+      type: string
+      enum:
+      - name
+      title: JobFamilySortOptions
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/bulk_patch_job_code_skills_api_v2__company__job_architecture_job_codes_skills_bulk_patch.md
+  - https://developer.gloat.com/reference/bulk_update_task_automation_status_api_v2__company__job_architecture_job_codes_tasks_automation_status_bulk_patch.md
+  - https://developer.gloat.com/reference/create_job_code_api_v2__company__job_architecture_job_codes_post.md
+  - https://developer.gloat.com/reference/create_job_family_api_v2__company__job_architecture_job_families_post.md
+  - https://developer.gloat.com/reference/create_job_title_api_v2__company__job_architecture_job_titles_post.md
+  - https://developer.gloat.com/reference/create_ontology_api_v2__company__management_console_ontologies_post.md
+  - https://developer.gloat.com/reference/delete_job_code_api_v2__company__job_architecture_job_codes__job_code_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_family_api_v2__company__job_architecture_job_families__job_family_id__delete.md
+  - https://developer.gloat.com/reference/delete_job_title_api_v2__company__job_architecture_job_titles__job_title_id__delete.md
+  - https://developer.gloat.com/reference/get_entity_schema_api_v2__company__retrieval_entity_types__entity_type__schema_get.md
+  - https://developer.gloat.com/reference/get_file_download_url_api_v2__company__file_download_files__task_id__download_url_get.md
+  - https://developer.gloat.com/reference/get_job_code_api_v2__company__job_architecture_job_codes__job_code_id__get.md
+  - https://developer.gloat.com/reference/get_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_family_api_v2__company__job_architecture_job_families__job_family_id__get.md
+  - https://developer.gloat.com/reference/get_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_functions_autocomplete_api_v2__company__job_architecture_job_functions_autocomplete_get.md
+  - https://developer.gloat.com/reference/get_job_title_api_v2__company__job_architecture_job_titles__job_title_id__get.md
+  - https://developer.gloat.com/reference/get_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_get.md
+  - https://developer.gloat.com/reference/get_job_titles_api_v2__company__job_architecture_job_titles_get.md
+  - https://developer.gloat.com/reference/get_last_file_download_url_api_v2__company__file_download_files_latest_download_url_get.md
+  - https://developer.gloat.com/reference/get_ontologies_list_api_v2__company__management_console_ontologies_list_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_codes__job_code_id__similar_get.md
+  - https://developer.gloat.com/reference/get_similar_job_codes_api_v2__company__job_architecture_job_titles__job_title_id__similar_get.md
+  - https://developer.gloat.com/reference/get_tag_usage_api_v2__company__v1_stats_tag_usage_post.md
+  - https://developer.gloat.com/reference/get_unique_values_api_v2__company__retrieval_entity_types__entity_type__fields__field__values_get.md
+  - https://developer.gloat.com/reference/get_users_list_api_v2__company__skills_inventory_users_post.md
+  - https://developer.gloat.com/reference/list_downloadable_files_api_v2__company__file_download_files_get.md
+  - https://developer.gloat.com/reference/list_job_codes_api_v2__company__job_architecture_job_codes_get.md
+  - https://developer.gloat.com/reference/list_job_families_api_v2__company__job_architecture_job_families_get.md
+  - https://developer.gloat.com/reference/simple_retrieval_api_v2__company__retrieval_post.md
+  - https://developer.gloat.com/reference/suggest_job_codes_from_description_api_v2__company__job_architecture_insights_suggest_post.md
+  - https://developer.gloat.com/reference/trigger_file_download_api_v2__company__file_download_trigger_post.md
+  - https://developer.gloat.com/reference/update_job_code_api_v2__company__job_architecture_job_codes__job_code_id__patch.md
+  - https://developer.gloat.com/reference/update_job_code_description_api_v2__company__job_architecture_job_codes__job_code_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_family_api_v2__company__job_architecture_job_families__job_family_id__patch.md
+  - https://developer.gloat.com/reference/update_job_family_description_api_v2__company__job_architecture_job_families__job_family_id__description_put.md
+  - https://developer.gloat.com/reference/update_job_title_api_v2__company__job_architecture_job_titles__job_title_id__patch.md
+  - https://developer.gloat.com/reference/update_job_title_description_api_v2__company__job_architecture_job_titles__job_title_id__description_put.md
+  - https://developer.gloat.com/reference/update_preferred_ontologies_api_v2__company__management_console_ontologies_preferred_put.md
+  merge:
+    pages: 39
+    deduped: 328
+    conflicts_kept_first: 0

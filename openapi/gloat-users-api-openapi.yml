@@ -1,0 +1,332 @@
+openapi: 3.2.0
+info:
+  title: Gloat Users API
+  version: 0.1.0
+  description: 'Operations tagged Users across 2 of this provider''s published API definitions: gloat-authorization-openapi.yml, gloat-company-service-openapi.yml. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Users
+paths:
+  /api/authorization/v1/users/{user_id}:
+    get:
+      tags:
+      - Users
+      summary: Get user by ID
+      description: Return the permissions, role ids, and group ids for a user.
+      operationId: get_user_api_authorization_v1_users__user_id__get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: The unique identifier of the user
+          title: User Id
+        description: The unique identifier of the user
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/company/v1/users/applications:
+    post:
+      tags:
+      - Users
+      summary: Get Applications For Users
+      description: Get applications assigned to a list of users with pagination support
+      operationId: get_applications_for_users_api_company_v1_users_applications_post
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          description: Page number (1-based)
+          default: 1
+          title: Page
+        description: Page number (1-based)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          description: Number of items per page (0 = no limit)
+          default: 20
+          title: Limit
+        description: Number of items per page (0 = no limit)
+      - name: validate_company_exists
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+          title: Validate Company Exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersApplicationsRequestBody'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserApplicationsListSchema'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ErrorResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: error
+        message:
+          type: string
+          title: Message
+        code:
+          type: string
+          title: Code
+      type: object
+      required:
+      - message
+      - code
+      title: ErrorResponse
+    UserResponse:
+      properties:
+        id:
+          type: string
+          title: Id
+        roles:
+          items:
+            type: string
+          type: array
+          title: Roles
+        groups:
+          items:
+            type: string
+          type: array
+          title: Groups
+        permissions:
+          items:
+            $ref: '#/components/schemas/UserPermissionsResponse'
+          type: array
+          title: Permissions
+      type: object
+      required:
+      - id
+      - roles
+      - groups
+      - permissions
+      title: UserResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserPermissionsResponse:
+      properties:
+        name:
+          type: string
+          title: Name
+        target_groups:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Target Groups
+        access:
+          type: string
+          title: Access
+      type: object
+      required:
+      - name
+      - access
+      title: UserPermissionsResponse
+    UserApplicationsListSchema:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/UserApplicationsData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        limit:
+          type: integer
+          title: Limit
+        total_count:
+          type: integer
+          title: Total Count
+        has_next:
+          type: boolean
+          title: Has Next
+          readOnly: true
+        page_count:
+          type: integer
+          title: Page Count
+          readOnly: true
+      type: object
+      required:
+      - items
+      - page
+      - limit
+      - total_count
+      - has_next
+      - page_count
+      title: UserApplicationsListSchema
+    UserApplicationsData:
+      properties:
+        user_id:
+          type: string
+          title: User Id
+        applications:
+          items:
+            $ref: '#/components/schemas/ApplicationPartialData'
+          type: array
+          title: Applications
+      type: object
+      required:
+      - user_id
+      - applications
+      title: UserApplicationsData
+    UsersApplicationsRequestBody:
+      properties:
+        user_ids:
+          items:
+            type: string
+          type: array
+          title: User Ids
+      type: object
+      required:
+      - user_ids
+      title: UsersApplicationsRequestBody
+    ApplicationPartialData:
+      properties:
+        id:
+          type: string
+          title: Id
+        name:
+          type: string
+          title: Name
+        category:
+          $ref: '#/components/schemas/ApplicationCategory'
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - id
+      - name
+      - category
+      - description
+      title: ApplicationPartialData
+    ApplicationCategory:
+      type: string
+      enum:
+      - Technologies
+      - AI Agents
+      - AI Assistance
+      title: ApplicationCategory
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- gloat-authorization-openapi.yml
+- gloat-company-service-openapi.yml
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/assign_role_to_multiple_users_api_authorization_v1_roles__role_id__users_post.md
+  - https://developer.gloat.com/reference/assign_role_to_user_api_authorization_v1_roles__role_id__users__user_id__post.md
+  - https://developer.gloat.com/reference/create_role_api_authorization_v1_roles_post.md
+  - https://developer.gloat.com/reference/delete_role_api_authorization_v1_roles__role_id__delete.md
+  - https://developer.gloat.com/reference/get_access_rule_api_authorization_v1_access_rules__access_rule_id__get.md
+  - https://developer.gloat.com/reference/get_access_rules_api_authorization_v1_access_rules_get.md
+  - https://developer.gloat.com/reference/get_admin_console_access_api_authorization_v1_admin_console_access_get.md
+  - https://developer.gloat.com/reference/get_all_available_permissions_api_authorization_v1_permissions_get.md
+  - https://developer.gloat.com/reference/get_all_groups_api_authorization_v1_groups_get.md
+  - https://developer.gloat.com/reference/get_all_roles_api_authorization_v1_roles_get.md
+  - https://developer.gloat.com/reference/get_group_api_authorization_v1_groups__group_id__get.md
+  - https://developer.gloat.com/reference/get_group_users_api_authorization_v1_groups__group_id__users_get.md
+  - https://developer.gloat.com/reference/get_permission_users_api_authorization_v1_permissions__permission__users_get.md
+  - https://developer.gloat.com/reference/get_role_api_authorization_v1_roles__role_id__get.md
+  - https://developer.gloat.com/reference/get_role_users_api_authorization_v1_roles__role_id__users_get.md
+  - https://developer.gloat.com/reference/get_user_api_authorization_v1_users__user_id__get.md
+  - https://developer.gloat.com/reference/revoke_user_from_role_api_authorization_v1_roles__role_id__users__user_id__delete.md
+  - https://developer.gloat.com/reference/update_role_api_authorization_v1_roles__role_id__patch.md
+  merge:
+    pages: 18
+    deduped: 89
+    conflicts_kept_first: 0

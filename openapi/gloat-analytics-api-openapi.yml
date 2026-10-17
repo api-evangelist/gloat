@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  title: Company Service Analytics API
+  version: 0.1.0
+tags:
+- name: Analytics
+paths:
+  /api/company/v1/analytics/config:
+    get:
+      tags:
+      - Analytics
+      summary: Get Analytics Config
+      operationId: get_analytics_config_api_company_v1_analytics_config_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsConfig'
+      security:
+      - HTTPBearer: []
+  /api/company/v1/analytics/embed-url:
+    get:
+      tags:
+      - Analytics
+      summary: Get Embed Url
+      operationId: get_embed_url_api_company_v1_analytics_embed_url_get
+      security:
+      - HTTPBearer: []
+      parameters:
+      - name: initial_dashboard_id
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Initial Dashboard Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsEmbedUrl'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AnalyticsEmbedUrl:
+      properties:
+        embed_url:
+          type: string
+          title: Embed Url
+        parameters:
+          items:
+            additionalProperties:
+              anyOf:
+              - type: string
+              - items:
+                  type: string
+                type: array
+            type: object
+          type: array
+          title: Parameters
+      type: object
+      required:
+      - embed_url
+      - parameters
+      title: AnalyticsEmbedUrl
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SectionType:
+      type: string
+      enum:
+      - Dashboard
+      - GenerativeQnA
+      title: SectionType
+    Item:
+      properties:
+        id:
+          type: string
+          title: Id
+        label:
+          type: string
+          title: Label
+        name:
+          type: string
+          title: Name
+        enabled_based_on_config_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Enabled Based On Config Path
+        enabled_based_on_split_feature_flag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Enabled Based On Split Feature Flag
+      type: object
+      required:
+      - id
+      - label
+      - name
+      title: Item
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AnalyticsConfig:
+      properties:
+        sections:
+          items:
+            $ref: '#/components/schemas/Section'
+          type: array
+          title: Sections
+      type: object
+      required:
+      - sections
+      title: AnalyticsConfig
+    Section:
+      properties:
+        section_name:
+          type: string
+          title: Section Name
+        permission:
+          type: string
+          title: Permission
+        items:
+          items:
+            $ref: '#/components/schemas/Item'
+          type: array
+          title: Items
+        type:
+          $ref: '#/components/schemas/SectionType'
+          default: Dashboard
+      type: object
+      required:
+      - section_name
+      - permission
+      - items
+      title: Section
+  securitySchemes:
+    HTTPBearer:
+      type: http
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/certifications_autocomplete_api_company_v1_certifications_autocomplete_get.md
+  - https://developer.gloat.com/reference/create_company_idp_api_company_v1_settings_auth_settings_idps_post.md
+  - https://developer.gloat.com/reference/create_key_api_company_v1_settings_api_keys_post.md
+  - https://developer.gloat.com/reference/create_presigned_integration_upload_url_api_company_v1_integration_uploads_presigned_upload_url_post.md
+  - https://developer.gloat.com/reference/delete_certification_api_company_v1_certifications__certification_id__delete.md
+  - https://developer.gloat.com/reference/delete_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__delete.md
+  - https://developer.gloat.com/reference/delete_key_api_company_v1_settings_api_keys__client_id__delete.md
+  - https://developer.gloat.com/reference/download_all_applications_api_company_v1_applications_download_get.md
+  - https://developer.gloat.com/reference/get_all_file_names_presigned_urls_api_company_v1_data_direct_presigned_urls_all_get.md
+  - https://developer.gloat.com/reference/get_analytics_config_api_company_v1_analytics_config_get.md
+  - https://developer.gloat.com/reference/get_application_details_api_company_v1_applications__application_id__get.md
+  - https://developer.gloat.com/reference/get_applications_for_users_api_company_v1_users_applications_post.md
+  - https://developer.gloat.com/reference/get_certification_by_ids_api_company_v1_certifications_get.md
+  - https://developer.gloat.com/reference/get_company_general_auth_settings_api_company_v1_settings_auth_settings_general_get.md
+  - https://developer.gloat.com/reference/get_company_idps_api_company_v1_settings_auth_settings_idps_get.md
+  - https://developer.gloat.com/reference/get_embed_url_api_company_v1_analytics_embed_url_get.md
+  - https://developer.gloat.com/reference/get_file_name_presigned_urls_api_company_v1_data_direct_presigned_urls_get.md
+  - https://developer.gloat.com/reference/get_file_types_api_company_v1_data_direct_file_types_get.md
+  - https://developer.gloat.com/reference/get_key_api_company_v1_settings_api_keys__client_id__get.md
+  - https://developer.gloat.com/reference/get_processing_status_by_id_api_company_v1_applications_status__processing_id__get.md
+  - https://developer.gloat.com/reference/get_users_with_application_api_company_v1_applications__application_id__users_get.md
+  - https://developer.gloat.com/reference/list_company_applications_api_company_v1_applications_get.md
+  - https://developer.gloat.com/reference/list_keys_api_company_v1_settings_api_keys_get.md
+  - https://developer.gloat.com/reference/process_application_file_api_company_v1_applications_post.md
+  - https://developer.gloat.com/reference/rotate_key_api_company_v1_settings_api_keys_rotate_post.md
+  - https://developer.gloat.com/reference/trigger_dag_flow_api_company_v1_data_direct_trigger__flow__post.md
+  - https://developer.gloat.com/reference/update_company_general_auth_settings_api_company_v1_settings_auth_settings_general_put.md
+  - https://developer.gloat.com/reference/update_company_idp_api_company_v1_settings_auth_settings_idps__idp_id__put.md
+  - https://developer.gloat.com/reference/update_key_api_company_v1_settings_api_keys__client_id__patch.md
+  - https://developer.gloat.com/reference/upsert_api_company_v1_certifications_post.md
+  merge:
+    pages: 30
+    deduped: 105
+    conflicts_kept_first: 0

@@ -1,0 +1,715 @@
+openapi: 3.2.0
+info:
+  title: Gloat Customer Projects & Projects Roles API
+  description: This document covers the data models and the APIs exposed by Gloat.
+  contact:
+    email: naama.b@gloat.com
+  version: 1.0.0
+servers:
+- url: https://api.gloat.com/api/v2
+security:
+- ApiKeyAuth: []
+tags:
+- name: Projects & Projects Roles
+paths:
+  /projects:
+    get:
+      tags:
+      - Projects & Projects Roles
+      summary: List projects api
+      description: list projects
+      parameters:
+      - in: query
+        name: projectId
+        schema:
+          type: string
+        description: a specific project external id to get
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: The numbers of items to return
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: The offset of items to return
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  projects:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        startDate:
+                          type: string
+                        dateCreated:
+                          type: integer
+                        description:
+                          type: string
+                        owner:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            role:
+                              type: string
+                            name:
+                              type: string
+                            fullName:
+                              type: string
+                            firstName:
+                              type: string
+                            title:
+                              type: string
+                            email:
+                              type: string
+                            status:
+                              type: string
+                            lastName:
+                              type: string
+                        status:
+                          type: string
+                        name:
+                          type: string
+                        owners:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                              status:
+                                type: string
+                              role:
+                                type: string
+                              fullName:
+                                type: string
+                              firstName:
+                                type: string
+                              lastName:
+                                type: string
+                              title:
+                                type: string
+                              email:
+                                type: string
+                        company:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                        type:
+                          type: string
+                        location:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            lng:
+                              type: integer
+                            id:
+                              type: string
+                            displayName:
+                              type: string
+                            lat:
+                              type: integer
+                            type:
+                              type: string
+                            country:
+                              type: string
+                            provider:
+                              type: string
+                            realId:
+                              type: integer
+                        locations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              provider:
+                                type: string
+                              lat:
+                                type: integer
+                              lng:
+                                type: integer
+                              id:
+                                type: string
+                              country:
+                                type: string
+                              displayName:
+                                type: string
+                              realId:
+                                type: integer
+                              name:
+                                type: string
+                              type:
+                                type: string
+                        relocation:
+                          type: string
+                        video:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                            dateUpdated:
+                              type: string
+                        endDate:
+                          type: string
+                        impact:
+                          type: string
+                        coverImage:
+                          type: string
+                        locationLimitation:
+                          type: string
+                        priority:
+                          type: string
+      operationId: getProjects
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Projects & Projects Roles
+      summary: Bulk project api
+      description: Bulk create or update projects
+      operationId: projectUpdateOrCreate
+      requestBody:
+        description: Gloat project object
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/project_object'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        payload:
+                          type: object
+                        error:
+                          type: string
+      x-operation-id-source: normalized
+      x-operation-id-original: project update or create
+    patch:
+      tags:
+      - Projects & Projects Roles
+      summary: Bulk project patch api
+      description: Bulk projects patching, for updating status
+      operationId: projectUpdateStatus
+      requestBody:
+        description: Gloat project status object
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  project_id:
+                    type: string
+                  status:
+                    $ref: '#/components/schemas/job_status'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        payload:
+                          type: object
+                        error:
+                          type: string
+      x-operation-id-source: normalized
+      x-operation-id-original: project update status
+  /projects/roles:
+    get:
+      tags:
+      - Projects & Projects Roles
+      summary: List projects roles api
+      description: list projects roles
+      parameters:
+      - in: query
+        name: jobId
+        schema:
+          type: string
+        description: a specific project role external id to get
+      - name: vendor
+        in: query
+        description: job integration vendor
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: "Job status to filter by:\n  * `OP` - open\n  * `CL` - close\n  * `CA` - closed for applications\n  * `PE` - pending\n  * `IN` - invisible\n  * `PA` - open pending approval\n  * `DE` - deleted\n  * `AR` - archived"
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - OP
+            - CL
+            - CA
+            - PE
+            - IN
+            - PA
+            - DE
+            - AR
+          default: '[''OP'']'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+        description: The numbers of items to return
+      - in: query
+        name: offset
+        schema:
+          type: integer
+        description: The offset of items to return
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/job_detail_object'
+      operationId: getProjectsRoles
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Projects & Projects Roles
+      summary: Bulk project role api
+      description: Bulk create or update project roles
+      operationId: projectRoleUpdateOrCreate
+      requestBody:
+        description: Gloat project role object
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/project_role_object'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        payload:
+                          type: object
+                        error:
+                          type: string
+      x-operation-id-source: normalized
+      x-operation-id-original: project role update or create
+    patch:
+      tags:
+      - Projects & Projects Roles
+      summary: Bulk project role patch api
+      description: Bulk project roles patching, for updating status
+      operationId: projectRoleUpdateStatus
+      requestBody:
+        description: Gloat project role status object
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  project_id:
+                    type: string
+                  job_id:
+                    type: string
+                  status:
+                    $ref: '#/components/schemas/job_status'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        payload:
+                          type: object
+                        error:
+                          type: string
+      x-operation-id-source: normalized
+      x-operation-id-original: project role update status
+components:
+  schemas:
+    job_detail_object:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              projectId:
+                type: string
+              description:
+                type: string
+              locations:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    provider:
+                      type: string
+                    name:
+                      type: string
+                    id:
+                      type: string
+                    country:
+                      type: string
+                    displayName:
+                      type: string
+              locationLimitation:
+                type: string
+              skills:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    language:
+                      type: string
+              experiences:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+              link:
+                type: string
+              status:
+                type: string
+              title:
+                type: string
+              dateCreated:
+                type: string
+              descriptionHtml:
+                type: string
+    language_array:
+      type: array
+      items:
+        type: object
+        required:
+        - code
+        - level
+        properties:
+          code:
+            type: string
+            example: en
+            description: 2 letter language code
+          level:
+            type: string
+            enum:
+            - BA
+            - AD
+            - FL
+            - NL
+            - NT
+            description: "language proficiency level:\n  * `BA` - Basic\n  * `AD` - Advanced\n  * `FL` - Fluent\n  * `NL` - Native Level\n  * `NT` - Native"
+            example: BA
+    translation_array:
+      type: array
+      items:
+        type: object
+        required:
+        - language
+        - title
+        - description
+        properties:
+          language:
+            type: string
+            example: en
+          title:
+            type: string
+            example: Software Developer
+          description:
+            type: string
+          description_html:
+            type: string
+    project_role_object:
+      type: object
+      required:
+      - project_id
+      - job_id
+      - status
+      properties:
+        project_id:
+          type: string
+        job_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/job_status'
+        title:
+          type: string
+        description:
+          type: string
+        description_html:
+          type: string
+        department_id:
+          type: string
+        departments:
+          type: array
+          items:
+            type: string
+        experiences:
+          type: array
+          items:
+            type: string
+        function:
+          type: string
+        sub_function:
+          type: string
+        business_unit:
+          type: string
+        job_code:
+          type: string
+        job_family:
+          type: string
+        languages:
+          $ref: '#/components/schemas/language_array'
+        location_type:
+          $ref: '#/components/schemas/job_location_type'
+        locations:
+          $ref: '#/components/schemas/location_array'
+        sites:
+          type: array
+          items:
+            type: string
+        translations:
+          $ref: '#/components/schemas/translation_array'
+        unposting_date:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: Emp123
+              role:
+                type: string
+                enum:
+                - MN
+                - HR
+                - RC
+                - CO
+                - VI
+    project_object:
+      type: object
+      title: Project
+      required:
+      - project_id
+      - vendor
+      - status
+      - startDate
+      - endDate
+      - owners
+      properties:
+        project_id:
+          type: string
+        vendor:
+          type: string
+          example: Naama Industries
+        coverImage:
+          type: string
+        locationLimitation:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        impact:
+          type: string
+        title:
+          type: string
+        name:
+          type: string
+        owners:
+          $ref: '#/components/schemas/owners_array'
+        locations:
+          type: array
+          items:
+            type: object
+            properties:
+              city:
+                type: string
+              country_code:
+                type: string
+              state:
+                type: string
+        sites:
+          type: array
+          items:
+            type: string
+        businessImpact:
+          type: object
+          properties:
+            value:
+              type: string
+            label:
+              type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/job_status'
+    location_array:
+      type: array
+      items:
+        type: object
+        required:
+        - city
+        - country_code
+        properties:
+          city:
+            type: string
+            example: Manchester
+          country_code:
+            type: string
+            example: UK
+          state:
+            type: string
+            default: ''
+            example: England
+    owners_array:
+      type: array
+      title: Owners related to a job/project
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          fullName:
+            type: string
+          email:
+            type: string
+          role:
+            type: string
+    job_location_type:
+      type: string
+      enum:
+      - GLOBAL
+      - LOCAL
+      - LOCAL_WITH_RELOCATION
+      - REMOTE
+    job_status:
+      type: string
+      enum:
+      - OP
+      - CL
+      - CA
+      - PE
+      description: "Job status:\n  * `OP` - open\n  * `PE` - pending\n  * `CL` - closed\n  * `CA` - closed for applications (invisible for imob)"
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-Gloat-API-Key
+      in: header
+x-provenance:
+  method: searched
+  source: https://developer.gloat.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://developer.gloat.com/reference/candidacy-get-1.md
+  - https://developer.gloat.com/reference/candidacy-patch-1.md
+  - https://developer.gloat.com/reference/candidacy-upsert-1.md
+  - https://developer.gloat.com/reference/department-bulk-delete-1.md
+  - https://developer.gloat.com/reference/function-bulk-insert-1.md
+  - https://developer.gloat.com/reference/get-candidacy-ids-by-status-1.md
+  - https://developer.gloat.com/reference/get-gloat-cv-by-user-and-job-1.md
+  - https://developer.gloat.com/reference/get-job-by-status-1.md
+  - https://developer.gloat.com/reference/get_jobs-desired-1.md
+  - https://developer.gloat.com/reference/get_ping-1.md
+  - https://developer.gloat.com/reference/get_projects-1.md
+  - https://developer.gloat.com/reference/get_projects-roles-1.md
+  - https://developer.gloat.com/reference/getuserskills-1.md
+  - https://developer.gloat.com/reference/getuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/grantrolestousers-1.md
+  - https://developer.gloat.com/reference/job-patch-1.md
+  - https://developer.gloat.com/reference/job-upsert-1.md
+  - https://developer.gloat.com/reference/learning-get-1.md
+  - https://developer.gloat.com/reference/learning-patch-1.md
+  - https://developer.gloat.com/reference/listallcompanygroups-1.md
+  - https://developer.gloat.com/reference/listallcompanyroles-1.md
+  - https://developer.gloat.com/reference/listcompanyroles-1.md
+  - https://developer.gloat.com/reference/listrolesassignments-1.md
+  - https://developer.gloat.com/reference/listusers-1.md
+  - https://developer.gloat.com/reference/listusersgroups-1.md
+  - https://developer.gloat.com/reference/location-bulk-insert-1.md
+  - https://developer.gloat.com/reference/opportunities-personalized-1.md
+  - https://developer.gloat.com/reference/opportunities-post-1.md
+  - https://developer.gloat.com/reference/patchusers-1.md
+  - https://developer.gloat.com/reference/post_outbound-post-candidate-1.md
+  - https://developer.gloat.com/reference/post_user-profile-training-1.md
+  - https://developer.gloat.com/reference/postskills-1.md
+  - https://developer.gloat.com/reference/postuserskills-1.md
+  - https://developer.gloat.com/reference/postuserskillsoutbound-1.md
+  - https://developer.gloat.com/reference/project-role-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-role-update-status-1.md
+  - https://developer.gloat.com/reference/project-update-or-create-1.md
+  - https://developer.gloat.com/reference/project-update-status-1.md
+  - https://developer.gloat.com/reference/revokerolesfromusers-1.md
+  - https://developer.gloat.com/reference/search-by-keyword-1.md
+  - https://developer.gloat.com/reference/user-activate-1.md
+  - https://developer.gloat.com/reference/user-upsert-1.md
+  merge:
+    pages: 42
+    deduped: 79
+    conflicts_kept_first: 0

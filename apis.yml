@@ -156,8 +156,9 @@ common:
 
 apis:
 - name: Gloat Customer API
-  description: Tenant-scoped REST API to sync users, jobs, candidacies, projects, learning items, and the Skills Foundation job architecture into
-    Gloat, plus RBAC authorization and company settings.
+  description: >-
+    Tenant-scoped REST API to sync users, jobs, candidacies, projects, learning items, and the Skills
+    Foundation job architecture into Gloat, plus RBAC authorization and company settings.
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
@@ -172,16 +173,16 @@ apis:
   - type: Authentication
     url: authentication/gloat-authentication.yml
   aid: gloat:gloat-customer-api-2
-- aid: gloat:gloat-authorization
-  name: Gloat Authorization Openapi.Yml API
-  description: The Authorization Openapi.Yml API from Gloat — 13 operation(s) for authorization openapi.yml.
+- aid: gloat:gloat-access-rules-api
+  name: Gloat Access Rules API
+  description: The Access Rules API from Gloat — 2 operation(s) for access rules.
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
-  - Authorization Openapi.Yml
+  - Access Rules
   properties:
   - type: OpenAPI
-    url: openapi/gloat-authorization-openapi.yml
+    url: openapi/gloat-access-rules-api-openapi.yml
   - type: JSONSchema
     url: json-schema/gloat-role-get-response-schema.json
   - type: JSONSchema
@@ -194,35 +195,10 @@ apis:
     url: json-schema/gloat-access-rule-response-schema.json
   - type: JSONSchema
     url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
-- aid: gloat:gloat-candidacy
-  name: Gloat Candidacy Openapi.Yml API
-  description: The Candidacy Openapi.Yml API from Gloat — 1 operation(s) for candidacy openapi.yml.
-  humanURL: https://developer.gloat.com/
-  baseURL: https://{company_slug}.gloat.com/api
-  tags:
-  - Candidacy Openapi.Yml
-  properties:
-  - type: OpenAPI
-    url: openapi/gloat-candidacy-openapi.yml
   - type: JSONSchema
     url: json-schema/gloat-xapi-action-result-schema.json
   - type: JSONSchema
     url: json-schema/gloat-xapi-statement-schema.json
-- aid: gloat:gloat-company-service
-  name: Gloat Data direct API
-  description: 'The Data Sharing API provides endpoints for accessing and downloading your Gloat data.
-
-    The API enables to retrieve lists of available file types and generate pre-signed URLs for downloading specific data files.
-
-    Note that in order to access use this API you''ll need to create an API key via the Admin area and contact your Gloat representative to ask
-    for permissions for the Data Direct API.'
-  humanURL: https://developer.gloat.com/
-  baseURL: https://{company_slug}.gloat.com/api
-  tags:
-  - Data direct
-  properties:
-  - type: OpenAPI
-    url: openapi/gloat-company-service-openapi.yml
   - type: JSONSchema
     url: json-schema/gloat-application-file-status-response-schema.json
   - type: JSONSchema
@@ -235,16 +211,6 @@ apis:
     url: json-schema/gloat-api-key-get-response-schema.json
   - type: JSONSchema
     url: json-schema/gloat-api-key-read-schema.json
-- aid: gloat:gloat-customer-api
-  name: Gloat Meta API
-  description: Endpoints related to service, authentication and connectivity
-  humanURL: https://developer.gloat.com/
-  baseURL: https://{company_slug}.gloat.com/api
-  tags:
-  - Meta
-  properties:
-  - type: OpenAPI
-    url: openapi/gloat-customer-api-openapi.yml
   - type: JSONSchema
     url: json-schema/gloat-learning-item-schema.json
   - type: JSONSchema
@@ -257,16 +223,6 @@ apis:
     url: json-schema/gloat-project-object-schema.json
   - type: JSONSchema
     url: json-schema/gloat-job-detail-object-schema.json
-- aid: gloat:gloat-skills-foundation-api
-  name: Gloat Skills Foundation API
-  description: The Skills Foundation API from Gloat — 27 operation(s) for skills foundation.
-  humanURL: https://developer.gloat.com/
-  baseURL: https://{company_slug}.gloat.com/api
-  tags:
-  - Skills Foundation
-  properties:
-  - type: OpenAPI
-    url: openapi/gloat-skills-foundation-api-openapi.yml
   - type: JSONSchema
     url: json-schema/gloat-job-code-read-schema.json
   - type: JSONSchema
@@ -279,7 +235,2329 @@ apis:
     url: json-schema/gloat-job-title-read-schema.json
   - type: JSONSchema
     url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-admin-console-access-api
+  name: Gloat Admin console access API
+  description: The Admin console access API from Gloat — 1 operation(s) for admin console access.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Admin console access
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-admin-console-access-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-analytics-api
+  name: Gloat Analytics API
+  description: The Analytics API from Gloat — 2 operation(s) for analytics.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-analytics-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-api-keys-api
+  name: Gloat API keys API
+  description: >-
+    API keys management endpoints for creating, updating, and managing API keys.
 
+    These endpoints require the external_api_token_management permission.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - API keys
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-api-keys-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-applications-api
+  name: Gloat Applications API
+  description: The Applications API from Gloat — 5 operation(s) for applications.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Applications
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-applications-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-auth-settings-api
+  name: Gloat Auth Settings API
+  description: The auth-settings API from Gloat — 3 operation(s) for auth-settings.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - auth-settings
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-auth-settings-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-candidacy-api
+  name: Gloat Candidacy API
+  description: Candidacies operations
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Candidacy
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-candidacy-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-certifications-api
+  name: Gloat Certifications API
+  description: The Certifications API from Gloat — 3 operation(s) for certifications.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Certifications
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-certifications-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-core-entities-api
+  name: Gloat Core Entities API
+  description: The Core Entities API from Gloat — 3 operation(s) for core entities.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Core Entities
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-core-entities-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-data-direct-api
+  name: Gloat Data direct API
+  description: >-
+    The Data Sharing API provides endpoints for accessing and downloading your Gloat data.
+
+    The API enables to retrieve lists of available file types and generate pre-signed URLs for downloading
+    specific data files.
+
+    Note that in order to access use this API you'll need to create an API key via the Admin area and
+    contact your Gloat representative to ask for permissions for the Data Direct API.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Data direct
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-data-direct-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-groups-api
+  name: Gloat Groups API
+  description: The Groups API from Gloat — 3 operation(s) for groups.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-groups-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-integration-uploads-api
+  name: Gloat Integration uploads API
+  description: >-
+    Presigned HTTPS PUT URLs for uploading files to the integration (e.g. Boomi) S3 bucket under your
+    company prefix. Requires the upload_users permission. Configure INTEGRATION_UPLOADS_BUCKET and IRSA
+    s3:PutObject on that bucket.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Integration uploads
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-integration-uploads-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-integrations-api
+  name: Gloat Integrations API
+  description: The integrations API from Gloat — 1 operation(s) for integrations.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-integrations-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-api
+  name: Gloat Job API
+  description: Positions/requisitions operations
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-architecture-job-code-api
+  name: Gloat Job Architecture > Job Code API
+  description: >-
+    The Job Architecture > Job Code API from Gloat — 6 operation(s) for job architecture > job code.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job Architecture > Job Code
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-architecture-job-code-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-architecture-job-code-insights-api
+  name: Gloat Job Architecture > Job Code > Insights API
+  description: >-
+    The Job Architecture > Job Code > Insights API from Gloat — 1 operation(s) for job architecture >
+    job code > insights.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job Architecture > Job Code > Insights
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-architecture-job-code-insights-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-architecture-job-code-tasks-api
+  name: Gloat Job Architecture > Job Code > Tasks API
+  description: >-
+    The Job Architecture > Job Code > Tasks API from Gloat — 1 operation(s) for job architecture > job
+    code > tasks.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job Architecture > Job Code > Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-architecture-job-code-tasks-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-architecture-job-family-api
+  name: Gloat Job Architecture > Job Family API
+  description: >-
+    The Job Architecture > Job Family API from Gloat — 3 operation(s) for job architecture > job family.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job Architecture > Job Family
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-architecture-job-family-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-architecture-job-function-api
+  name: Gloat Job Architecture > Job Function API
+  description: >-
+    The Job Architecture > Job Function API from Gloat — 1 operation(s) for job architecture > job function.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job Architecture > Job Function
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-architecture-job-function-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-job-architecture-position-title-api
+  name: Gloat Job Architecture > Position Title API
+  description: >-
+    The Job Architecture > Position Title API from Gloat — 4 operation(s) for job architecture > position
+    title.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Job Architecture > Position Title
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-job-architecture-position-title-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-learning-api
+  name: Gloat Learning API
+  description: The Learning API from Gloat — 1 operation(s) for learning.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Learning
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-learning-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-management-console-ontologies-api
+  name: Gloat Management Console > Ontologies API
+  description: >-
+    The Management Console > Ontologies API from Gloat — 3 operation(s) for management console > ontologies.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Management Console > Ontologies
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-management-console-ontologies-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-meta-api
+  name: Gloat Meta API
+  description: Endpoints related to service, authentication and connectivity
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Meta
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-meta-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-outbound-api
+  name: Gloat Outbound API
+  description: >-
+    Hooks to be implemented, which Gloat can be configured to call on certain events. The payloads are
+    defined here; the URLs are to be defined with the implementation specialist or customer success representative.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Outbound
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-outbound-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-permissions-api
+  name: Gloat Permissions API
+  description: The Permissions API from Gloat — 2 operation(s) for permissions.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Permissions
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-permissions-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-projects-projects-roles-api
+  name: Gloat Projects & Projects Roles API
+  description: >-
+    The Projects & Projects Roles API from Gloat — 2 operation(s) for projects & projects roles.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Projects & Projects Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-projects-projects-roles-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-rbac-groups-roles-api
+  name: Gloat RBAC Groups & Roles API
+  description: The RBAC Groups & Roles API from Gloat — 7 operation(s) for rbac groups & roles.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - RBAC Groups & Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-rbac-groups-roles-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-retrieval-api
+  name: Gloat Retrieval API
+  description: The Retrieval API from Gloat — 3 operation(s) for retrieval.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Retrieval
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-retrieval-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-roles-api
+  name: Gloat Roles API
+  description: The Roles API from Gloat — 4 operation(s) for roles.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-roles-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-search-api
+  name: Gloat Search API
+  description: The Search API from Gloat — 2 operation(s) for search.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-search-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-skills-api
+  name: Gloat Skills API
+  description: The Skills API from Gloat — 1 operation(s) for skills.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Skills
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-skills-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-skills-foundation-file-download-api
+  name: Gloat Skills foundation > File Download API
+  description: >-
+    The Skills foundation > File Download API from Gloat — 4 operation(s) for skills foundation > file
+    download.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Skills foundation > File Download
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-skills-foundation-file-download-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-skills-inventory-users-api
+  name: Gloat Skills Inventory > Users API
+  description: >-
+    The Skills Inventory > Users API from Gloat — 1 operation(s) for skills inventory > users.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Skills Inventory > Users
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-skills-inventory-users-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-stats-api
+  name: Gloat Stats API
+  description: The Stats API from Gloat — 1 operation(s) for stats.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Stats
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-stats-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-user-api
+  name: Gloat User API
+  description: Employee operations
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-user-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-user-profile-api
+  name: Gloat User Profile API
+  description: The User Profile API from Gloat — 1 operation(s) for user profile.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - User Profile
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-user-profile-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-user-skills-api
+  name: Gloat User Skills API
+  description: The User Skills API from Gloat — 1 operation(s) for user skills.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - User Skills
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-user-skills-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
+- aid: gloat:gloat-users-api
+  name: Gloat Users API
+  description: The Users API from Gloat — 2 operation(s) for users.
+  humanURL: https://developer.gloat.com/
+  baseURL: https://{company_slug}.gloat.com/api
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/gloat-users-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/gloat-role-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-group-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-role-request-body-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-paginated-apiresponse-access-rule-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-action-result-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-xapi-statement-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-file-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-application-get-schema-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-certification-get-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-identity-provider-data-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-get-response-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-api-key-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-learning-item-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-user-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-role-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-project-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-detail-object-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-create-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-code-write-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-simple-retrieval-request-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-read-schema.json
+  - type: JSONSchema
+    url: json-schema/gloat-job-title-write-schema.json
 x-enrichment:
   date: '2026-07-19'
   status: backfilled
