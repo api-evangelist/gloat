@@ -368,6 +368,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - APIKeys
+  tags_raw:
   - API keys
   properties:
   - type: OpenAPI
@@ -430,6 +432,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - Application
+  tags_raw:
   - Applications
   properties:
   - type: OpenAPI
@@ -492,6 +496,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - Auth Settings
+  tags_raw:
   - auth-settings
   properties:
   - type: OpenAPI
@@ -616,6 +622,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - Certification
+  tags_raw:
   - Certifications
   properties:
   - type: OpenAPI
@@ -809,6 +817,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -936,6 +946,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - Integration
+  tags_raw:
   - integrations
   properties:
   - type: OpenAPI
@@ -1124,7 +1136,8 @@ apis:
     job code > insights.
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
-  tags:
+  tags: []
+  tags_raw:
   - Job Architecture > Job Code > Insights
   properties:
   - type: OpenAPI
@@ -1188,7 +1201,8 @@ apis:
     code > tasks.
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
-  tags:
+  tags: []
+  tags_raw:
   - Job Architecture > Job Code > Tasks
   properties:
   - type: OpenAPI
@@ -2502,6 +2516,8 @@ apis:
   humanURL: https://developer.gloat.com/
   baseURL: https://{company_slug}.gloat.com/api
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
